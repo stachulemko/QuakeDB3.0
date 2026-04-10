@@ -14,4 +14,8 @@
 /* Data block size in bytes */
 #define BLOCK_SIZE           8192
 
+#define FREE_SPACE  2000
+
+#define BLOCK_USABLE_SIZE  BLOCK_SIZE - FREE_SPACE  
+
 #endif

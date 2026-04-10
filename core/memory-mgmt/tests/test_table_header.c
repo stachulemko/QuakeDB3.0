@@ -12,7 +12,7 @@ static void fill_header(TableHeader *h) {
     strncpy(names[0], "id",    MAX_COL_NAME_LEN - 1);
     strncpy(names[1], "value", MAX_COL_NAME_LEN - 1);
     strncpy(names[2], "name",  MAX_COL_NAME_LEN - 1);
-    table_header_set(h, 1, 0, 0, 0, 3, 99, 0, 0, 0, 0,
+    table_header_set(h, 1, 0, 0, 0, 3, 99, 0, 0, 0, 0, 0,
                      types, allow_null, (const char (*)[MAX_COL_NAME_LEN])names);
 }
 
@@ -82,7 +82,7 @@ static void test_long_column_name_truncated(void **state) {
     memset(names[0], 'a', MAX_COL_NAME_LEN - 1);
     names[0][MAX_COL_NAME_LEN - 1] = '\0';
 
-    table_header_set(&h, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    table_header_set(&h, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
                      types, allow_null,
                      (const char (*)[MAX_COL_NAME_LEN])names);
 
