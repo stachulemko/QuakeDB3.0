@@ -11,13 +11,26 @@ void dnb_set(DataNullBitmap *d,
              const AllVar  *values, int32_t val_count) {
     int32_t i;
 
+    if (d == NULL) return;
+
+    if (bm_count < 0) bm_count = 0;
+    if (val_count < 0) val_count = 0;
+
     d->bit_map_count = (bm_count <= MAX_COLUMNS) ? bm_count : MAX_COLUMNS;
-    for (i = 0; i < d->bit_map_count; i++)
-        d->bit_map[i] = bitmap[i];
+    if (bitmap != NULL) {
+        for (i = 0; i < d->bit_map_count; i++)
+            d->bit_map[i] = bitmap[i];
+    } else {
+        d->bit_map_count = 0;
+    }
 
     d->data_count = (val_count <= MAX_COLUMNS) ? val_count : MAX_COLUMNS;
-    for (i = 0; i < d->data_count; i++)
-        d->data[i] = values[i];
+    if (values != NULL) {
+        for (i = 0; i < d->data_count; i++)
+            d->data[i] = values[i];
+    } else {
+        d->data_count = 0;
+    }
 }
 
 int32_t dnb_serial_size(const DataNullBitmap *d) {

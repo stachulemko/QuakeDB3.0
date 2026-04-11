@@ -13,6 +13,8 @@
  */
 
 #include <stdint.h>
+#include <stdlib.h>
+
 #include "config.h"
 #include "type_ids.h"
 #include "block_header.h"
@@ -26,7 +28,16 @@ typedef struct {
     int32_t     usable_size;  /* BLOCK_SIZE - free_space */
 } Block8kb;
 
-void    block8kb_init(Block8kb *b, int32_t free_space,
+
+
+static inline void create_block8kbM(Block8kb **b) {
+    *b = (Block8kb *)malloc(sizeof(Block8kb));
+}
+static inline void create_block8kbC(Block8kb **b) {
+    *b = (Block8kb *)calloc(1, sizeof(Block8kb));
+}
+
+void block8kb_init(Block8kb *b, int32_t free_space,
                       int32_t nextblock, int32_t block_id,
                       int32_t pd_lsn, int16_t pd_checksum,
                       int16_t pd_flags, int8_t contain_toast);

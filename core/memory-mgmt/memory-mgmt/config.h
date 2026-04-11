@@ -14,8 +14,9 @@
 /* Data block size in bytes */
 #define BLOCK_SIZE           8192
 
-#define FREE_SPACE  2000
+#define BLOCK_FREE_SPACE  2000
 
-#define BLOCK_USABLE_SIZE  BLOCK_SIZE - FREE_SPACE  
+#define BLOCK_USABLE_SIZE  BLOCK_SIZE - BLOCK_FREE_SPACE
 
+#define DATA_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/data"
 #endif

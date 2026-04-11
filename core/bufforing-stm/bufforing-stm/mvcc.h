@@ -11,18 +11,18 @@ typedef struct {
 } MVCC;
 
 
-void mvcc_init(MVCC *mvcc) {
+static inline void mvcc_init(MVCC *mvcc) {
     mvcc->txn_counter = 0;
     for (int i = 0; i < MAX_TRANSACTIONS; i++) {
         mvcc->txn_status[i] = 0; // 0 = active, 1 = committed, 2 = aborted
     }
 }
 
-int32_t getTxnId(MVCC *mvcc) {
+static inline int32_t getTxnId(MVCC *mvcc) {
     return mvcc->txn_counter;
 }
 
-void incrementTxnCounter(MVCC *mvcc) {
+static inline void incrementTxnCounter(MVCC *mvcc) {
     mvcc->txn_counter++;
 }
 

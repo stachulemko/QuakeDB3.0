@@ -9,6 +9,20 @@ typedef struct {
     Block8kb    *block;
     TableHeader *header;
 } UniversalBlock;
+static inline void createUniversalBlockC(UniversalBlock **ub) {
+    *ub = (UniversalBlock *)calloc(1, sizeof(UniversalBlock));
+}
+static inline void createUniversalBlockM(UniversalBlock **ub) {
+    *ub = (UniversalBlock *)malloc(sizeof(UniversalBlock));
+}
+
+static inline void freeUniversalBlock(UniversalBlock *ub) {
+    if (ub) {
+        if (ub->block) free(ub->block);
+        if (ub->header) free(ub->header);
+        free(ub);
+    }
+}
 
 static UniversalBlock *createUniversalBlock(uint8_t buf[BLOCK_SIZE]) {
     int16_t tag = 0;
@@ -43,7 +57,7 @@ static void marshalUniversalBlock(uint8_t buf[BLOCK_SIZE], const UniversalBlock 
         block8kb_marshal(buf, ub->block);
     }
 }
-int32_t getBlockId(const UniversalBlock *ub) {
+static inline int32_t getBlockId(const UniversalBlock *ub) {
     if (ub->header) {
         return ub->header->block_id;
     } else if (ub->block) {

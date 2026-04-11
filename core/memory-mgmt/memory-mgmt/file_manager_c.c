@@ -112,6 +112,16 @@ uint8_t *fm_get_block(const char *path, int32_t table_id, int32_t block_num) {
     return buf;
 }
 
+int createBinFile(const char *path, const char *name) {
+    char full[512];
+    FILE *f;
+    make_path(full, sizeof(full), path, name);
+    f = fopen(full, "wb");
+    if (!f) { LOG_ERROR("createBinFile: cannot create %s\n", full); return -1; }
+    fclose(f);
+    return 0;
+}
+
 int fm_exists(const char *path, const char *name) {
     char full[512];
     FILE *f;

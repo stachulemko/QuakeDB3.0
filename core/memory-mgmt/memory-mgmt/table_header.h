@@ -34,6 +34,14 @@ typedef struct {
     char    col_names[MAX_COLUMNS][MAX_COL_NAME_LEN];
 } TableHeader;
 
+
+static inline void create_table_headerM(TableHeader **h) {
+    *h = (TableHeader *)malloc(sizeof(TableHeader));
+}
+static inline void create_table_headerC(TableHeader **h) {
+    *h = (TableHeader *)calloc(1, sizeof(TableHeader));
+}
+
 void table_header_init(TableHeader *h);
 void table_header_set (TableHeader *h,
                        int32_t oid, int32_t block_id,

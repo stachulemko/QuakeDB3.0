@@ -46,4 +46,7 @@ int fm_exists(const char *path, const char *name);
  * Caller must free() the returned buffer. */
 uint8_t *fm_get_block(const char *path, int32_t table_id, int32_t block_num);
 
+/* Create a .bin file at path/name. Returns 0 on success, -1 on error. */
+int createBinFile(const char *path, const char *name);
+
 #endif
