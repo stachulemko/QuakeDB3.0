@@ -22,14 +22,22 @@
 // ==============================================================================
 
 typedef struct {
-    int32_t tableId;       
-    int32_t maxBlock;      
+    int32_t tableId;
+    int32_t maxBlock;
     UT_hash_handle hh;
 } BlockCounterEntry;
 
 typedef struct {
     BlockCounterEntry *blockCounter;
 } FSMCache;
+
+void FSMCacheCreateM(FSMCache **c) {
+    *c = (FSMCache *)malloc(sizeof(FSMCache));
+}
+
+void FSMCacheCreateC(FSMCache **c) {
+    *c =  (FSMCache *)calloc(1, sizeof(FSMCache));
+}
 
 static void fsm_cache_init(FSMCache *c) {
     c->blockCounter = NULL;
@@ -67,9 +75,9 @@ static void fsm_cache_free(FSMCache *c) {
 *  FSMMap structure to track free space in blocks for each table.
 *  For each tableId, we have an array of FSMSpaceEntry, where each entry having blocks which have similar level of fullnes(possible space to use)
 *  It is helpfull and saves a lot of space filling the gaps very efficient
-*  we are using dnamic table which expand when to much block is in one entrie 
+*  we are using dnamic table which expand when to much block is in one entrie
 *  fsm_space_entry_add - for adding block with possiblity to expand
-*  fsm_space_entry_remove - for removing block   
+*  fsm_space_entry_remove - for removing block
 *  THE MOST IMPORTANT is function addDataToFSMMapAllAndReturnBufforToAdd purpose is for finding the best fiting block for tuple we starting from the best with effiecient and staring ascending with loop with var(int j).
 *  if we dont find anything it means averything its full and we have to create new block and dataBuffer to then return .
 *  ! we are trying to get the most effiecient block to add
@@ -151,6 +159,7 @@ void free_FSMMapAll(FSMMapAll *fsmMapAll) {
     }
     fsmMapAll->count = 0;
 }
+
 //
 void addTableToFSMMapAll(FSMMapAll *fsmMapAll, int32_t tableId) {
     // we allocating when we are adding
@@ -202,13 +211,16 @@ DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c
             if(spaceEntrie > MAX_FSM) {
                 spaceEntrie = MAX_FSM - 1;
             }
+            if (spaceEntrie == MAX_FSM -1) {
+                spaceEntrie =MAX_FSM;
+            }
             // itering in entries lowering j when spaces in enitries not fit
             for (int j = spaceEntrie; j>=0;j--){
                 FSMSpaceEntry *entry = &fsmMapAll->maps[i].entries[j];
                 for (int k = 0; k < entry->count; k++) {
                     DataBuffor *b = NULL;
                     b = getBuffor(tableId, entry->block_ids[k], buffors);
-                    if (block8kb_full(b->universalBlock->block, tuple) == 1) {
+                    if (block8kb_full(b->universalBlock->block, tuple) == 0) {
                         int32_t tmp = entry->block_ids[k];
                         fsm_space_entry_remove(entry, k);
                         int32_t newSpaceEntry = tupleEntrie + j;
@@ -218,10 +230,13 @@ DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c
                         fsm_space_entry_add(&fsmMapAll->maps[i].entries[newSpaceEntry], tmp);
                         return b;
                     }
-                    free(b);
+                    else {
+                        b->pinCount = 0;
+                        continue;
+                    }
                 }
             }
-            // if in every entrie block full creating new one 
+            // if in every entrie block full creating new one
             DataBuffor *dataBuffor = NULL;
             createDataBufforM(&dataBuffor);
             dataBuffor->tableId = tableId;
@@ -236,7 +251,7 @@ DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c
             create_block8kbM(&newBlock);
 
             UniversalBlock *universalBlock = NULL;
-            createUniversalBlockM(&universalBlock);
+            createUniversalBlockC(&universalBlock);
 
             block8kb_init(newBlock, usable_size, 0, fsm_cache_get(c, tableId)->maxBlock, 0, 0, 0, 0);
             universalBlock->block = newBlock;
@@ -259,10 +274,6 @@ DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c
     return NULL;
 }
 // ==============================================================================
-
-
-
-
 
 // if 1 - enough space, if 0 - not enough space
 int8_t getEstimatedFreeSpace(FSMMapAll *fsmMapAll, int32_t tableId, Tuple tuple){

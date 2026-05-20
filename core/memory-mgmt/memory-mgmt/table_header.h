@@ -9,6 +9,7 @@
  */
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "config.h"
 #include "type_ids.h"
 #include "types_converter.h"

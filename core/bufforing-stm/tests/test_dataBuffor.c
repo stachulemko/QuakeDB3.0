@@ -151,23 +151,24 @@ static void test_getBufforAny_evicts_when_full(void **state) {
 
 /* ---- addNewBlock ---- */
 
-static void test_addNewBlock_returns_0_when_no_buffors(void **state) {
+static void test_addNewBlock_returns_null_when_no_buffors(void **state) {
     (void)state;
     Buffors b;
     make_buffors(&b, 0);
 
     DataBuffor newB = {.tableId = 1};
-    assert_int_equal(0, addNewBlock(&b, &newB));
+    assert_null(addNewBlock(&b, &newB));
 }
 
-static void test_addNewBlock_returns_1_on_success(void **state) {
+static void test_addNewBlock_returns_slot_on_success(void **state) {
     (void)state;
     Buffors b;
     make_buffors(&b, 2);
 
     DataBuffor newB = {.tableId = 5, .pinCount = 1, .isUsed = 1, .isDirty = 1};
-    int8_t rc = addNewBlock(&b, &newB);
-    assert_int_equal(1, rc);
+    DataBuffor *slot = addNewBlock(&b, &newB);
+    assert_non_null(slot);
+    assert_int_equal(5, slot->tableId);
 
     free(b.buffors);
 }
@@ -212,6 +213,26 @@ static void test_getIfExisting_finds_matching_block(void **state) {
     free(b.buffors);
 }
 
+/* ---- createUniversalBlockM/C ---- */
+
+static void test_createUniversalBlockM_allocates(void **state) {
+    (void)state;
+    UniversalBlock *ub = NULL;
+    createUniversalBlockM(&ub);
+    assert_non_null(ub);
+    free(ub);
+}
+
+static void test_createUniversalBlockC_allocates(void **state) {
+    (void)state;
+    UniversalBlock *ub = NULL;
+    createUniversalBlockC(&ub);
+    assert_non_null(ub);
+    assert_null(ub->block);
+    assert_null(ub->header);
+    free(ub);
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_initializeBuffors_sets_count),
@@ -222,10 +243,12 @@ int main(void) {
         cmocka_unit_test(test_evictAny_evicts_unpinned),
         cmocka_unit_test(test_getBufforAny_prefers_free_slot),
         cmocka_unit_test(test_getBufforAny_evicts_when_full),
-        cmocka_unit_test(test_addNewBlock_returns_0_when_no_buffors),
-        cmocka_unit_test(test_addNewBlock_returns_1_on_success),
+        cmocka_unit_test(test_addNewBlock_returns_null_when_no_buffors),
+        cmocka_unit_test(test_addNewBlock_returns_slot_on_success),
         cmocka_unit_test(test_getIfExisting_returns_null_when_not_found),
         cmocka_unit_test(test_getIfExisting_finds_matching_block),
+        cmocka_unit_test(test_createUniversalBlockM_allocates),
+        cmocka_unit_test(test_createUniversalBlockC_allocates),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

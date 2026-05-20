@@ -29,6 +29,14 @@ set(CORE_SOURCES
 add_executable(QuakeDB3_0
         ${CORE_SOURCES}
         core/main.c
+        core/bufforing-stm/bufforing-stm/Llist.h
+        core/bufforing-stm/bufforing-stm/transaction.h
+        "core/bufforing-stm/bufforing-stm/fullScan.h"
+        core/bufforing-stm/bufforing-stm/queryExecutor.h
+        core/bufforing-stm/bufforing-stm/queryExecutor.c
+        core/bufforing-stm/bufforing-stm/transaction.c
+        core/bufforing-stm/bufforing-stm/setUpCaches.h
+        core/bufforing-stm/bufforing-stm/setUpCaches.c
 )
 
 # Find cmocka
@@ -43,11 +51,43 @@ if(CMOCKA_LIBRARY)
             core/memory-mgmt/tests/test_tuple.c
             core/memory-mgmt/tests/test_types_converter.c
             core/memory-mgmt/tests/test_universal_block.c
+            core/bufforing-stm/tests/test_dataBuffor.c
+            core/bufforing-stm/tests/test_fsmMap.c
     )
+
+    add_executable(test_components
+            ${CORE_SOURCES}
+            core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
+    )
+    target_link_libraries(test_components ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_components PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_fullscan
+            ${CORE_SOURCES}
+            core/bufforing-stm/components-tests/FullScanTest.c
+    )
+    target_link_libraries(test_fullscan ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_fullscan PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_tuple_add
+            ${CORE_SOURCES}
+            core/bufforing-stm/components-tests/tupleAddTest.c
+    )
+    target_link_libraries(test_tuple_add ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_tuple_add PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_stress
+            ${CORE_SOURCES}
+            core/bufforing-stm/components-tests/tupleAddingStressTest.c
+    )
+    target_link_libraries(test_stress ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_stress PRIVATE LOG_LEVEL=0)
 
     foreach(TEST_FILE ${TEST_SOURCES})
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
-        add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE})
+        add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}
+                core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
+                core/indexes/indexes/btree.h)
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
     endforeach()
 else()

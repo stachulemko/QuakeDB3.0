@@ -38,4 +38,34 @@ void    tuple_unmarshal(Tuple *t, const uint8_t *buf, int32_t len);
 
 void    tuple_show(const Tuple *t);
 
+static inline int8_t evaluateTuples(Tuple t1, Tuple t2) {
+    if (t1.dnb.data_count != t2.dnb.data_count) return 0;
+    if (t1.dnb.bit_map_count != t2.dnb.bit_map_count) return 0;
+
+    for (int i = 0; i < t1.dnb.bit_map_count; i++) {
+        if (t1.dnb.bit_map[i] != t2.dnb.bit_map[i]) return 0;
+    }
+
+    for (int i = 0; i < t1.dnb.data_count; i++) {
+        if (t1.dnb.data[i].type != t2.dnb.data[i].type) return 0;
+        if (t1.dnb.data[i].str_len != t2.dnb.data[i].str_len) return 0;
+
+        switch (t1.dnb.data[i].type) {
+            case ID_INT32:
+                if (t1.dnb.data[i].val.i32 != t2.dnb.data[i].val.i32) return 0;
+                break;
+            case ID_INT64:
+                if (t1.dnb.data[i].val.i64 != t2.dnb.data[i].val.i64) return 0;
+                break;
+            case ID_STRING:
+                if (strcmp(t1.dnb.data[i].val.str, t2.dnb.data[i].val.str) != 0) return 0;
+                break;
+            default:
+                return 0;
+        }
+    }
+
+    return 1;
+}
+
 #endif

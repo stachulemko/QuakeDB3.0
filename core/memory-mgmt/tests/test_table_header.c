@@ -12,7 +12,8 @@ static void fill_header(TableHeader *h) {
     strncpy(names[0], "id",    MAX_COL_NAME_LEN - 1);
     strncpy(names[1], "value", MAX_COL_NAME_LEN - 1);
     strncpy(names[2], "name",  MAX_COL_NAME_LEN - 1);
-    table_header_set(h, 1, 0, 0, 0, 3, 99, 0, 0, 0, 0, 0,
+    /*                   oid  blk xmin xmax  toast  ncols  owner  ns  cst rts  fs */
+    table_header_set(h,  1,   0,  0,   0,    0,     3,    99,    0,  0,  0,   0,
                      types, allow_null, (const char (*)[MAX_COL_NAME_LEN])names);
 }
 

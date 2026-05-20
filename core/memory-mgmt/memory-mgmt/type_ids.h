@@ -17,5 +17,6 @@
 #define ID_BYTE_UNIT        ((int16_t)12)
 #define ID_TYPE_TABLE       ((int16_t)13)
 #define ID_BLOCK_HEADER     ((int16_t)14)
+#define ID_ROOT              ((int16_t)15)
 
 #endif

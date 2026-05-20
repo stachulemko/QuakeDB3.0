@@ -1,0 +1,15 @@
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/QuakeDB3_0.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_components.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_tuple_add.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_stress.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_all_var.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_block8kb.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_block_header.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_table_header.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_tuple.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_types_converter.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_universal_block.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_dataBuffor.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fsmMap.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/edit_cache.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/rebuild_cache.dir

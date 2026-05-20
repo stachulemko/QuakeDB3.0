@@ -24,7 +24,7 @@ static void test_fsm_cache_set_new_entry(void **state) {
     BlockCounterEntry *e = fsm_cache_get(&c, 10);
     assert_non_null(e);
     assert_int_equal(10, e->tableId);
-    assert_int_equal(1, e->maxBlock);
+    assert_int_equal(0, e->maxBlock);  /* starts at 0 */
 
     fsm_cache_free(&c);
 }
@@ -40,7 +40,7 @@ static void test_fsm_cache_set_increments(void **state) {
 
     BlockCounterEntry *e = fsm_cache_get(&c, 5);
     assert_non_null(e);
-    assert_int_equal(3, e->maxBlock);
+    assert_int_equal(2, e->maxBlock);  /* 0 → 1 → 2 */
 
     fsm_cache_free(&c);
 }
@@ -66,8 +66,8 @@ static void test_fsm_cache_multiple_tables(void **state) {
 
     BlockCounterEntry *e1 = fsm_cache_get(&c, 1);
     BlockCounterEntry *e2 = fsm_cache_get(&c, 2);
-    assert_int_equal(2, e1->maxBlock);
-    assert_int_equal(1, e2->maxBlock);
+    assert_int_equal(1, e1->maxBlock);  /* 0 → 1 (two set calls) */
+    assert_int_equal(0, e2->maxBlock);  /* 0 (one set call) */
 
     fsm_cache_free(&c);
 }
@@ -150,6 +150,7 @@ static void test_addToFSMMapAll_adds_block(void **state) {
     FSMMap map;
     memset(&map, 0, sizeof(map));
     map.tableId = 1;
+    map.isUsed  = 1;
 
     FSMMapAll all = {.maps = &map, .count = 1};
 
@@ -165,6 +166,7 @@ static void test_addToFSMMapAll_ignores_wrong_table(void **state) {
     FSMMap map;
     memset(&map, 0, sizeof(map));
     map.tableId = 1;
+    map.isUsed  = 1;
 
     FSMMapAll all = {.maps = &map, .count = 1};
 
@@ -172,11 +174,75 @@ static void test_addToFSMMapAll_ignores_wrong_table(void **state) {
     assert_int_equal(0, map.entries[MAX_FSM].count);
 }
 
+static void test_addToFSMMapAll_ignores_unused_map(void **state) {
+    (void)state;
+    FSMMap map;
+    memset(&map, 0, sizeof(map));
+    map.tableId = 1;
+    map.isUsed  = 0;  /* not active */
+
+    FSMMapAll all = {.maps = &map, .count = 1};
+
+    addToFSMMapAll(&all, 1, 99);
+    assert_int_equal(0, map.entries[MAX_FSM].count);
+}
+
+/* ---- addTableToFSMMapAll ---- */
+
+static void test_addTableToFSMMapAll_allocates_maps(void **state) {
+    (void)state;
+    FSMMapAll all;
+    init_FSMMapAll(&all);
+
+    addTableToFSMMapAll(&all, 42);
+
+    assert_non_null(all.maps);
+    assert_int_equal(1, all.count);
+    assert_int_equal(42, all.maps[0].tableId);
+    assert_int_equal(1, all.maps[0].isUsed);
+
+    free_FSMMapAll(&all);
+}
+
+static void test_addTableToFSMMapAll_second_table(void **state) {
+    (void)state;
+    FSMMapAll all;
+    init_FSMMapAll(&all);
+
+    addTableToFSMMapAll(&all, 1);
+    addTableToFSMMapAll(&all, 2);
+
+    assert_int_equal(2, all.count);
+    assert_int_equal(1, all.maps[0].tableId);
+    assert_int_equal(2, all.maps[1].tableId);
+
+    free_FSMMapAll(&all);
+}
+
+/* ---- create_FSMMapC / createDataBufforM ---- */
+
+static void test_create_FSMMapC_allocates(void **state) {
+    (void)state;
+    FSMMap *maps = NULL;
+    create_FSMMapC(&maps, 4);
+    assert_non_null(maps);
+    free(maps);
+}
+
+static void test_createDataBufforM_allocates(void **state) {
+    (void)state;
+    DataBuffor *b = NULL;
+    createDataBufforM(&b);
+    assert_non_null(b);
+    free(b);
+}
+
 static void test_addToFSMMapAll_multiple_blocks(void **state) {
     (void)state;
     FSMMap map;
     memset(&map, 0, sizeof(map));
     map.tableId = 3;
+    map.isUsed  = 1;
 
     FSMMapAll all = {.maps = &map, .count = 1};
 
@@ -208,7 +274,14 @@ int main(void) {
         /* addToFSMMapAll */
         cmocka_unit_test(test_addToFSMMapAll_adds_block),
         cmocka_unit_test(test_addToFSMMapAll_ignores_wrong_table),
+        cmocka_unit_test(test_addToFSMMapAll_ignores_unused_map),
         cmocka_unit_test(test_addToFSMMapAll_multiple_blocks),
+        /* addTableToFSMMapAll */
+        cmocka_unit_test(test_addTableToFSMMapAll_allocates_maps),
+        cmocka_unit_test(test_addTableToFSMMapAll_second_table),
+        /* create helpers */
+        cmocka_unit_test(test_create_FSMMapC_allocates),
+        cmocka_unit_test(test_createDataBufforM_allocates),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

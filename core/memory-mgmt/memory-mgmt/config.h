@@ -19,4 +19,12 @@
 #define BLOCK_USABLE_SIZE  BLOCK_SIZE - BLOCK_FREE_SPACE
 
 #define DATA_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/data"
+
+#define VIEW_MODE 1    // 1 - read commited ,
+
+#define RESULT_SPACE 10
+
+#define M 4   // max btreeLevel
+
+#define btreeFreeSpace 2000;
 #endif

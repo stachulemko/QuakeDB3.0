@@ -2,14 +2,20 @@
 #define MVCC_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #define MAX_TRANSACTIONS 256
+
+
 
 typedef struct {
     int32_t txn_counter;
     int8_t  txn_status[MAX_TRANSACTIONS];
 } MVCC;
 
+void create_MVCC(MVCC **mvcc) {
+    *mvcc = (MVCC *) calloc(1,sizeof(MVCC));
+}
 
 static inline void mvcc_init(MVCC *mvcc) {
     mvcc->txn_counter = 0;
@@ -20,6 +26,10 @@ static inline void mvcc_init(MVCC *mvcc) {
 
 static inline int32_t getTxnId(MVCC *mvcc) {
     return mvcc->txn_counter;
+}
+
+static inline int32_t getAndIcrement(MVCC *mvcc) {
+    return mvcc->txn_counter++;
 }
 
 static inline void incrementTxnCounter(MVCC *mvcc) {
