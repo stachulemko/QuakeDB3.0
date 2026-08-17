@@ -87,7 +87,10 @@ if(CMOCKA_LIBRARY)
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
         add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}
                 core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
-                core/indexes/indexes/btree.h)
+                core/indexes/indexes/btree.h
+                core/indexes/indexes/fsmMapBtree.h
+                core/indexes/indexes/fsmMapBtree.c
+                core/indexes/indexes/btreeFileOperation.h)
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
     endforeach()
 else()

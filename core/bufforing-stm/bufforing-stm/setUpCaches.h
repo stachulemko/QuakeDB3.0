@@ -7,6 +7,7 @@
 
 #include "dataBuffor.h"
 #include "fsmMap.h"
+#include "../../indexes/indexes/btreeFileOperation.h"
 
 typedef struct {
 
@@ -24,7 +25,13 @@ typedef struct {
     FSMCache *fsmCacheBtree = NULL;
 
     FSMMapAll *fsmMapAllBtree = NULL;
-    Buffors *bTreeBuffor = NULL ; // for block
+
+    FSMMapBtree
+
+    BtreeBuffors *bTreeBuffor = NULL ; // for block
+
+
+
 
 }DbEnv;
 

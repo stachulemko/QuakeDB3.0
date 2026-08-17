@@ -16,15 +16,19 @@
 
 #define BLOCK_FREE_SPACE  2000
 
-#define BLOCK_USABLE_SIZE  BLOCK_SIZE - BLOCK_FREE_SPACE
+#define BLOCK_USABLE_SIZE  (BLOCK_SIZE - BLOCK_FREE_SPACE)
 
 #define DATA_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/data"
+
+#define INDEX_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/index"
 
 #define VIEW_MODE 1    // 1 - read commited ,
 
 #define RESULT_SPACE 10
 
+#define MAX_INDEX_BLOCKS 12  // number of block have to be divide by 3 wthout change
+
 #define M 4   // max btreeLevel
 
-#define btreeFreeSpace 2000;
+#define btreeFreeSpace 2000
 #endif

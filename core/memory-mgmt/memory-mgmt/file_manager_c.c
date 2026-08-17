@@ -131,3 +131,38 @@ int fm_exists(const char *path, const char *name) {
     fclose(f);
     return 1;
 }
+
+uint8_t *fm_get_blockU(const char *path, int32_t block_num) {
+    FILE *f;
+    uint8_t *buf;
+
+    if (!path) return NULL;
+
+    f = fopen(path, "rb");
+    if (!f) {
+        LOG_ERROR("fm_get_blockU: cannot open %s\n", path);
+        return NULL;
+    }
+
+    if (fseek(f, (long)block_num * BLOCK_SIZE, SEEK_SET) != 0) {
+        LOG_ERROR("fm_get_blockU: cannot seek block %d in %s\n", block_num, path);
+        fclose(f);
+        return NULL;
+    }
+
+    buf = (uint8_t *)malloc(BLOCK_SIZE);
+    if (!buf) {
+        fclose(f);
+        return NULL;
+    }
+
+    if (fread(buf, 1, BLOCK_SIZE, f) != BLOCK_SIZE) {
+        LOG_ERROR("fm_get_blockU: block %d out of range in %s\n", block_num, path);
+        free(buf);
+        fclose(f);
+        return NULL;
+    }
+
+    fclose(f);
+    return buf;
+}

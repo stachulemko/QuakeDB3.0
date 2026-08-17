@@ -8,6 +8,7 @@
 #include <string.h>
 #include "../../memory-mgmt/memory-mgmt/config.h"
 #include "../../memory-mgmt/memory-mgmt/all_var.h"
+#include "fsmMapBtree.h"
 #include <stdio.h>
 #include <time.h>
 
@@ -209,9 +210,11 @@ int32_t getBlock(Node *root,AllVar val,int8_t operator, int8_t method, AllVar va
             getBlock(root->nodesNext[index], val, operator, method, val2);
         }
         else if (tabSize == 0 ) {
-            if (evaluateAllVar(&val, &root->nodes[root->countNodes-1]->val, 2, method) == 0) {
+            /*
+            if (evaluateAllVar(&val, &root->nodesinsert_into_index[root->countNodes-1]->val, 2, method) == 0) {
                 getBlock(root->nodesNext[root->countNodes], val, operator, method, val2);
             }
+            */
         }
     }
 }
@@ -310,10 +313,7 @@ static inline int verifyInOrder(Node *root, const int64_t expected[], int expect
 }
 
 
-// =============================================================================================
-
-
-
+/*
 typedef struct {
     int32_t pointerToPointerWithData;
     int32_t pointerToNextLabel;
@@ -327,34 +327,49 @@ typedef struct {
 }pointerToData;
 
 
-void createBtree(FSMCache *fsmCacheBtree,
-    FSMMapAll *fsmMapAllBtree,int32_t tableId,int32_t columnIndex) {
+void createBtree(FSMMapBtree *fsm,
+int32_t tableId,int32_t columnIndex) {
     uint8_t buffer[BLOCK_SIZE*3];
     int32_t offset = 0;
-    // metaData only first
-    marshal_int16(buffer + offset, ID_ROOT);
-    offset += 2;
-    marshal_int32(buffer + offset, 4);
-    offset+=4;
-    marshal_int32(buffer + offset,BLOCK_SIZE+offset+4);
-    offset+=4;
-    //marshal_int32(buffer + offset, BLOCK_SIZE*2+offset+4);
-    //offset+=4;
-    offset+=BLOCK_SIZE;
     nodeMetaData metaData ={-1,-1};
-    metaData.pointerToPointerWithData = offset+4+BLOCK_SIZE;
-    marshal_int32(buffer + offset, pointerToPointerWithData);
+    metaData.pointerToPointerWithData = BLOCK_SIZE;
+    marshal_int32(buffer + offset, metaData.pointerToPointerWithData);
     offset+=4;
     marshal_int32(buffer + offset, metaData.pointerToNextLabel);
     offset+=4;
-    offset+=BLOCK_SIZE;
+
+    offset=BLOCK_SIZE;
+    //second Block
     pointerToData ptd ={-1,-1};
     ptd.pointerToData = offset+4+BLOCK_SIZE;
     marshal_int32(buffer + offset, ptd.pointerDataToNextPointerData);
     offset+=4;
     marshal_int32(buffer + offset, ptd.pointerToData);
+    fsm_btree_create_index(fsm, tableId, columnIndex);
+
+    //----------------------
+    fsm_btree_add_block(fsm, tableId, columnIndex, 0,8);
+    fsm_btree_add_block(fsm, tableId, columnIndex, 1, 8);
+    fsm_btree_add_block(fsm, tableId, columnIndex, 2, 0);
+
 }
 
+void addToBtree(FSMMapBtree *fsm, int32_t tableId, int32_t columnIndex, AllVar value, int32_t blockId) {
+    BtreeTableEntry *table = fsm_btree_get_table(fsm, tableId);
+    if (table == NULL) return;
+    BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
+    if (col == NULL) return;
 
+    // For simplicity, we add to the first block. In a real implementation, we would need to find the correct block.
+    BtreeBlockEntry *block = fsm_btree_get_block(fsm, tableId, columnIndex, 0);
+    if (block == NULL) return;
+
+    for (int i=0;i<col->blockCount/3;i++) {
+
+    }
+}
+
+*/
+// -------------------------------------------------------------------------------
 
 #endif //QUAKEDB3_0_NODEBTREE_H

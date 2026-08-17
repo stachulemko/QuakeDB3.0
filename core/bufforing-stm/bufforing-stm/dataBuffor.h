@@ -282,7 +282,10 @@ void showBuffors(Buffors *buffors) {
         }
         printf("\n");
     }
+
     printf("==========================\n");
 }
+
+
 
 #endif
