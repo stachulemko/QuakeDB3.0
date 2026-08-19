@@ -20,7 +20,7 @@
 
 #define DATA_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/data"
 
-#define INDEX_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/index"
+#define INDEX_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/indexes"
 
 #define VIEW_MODE 1    // 1 - read commited ,
 
@@ -31,4 +31,6 @@
 #define M 4   // max btreeLevel
 
 #define btreeFreeSpace 2000
+
+#define btreeBufforSize 4
 #endif

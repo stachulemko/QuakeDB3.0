@@ -23,6 +23,7 @@ CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_e
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.h \
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.h \
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.h \
+  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h \
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h \
   /usr/include/alloca.h \
   /usr/include/cmocka.h \
@@ -548,8 +549,6 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o:
 
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.c:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
-
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.c:
@@ -588,6 +587,10 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o:
 
 /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
+
+/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h:
+
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple_header.c:
 
 /usr/include/features.h:
@@ -603,8 +606,6 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o:
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
-
-/usr/include/stdlib.h:
 
 /usr/include/strings.h:
 
@@ -640,6 +641,12 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+
+/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.h:
+
+/usr/include/stdio.h:
+
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h:
 
 /usr/include/setjmp.h:
@@ -647,12 +654,6 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o:
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
-
-/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.h:
-
-/usr/include/stdio.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h:
 
@@ -685,6 +686,8 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o:
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/table_header.h:
+
+/usr/include/stdlib.h:
 
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c:
 

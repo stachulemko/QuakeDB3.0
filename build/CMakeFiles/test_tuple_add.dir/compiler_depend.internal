@@ -26,6 +26,7 @@ CMakeFiles/test_tuple_add.dir/core/bufforing-stm/components-tests/tupleAddTest.c
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.h
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.h
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.h
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h
  /usr/include/alloca.h
  /usr/include/cmocka.h

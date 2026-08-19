@@ -16,6 +16,10 @@ int main(void) {
 
     MVCC mvcc;
 
+    FSMMapBtree fsmMapBtree;
+
+    BtreeBuffors btreeBuffors;
+
     init_FSMMapAll(&fsmMapAll);
 
     fsm_cache_init(&fsmCache);
@@ -23,6 +27,8 @@ int main(void) {
     mvcc_init(&mvcc);
 
     initializeBuffors(&buffors, 3);
+
+    initBtreeBuffors(&btreeBuffors,btreeBufforSize);
 
     addTable(&fsmMapAll, &buffors, &fsmCache, &mvcc, 20,
              (int8_t[]){ID_INT32, ID_STRING}, (int8_t[]){0, 0},
@@ -69,7 +75,9 @@ int main(void) {
     showBuffors(&buffors);
     printResultTuple(&result_tuple);
      //force_eviction(&buffors, &fsmCache, &fsmMapAll, 21);
-    addExistingValues();
+
+    createBtree(&fsmMapBtree, 20,0);
+    addExistingValues(&fsmMapBtree,20,0,&btreeBuffors,&buffors,&fsmCache);
 
 
 }

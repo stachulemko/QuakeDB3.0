@@ -26,7 +26,7 @@ typedef struct {
 
     FSMMapAll *fsmMapAllBtree = NULL;
 
-    FSMMapBtree
+    FSMMapBtree* fsmMapBtreeBtree = NULL;
 
     BtreeBuffors *bTreeBuffor = NULL ; // for block
 
@@ -47,6 +47,7 @@ void createCaches(Cache *cache) {
     //===================================
     create_MVCC(&cache->mvcc);
     //===================================
+    initBtreeBuffors(cache->bTreeBuffor, btreeBufforSize);
 
 
 }

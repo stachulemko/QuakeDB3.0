@@ -1,5 +1,6 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/QuakeDB3_0.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_components.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fullscan.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_tuple_add.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_stress.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_all_var.dir

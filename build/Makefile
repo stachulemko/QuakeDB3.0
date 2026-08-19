@@ -143,6 +143,19 @@ test_components/fast:
 .PHONY : test_components/fast
 
 #=============================================================================
+# Target rules for targets named test_fullscan
+
+# Build rule for target.
+test_fullscan: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_fullscan
+.PHONY : test_fullscan
+
+# fast build rule for target.
+test_fullscan/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/build
+.PHONY : test_fullscan/fast
+
+#=============================================================================
 # Target rules for targets named test_tuple_add
 
 # Build rule for target.
@@ -292,6 +305,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.o: core/bufforing-stm/bufforing-stm/
 core/bufforing-stm/bufforing-stm/dataBuffor.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
@@ -312,6 +326,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.i: core/bufforing-stm/bufforing-stm/
 core/bufforing-stm/bufforing-stm/dataBuffor.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
@@ -332,6 +347,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.s: core/bufforing-stm/bufforing-stm/
 core/bufforing-stm/bufforing-stm/dataBuffor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
@@ -352,6 +368,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.o: core/bufforing-stm/bufforing-stm/fsmM
 core/bufforing-stm/bufforing-stm/fsmMap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
@@ -372,6 +389,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.i: core/bufforing-stm/bufforing-stm/fsmM
 core/bufforing-stm/bufforing-stm/fsmMap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
@@ -392,6 +410,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.s: core/bufforing-stm/bufforing-stm/fsmM
 core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
@@ -404,6 +423,102 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.s
+
+core/bufforing-stm/bufforing-stm/queryExecutor.o: core/bufforing-stm/bufforing-stm/queryExecutor.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.o
+
+# target to build an object file
+core/bufforing-stm/bufforing-stm/queryExecutor.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.c.o
+
+core/bufforing-stm/bufforing-stm/queryExecutor.i: core/bufforing-stm/bufforing-stm/queryExecutor.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.i
+
+# target to preprocess a source file
+core/bufforing-stm/bufforing-stm/queryExecutor.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.c.i
+
+core/bufforing-stm/bufforing-stm/queryExecutor.s: core/bufforing-stm/bufforing-stm/queryExecutor.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.s
+
+# target to generate assembly for a file
+core/bufforing-stm/bufforing-stm/queryExecutor.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.c.s
+
+core/bufforing-stm/bufforing-stm/setUpCaches.o: core/bufforing-stm/bufforing-stm/setUpCaches.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/setUpCaches.o
+
+# target to build an object file
+core/bufforing-stm/bufforing-stm/setUpCaches.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/setUpCaches.c.o
+
+core/bufforing-stm/bufforing-stm/setUpCaches.i: core/bufforing-stm/bufforing-stm/setUpCaches.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/setUpCaches.i
+
+# target to preprocess a source file
+core/bufforing-stm/bufforing-stm/setUpCaches.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/setUpCaches.c.i
+
+core/bufforing-stm/bufforing-stm/setUpCaches.s: core/bufforing-stm/bufforing-stm/setUpCaches.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/setUpCaches.s
+
+# target to generate assembly for a file
+core/bufforing-stm/bufforing-stm/setUpCaches.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/setUpCaches.c.s
+
+core/bufforing-stm/bufforing-stm/transaction.o: core/bufforing-stm/bufforing-stm/transaction.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/transaction.o
+
+# target to build an object file
+core/bufforing-stm/bufforing-stm/transaction.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/transaction.c.o
+
+core/bufforing-stm/bufforing-stm/transaction.i: core/bufforing-stm/bufforing-stm/transaction.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/transaction.i
+
+# target to preprocess a source file
+core/bufforing-stm/bufforing-stm/transaction.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/transaction.c.i
+
+core/bufforing-stm/bufforing-stm/transaction.s: core/bufforing-stm/bufforing-stm/transaction.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/transaction.s
+
+# target to generate assembly for a file
+core/bufforing-stm/bufforing-stm/transaction.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/transaction.c.s
+
+core/bufforing-stm/components-tests/FullScanTest.o: core/bufforing-stm/components-tests/FullScanTest.c.o
+.PHONY : core/bufforing-stm/components-tests/FullScanTest.o
+
+# target to build an object file
+core/bufforing-stm/components-tests/FullScanTest.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/components-tests/FullScanTest.c.o
+.PHONY : core/bufforing-stm/components-tests/FullScanTest.c.o
+
+core/bufforing-stm/components-tests/FullScanTest.i: core/bufforing-stm/components-tests/FullScanTest.c.i
+.PHONY : core/bufforing-stm/components-tests/FullScanTest.i
+
+# target to preprocess a source file
+core/bufforing-stm/components-tests/FullScanTest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/components-tests/FullScanTest.c.i
+.PHONY : core/bufforing-stm/components-tests/FullScanTest.c.i
+
+core/bufforing-stm/components-tests/FullScanTest.s: core/bufforing-stm/components-tests/FullScanTest.c.s
+.PHONY : core/bufforing-stm/components-tests/FullScanTest.s
+
+# target to generate assembly for a file
+core/bufforing-stm/components-tests/FullScanTest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/components-tests/FullScanTest.c.s
+.PHONY : core/bufforing-stm/components-tests/FullScanTest.c.s
 
 core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.o: core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o
 .PHONY : core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.o
@@ -552,6 +667,54 @@ core/bufforing-stm/tests/test_fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/tests/test_fsmMap.c.s
 .PHONY : core/bufforing-stm/tests/test_fsmMap.c.s
 
+core/indexes/indexes/fsmMapBtree.o: core/indexes/indexes/fsmMapBtree.c.o
+.PHONY : core/indexes/indexes/fsmMapBtree.o
+
+# target to build an object file
+core/indexes/indexes/fsmMapBtree.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/indexes/indexes/fsmMapBtree.c.o
+.PHONY : core/indexes/indexes/fsmMapBtree.c.o
+
+core/indexes/indexes/fsmMapBtree.i: core/indexes/indexes/fsmMapBtree.c.i
+.PHONY : core/indexes/indexes/fsmMapBtree.i
+
+# target to preprocess a source file
+core/indexes/indexes/fsmMapBtree.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/indexes/indexes/fsmMapBtree.c.i
+.PHONY : core/indexes/indexes/fsmMapBtree.c.i
+
+core/indexes/indexes/fsmMapBtree.s: core/indexes/indexes/fsmMapBtree.c.s
+.PHONY : core/indexes/indexes/fsmMapBtree.s
+
+# target to generate assembly for a file
+core/indexes/indexes/fsmMapBtree.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/indexes/indexes/fsmMapBtree.c.s
+.PHONY : core/indexes/indexes/fsmMapBtree.c.s
+
 core/main.o: core/main.c.o
 .PHONY : core/main.o
 
@@ -583,6 +746,7 @@ core/memory-mgmt/memory-mgmt/all_var.o: core/memory-mgmt/memory-mgmt/all_var.c.o
 core/memory-mgmt/memory-mgmt/all_var.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
@@ -603,6 +767,7 @@ core/memory-mgmt/memory-mgmt/all_var.i: core/memory-mgmt/memory-mgmt/all_var.c.i
 core/memory-mgmt/memory-mgmt/all_var.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
@@ -623,6 +788,7 @@ core/memory-mgmt/memory-mgmt/all_var.s: core/memory-mgmt/memory-mgmt/all_var.c.s
 core/memory-mgmt/memory-mgmt/all_var.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
@@ -643,6 +809,7 @@ core/memory-mgmt/memory-mgmt/block8kb.o: core/memory-mgmt/memory-mgmt/block8kb.c
 core/memory-mgmt/memory-mgmt/block8kb.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
@@ -663,6 +830,7 @@ core/memory-mgmt/memory-mgmt/block8kb.i: core/memory-mgmt/memory-mgmt/block8kb.c
 core/memory-mgmt/memory-mgmt/block8kb.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
@@ -683,6 +851,7 @@ core/memory-mgmt/memory-mgmt/block8kb.s: core/memory-mgmt/memory-mgmt/block8kb.c
 core/memory-mgmt/memory-mgmt/block8kb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
@@ -703,6 +872,7 @@ core/memory-mgmt/memory-mgmt/block_header.o: core/memory-mgmt/memory-mgmt/block_
 core/memory-mgmt/memory-mgmt/block_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
@@ -723,6 +893,7 @@ core/memory-mgmt/memory-mgmt/block_header.i: core/memory-mgmt/memory-mgmt/block_
 core/memory-mgmt/memory-mgmt/block_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
@@ -743,6 +914,7 @@ core/memory-mgmt/memory-mgmt/block_header.s: core/memory-mgmt/memory-mgmt/block_
 core/memory-mgmt/memory-mgmt/block_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
@@ -763,6 +935,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.o: core/memory-mgmt/memory-mgmt/da
 core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
@@ -783,6 +956,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.i: core/memory-mgmt/memory-mgmt/da
 core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
@@ -803,6 +977,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.s: core/memory-mgmt/memory-mgmt/da
 core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
@@ -823,6 +998,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.o: core/memory-mgmt/memory-mgmt/file
 core/memory-mgmt/memory-mgmt/file_manager_c.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
@@ -843,6 +1019,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.i: core/memory-mgmt/memory-mgmt/file
 core/memory-mgmt/memory-mgmt/file_manager_c.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
@@ -863,6 +1040,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.s: core/memory-mgmt/memory-mgmt/file
 core/memory-mgmt/memory-mgmt/file_manager_c.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
@@ -883,6 +1061,7 @@ core/memory-mgmt/memory-mgmt/table_header.o: core/memory-mgmt/memory-mgmt/table_
 core/memory-mgmt/memory-mgmt/table_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
@@ -903,6 +1082,7 @@ core/memory-mgmt/memory-mgmt/table_header.i: core/memory-mgmt/memory-mgmt/table_
 core/memory-mgmt/memory-mgmt/table_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
@@ -923,6 +1103,7 @@ core/memory-mgmt/memory-mgmt/table_header.s: core/memory-mgmt/memory-mgmt/table_
 core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
@@ -943,6 +1124,7 @@ core/memory-mgmt/memory-mgmt/tuple.o: core/memory-mgmt/memory-mgmt/tuple.c.o
 core/memory-mgmt/memory-mgmt/tuple.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
@@ -963,6 +1145,7 @@ core/memory-mgmt/memory-mgmt/tuple.i: core/memory-mgmt/memory-mgmt/tuple.c.i
 core/memory-mgmt/memory-mgmt/tuple.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
@@ -983,6 +1166,7 @@ core/memory-mgmt/memory-mgmt/tuple.s: core/memory-mgmt/memory-mgmt/tuple.c.s
 core/memory-mgmt/memory-mgmt/tuple.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
@@ -1003,6 +1187,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.o: core/memory-mgmt/memory-mgmt/tuple_
 core/memory-mgmt/memory-mgmt/tuple_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
@@ -1023,6 +1208,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.i: core/memory-mgmt/memory-mgmt/tuple_
 core/memory-mgmt/memory-mgmt/tuple_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
@@ -1043,6 +1229,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.s: core/memory-mgmt/memory-mgmt/tuple_
 core/memory-mgmt/memory-mgmt/tuple_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
@@ -1063,6 +1250,7 @@ core/memory-mgmt/memory-mgmt/types_converter.o: core/memory-mgmt/memory-mgmt/typ
 core/memory-mgmt/memory-mgmt/types_converter.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
@@ -1083,6 +1271,7 @@ core/memory-mgmt/memory-mgmt/types_converter.i: core/memory-mgmt/memory-mgmt/typ
 core/memory-mgmt/memory-mgmt/types_converter.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
@@ -1103,6 +1292,7 @@ core/memory-mgmt/memory-mgmt/types_converter.s: core/memory-mgmt/memory-mgmt/typ
 core/memory-mgmt/memory-mgmt/types_converter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
@@ -1123,6 +1313,7 @@ core/memory-mgmt/memory-mgmt/universal_block.o: core/memory-mgmt/memory-mgmt/uni
 core/memory-mgmt/memory-mgmt/universal_block.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
@@ -1143,6 +1334,7 @@ core/memory-mgmt/memory-mgmt/universal_block.i: core/memory-mgmt/memory-mgmt/uni
 core/memory-mgmt/memory-mgmt/universal_block.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
@@ -1163,6 +1355,7 @@ core/memory-mgmt/memory-mgmt/universal_block.s: core/memory-mgmt/memory-mgmt/uni
 core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
@@ -1359,6 +1552,7 @@ help:
 	@echo "... test_components"
 	@echo "... test_dataBuffor"
 	@echo "... test_fsmMap"
+	@echo "... test_fullscan"
 	@echo "... test_stress"
 	@echo "... test_table_header"
 	@echo "... test_tuple"
@@ -1371,6 +1565,18 @@ help:
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.o"
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.i"
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.s"
+	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.o"
+	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.i"
+	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.s"
+	@echo "... core/bufforing-stm/bufforing-stm/setUpCaches.o"
+	@echo "... core/bufforing-stm/bufforing-stm/setUpCaches.i"
+	@echo "... core/bufforing-stm/bufforing-stm/setUpCaches.s"
+	@echo "... core/bufforing-stm/bufforing-stm/transaction.o"
+	@echo "... core/bufforing-stm/bufforing-stm/transaction.i"
+	@echo "... core/bufforing-stm/bufforing-stm/transaction.s"
+	@echo "... core/bufforing-stm/components-tests/FullScanTest.o"
+	@echo "... core/bufforing-stm/components-tests/FullScanTest.i"
+	@echo "... core/bufforing-stm/components-tests/FullScanTest.s"
 	@echo "... core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.o"
 	@echo "... core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.i"
 	@echo "... core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.s"
@@ -1386,6 +1592,9 @@ help:
 	@echo "... core/bufforing-stm/tests/test_fsmMap.o"
 	@echo "... core/bufforing-stm/tests/test_fsmMap.i"
 	@echo "... core/bufforing-stm/tests/test_fsmMap.s"
+	@echo "... core/indexes/indexes/fsmMapBtree.o"
+	@echo "... core/indexes/indexes/fsmMapBtree.i"
+	@echo "... core/indexes/indexes/fsmMapBtree.s"
 	@echo "... core/main.o"
 	@echo "... core/main.i"
 	@echo "... core/main.s"

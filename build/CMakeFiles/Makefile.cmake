@@ -42,6 +42,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/QuakeDB3_0.dir/DependInfo.cmake"
   "CMakeFiles/test_components.dir/DependInfo.cmake"
+  "CMakeFiles/test_fullscan.dir/DependInfo.cmake"
   "CMakeFiles/test_tuple_add.dir/DependInfo.cmake"
   "CMakeFiles/test_stress.dir/DependInfo.cmake"
   "CMakeFiles/test_all_var.dir/DependInfo.cmake"
