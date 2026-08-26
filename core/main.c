@@ -78,6 +78,11 @@ int main(void) {
 
     createBtree(&fsmMapBtree, 20,0);
     addExistingValues(&fsmMapBtree,20,0,&btreeBuffors,&buffors,&fsmCache);
-
+    int32_t blockId = getBlockBtree(all_var_from_int32(4), &btreeBuffors, 20, 0, &fsmMapBtree, 0, 0);
+    if (blockId != -1) {
+        printf("Found in block %d\n", blockId);
+    } else {
+        printf("Not Found\n");
+    }
 
 }
