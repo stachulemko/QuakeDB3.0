@@ -182,6 +182,19 @@ test_stress/fast:
 .PHONY : test_stress/fast
 
 #=============================================================================
+# Target rules for targets named test_btree_operations
+
+# Build rule for target.
+test_btree_operations: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_btree_operations
+.PHONY : test_btree_operations
+
+# fast build rule for target.
+test_btree_operations/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/build
+.PHONY : test_btree_operations/fast
+
+#=============================================================================
 # Target rules for targets named test_all_var
 
 # Build rule for target.
@@ -308,6 +321,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
@@ -329,6 +343,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
@@ -350,6 +365,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
@@ -371,6 +387,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
@@ -392,6 +409,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
@@ -413,6 +431,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
@@ -715,6 +734,30 @@ core/indexes/indexes/fsmMapBtree.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/indexes/indexes/fsmMapBtree.c.s
 .PHONY : core/indexes/indexes/fsmMapBtree.c.s
 
+core/indexes/tests/test_btree_operations.o: core/indexes/tests/test_btree_operations.c.o
+.PHONY : core/indexes/tests/test_btree_operations.o
+
+# target to build an object file
+core/indexes/tests/test_btree_operations.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/indexes/tests/test_btree_operations.c.o
+.PHONY : core/indexes/tests/test_btree_operations.c.o
+
+core/indexes/tests/test_btree_operations.i: core/indexes/tests/test_btree_operations.c.i
+.PHONY : core/indexes/tests/test_btree_operations.i
+
+# target to preprocess a source file
+core/indexes/tests/test_btree_operations.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/indexes/tests/test_btree_operations.c.i
+.PHONY : core/indexes/tests/test_btree_operations.c.i
+
+core/indexes/tests/test_btree_operations.s: core/indexes/tests/test_btree_operations.c.s
+.PHONY : core/indexes/tests/test_btree_operations.s
+
+# target to generate assembly for a file
+core/indexes/tests/test_btree_operations.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/indexes/tests/test_btree_operations.c.s
+.PHONY : core/indexes/tests/test_btree_operations.c.s
+
 core/main.o: core/main.c.o
 .PHONY : core/main.o
 
@@ -749,6 +792,7 @@ core/memory-mgmt/memory-mgmt/all_var.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
@@ -770,6 +814,7 @@ core/memory-mgmt/memory-mgmt/all_var.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
@@ -791,6 +836,7 @@ core/memory-mgmt/memory-mgmt/all_var.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
@@ -812,6 +858,7 @@ core/memory-mgmt/memory-mgmt/block8kb.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
@@ -833,6 +880,7 @@ core/memory-mgmt/memory-mgmt/block8kb.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
@@ -854,6 +902,7 @@ core/memory-mgmt/memory-mgmt/block8kb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
@@ -875,6 +924,7 @@ core/memory-mgmt/memory-mgmt/block_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
@@ -896,6 +946,7 @@ core/memory-mgmt/memory-mgmt/block_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
@@ -917,6 +968,7 @@ core/memory-mgmt/memory-mgmt/block_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
@@ -938,6 +990,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
@@ -959,6 +1012,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
@@ -980,6 +1034,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
@@ -1001,6 +1056,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
@@ -1022,6 +1078,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
@@ -1043,6 +1100,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
@@ -1064,6 +1122,7 @@ core/memory-mgmt/memory-mgmt/table_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
@@ -1085,6 +1144,7 @@ core/memory-mgmt/memory-mgmt/table_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
@@ -1106,6 +1166,7 @@ core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
@@ -1127,6 +1188,7 @@ core/memory-mgmt/memory-mgmt/tuple.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
@@ -1148,6 +1210,7 @@ core/memory-mgmt/memory-mgmt/tuple.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
@@ -1169,6 +1232,7 @@ core/memory-mgmt/memory-mgmt/tuple.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
@@ -1190,6 +1254,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
@@ -1211,6 +1276,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
@@ -1232,6 +1298,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
@@ -1253,6 +1320,7 @@ core/memory-mgmt/memory-mgmt/types_converter.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
@@ -1274,6 +1342,7 @@ core/memory-mgmt/memory-mgmt/types_converter.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
@@ -1295,6 +1364,7 @@ core/memory-mgmt/memory-mgmt/types_converter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
@@ -1316,6 +1386,7 @@ core/memory-mgmt/memory-mgmt/universal_block.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
@@ -1337,6 +1408,7 @@ core/memory-mgmt/memory-mgmt/universal_block.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
@@ -1358,6 +1430,7 @@ core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullscan.dir/build.make CMakeFiles/test_fullscan.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
@@ -1549,6 +1622,7 @@ help:
 	@echo "... test_all_var"
 	@echo "... test_block8kb"
 	@echo "... test_block_header"
+	@echo "... test_btree_operations"
 	@echo "... test_components"
 	@echo "... test_dataBuffor"
 	@echo "... test_fsmMap"
@@ -1595,6 +1669,9 @@ help:
 	@echo "... core/indexes/indexes/fsmMapBtree.o"
 	@echo "... core/indexes/indexes/fsmMapBtree.i"
 	@echo "... core/indexes/indexes/fsmMapBtree.s"
+	@echo "... core/indexes/tests/test_btree_operations.o"
+	@echo "... core/indexes/tests/test_btree_operations.i"
+	@echo "... core/indexes/tests/test_btree_operations.s"
 	@echo "... core/main.o"
 	@echo "... core/main.i"
 	@echo "... core/main.s"

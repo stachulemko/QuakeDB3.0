@@ -3,6 +3,7 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fullscan.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_tuple_add.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_stress.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_operations.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_all_var.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_block8kb.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_block_header.dir

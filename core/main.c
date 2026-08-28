@@ -84,5 +84,12 @@ int main(void) {
     } else {
         printf("Not Found\n");
     }
+    deleteVal(&fsmMapBtree,&btreeBuffors,20,0,blockId,all_var_from_int32(4));
+    blockId = getBlockBtree(all_var_from_int32(4), &btreeBuffors, 20, 0, &fsmMapBtree, 0, 0);
+    if (blockId != -1) {
+        printf("Found in block %d\n", blockId);
+    } else {
+        printf("Not Found\n");
+    }
 
 }

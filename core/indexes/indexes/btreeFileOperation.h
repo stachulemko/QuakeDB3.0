@@ -230,7 +230,7 @@ static inline BtreeBuffor* getBtreeBuffor(int32_t tableId, int32_t columnIndex, 
 }
 
 /*
-  Drugi zakomentowany blok usunięty — był martwy i powielał nieużywane szkice logiki.
+  Second commented-out block removed — it was dead code duplicating unused logic sketches.
 */
 //--------------------------------------------------------------
 
@@ -246,7 +246,7 @@ static inline DataBtree* getData(int32_t start, int32_t tableId, int32_t columnI
         if (buffor == NULL) return NULL;
 
         int32_t i = 0;
-        // POPRAWKA 1: calloc(1, ...) - alokujemy 1 strukturę, a nie M struktur!
+        // FIX 1: calloc(1, ...) - allocating 1 structure, not M structures!
         DataBtree *data = (DataBtree *)calloc(1, sizeof(DataBtree));
         if (data == NULL) return NULL;
 
@@ -264,7 +264,7 @@ static inline DataBtree* getData(int32_t start, int32_t tableId, int32_t columnI
         }
 
         int32_t curPtr = pointerToPointerWithData;
-        // (Ostrzeżenie: póki nie ma splitu, odczyta max M elementów z rosnącej w nieskończoność listy)
+        // (Warning: until split is implemented, it reads at most M elements from an infinitely growing list)
         while (curPtr != -1 && i < M) {
             block = calculateBlock(curPtr);
             buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
@@ -285,7 +285,7 @@ static inline DataBtree* getData(int32_t start, int32_t tableId, int32_t columnI
                     if (type > 0 && length >= 0) {
                         all_var_unmarshal(&(data->data[i]), type, dataBuffor->buf + dataOffset + sizeof(int16_t) + sizeof(int32_t), length);
 
-                        // POPRAWKA 2: Prawidłowe odczytywanie pointerToBlocks (z końca zapisu danych)
+                        // FIX 2: Correct reading of pointerToBlocks (from the end of data record)
                         int32_t ptrToBlocks = -1;
                         unmarshal_int32(&ptrToBlocks, dataBuffor->buf + dataOffset + sizeof(int16_t) + sizeof(int32_t) + length);
 
@@ -298,7 +298,7 @@ static inline DataBtree* getData(int32_t start, int32_t tableId, int32_t columnI
             curPtr = pointerToNextPointerWithData;
         }
 
-        // POPRAWKA 3: Zapisujemy ilość faktycznie zdekodowanych elementów
+        // FIX 3: Store the number of actually decoded elements
         data->size = i;
         return data;
     }
@@ -347,15 +347,15 @@ int32_t getLastBlockOffset(int32_t firstBlockOffset, int32_t tableId, int32_t co
 
         int32_t inBlockOffset = curOffset % BLOCK_SIZE;
 
-        // 3. Odczyt wskaźnika do NASTĘPNEGO bloku (+4 bajty, bo pierwsze 4B to blockId)
+        // 3. Read pointer to NEXT block (+4 bytes, because first 4B is blockId)
         unmarshal_int32(&nextOffset, buffor->buf + inBlockOffset + sizeof(int32_t));
 
-        // 4. Jeśli następny to -1, to curOffset jest OSTATNIM blokiem!
+        // 4. If next is -1, then curOffset is the LAST block!
         if (nextOffset == -1) {
-            return curOffset; // Zwracamy offset ostatniego bloku
+            return curOffset; // Return offset of the last block
         }
 
-        // 5. Przechodzimy do następnego bloku
+        // 5. Move to the next block
         curOffset = nextOffset;
     }
 
@@ -384,10 +384,10 @@ int8_t checkForEqualAndAdd(AllVar val, int32_t blockIdVal, BtreeBuffors *btreeBu
         if (all_var_cmp(&dataAllvar->data[i], &val) == 0) {
             int32_t indexFinded = dataAllvar->dataOffsets[i];
             addBlockToVal(indexFinded, tableId, columnIndex, btreeBuffors, fsmMap, blockIdVal);
-            return 1; // Zwracamy 1, jeśli wartość została dodana
+            return 1; // Return 1 if value was added
         }
     }
-    return 0; // Zwracamy 0, jeśli wartość nie została dodana
+    return 0; // Return 0 if value was not added
 }
 
 static inline void addValDirectly(int32_t offset, AllVar val, int32_t pointerToBlocks, BtreeBuffors *btreeBuffors,
@@ -408,7 +408,7 @@ static inline void addValDirectly(int32_t offset, AllVar val, int32_t pointerToB
 
 static inline int32_t getToLastPointerToData(int32_t pointerToDataStart, int32_t tableId,
                                                  int32_t columnIndex, BtreeBuffors *btreeBuffors) {
-    // Zabezpieczenie przed błędnymi danymi wejściowymi
+    // Guard against invalid input data
     if (pointerToDataStart == -1 || btreeBuffors == NULL) {
         return -1;
     }
@@ -416,32 +416,32 @@ static inline int32_t getToLastPointerToData(int32_t pointerToDataStart, int32_t
     int32_t curPtdOffset = pointerToDataStart;
     int32_t lastPtdOffset = curPtdOffset;
 
-    // Przechodzimy po łańcuchu dopóki nie trafimy na koniec (-1)
+    // Traverse the chain until reaching the end (-1)
     while (curPtdOffset != -1) {
-        // 1. Wyliczamy blok i pobieramy bufor
+        // 1. Calculate block and get buffer
         int32_t block = calculateBlock(curPtdOffset);
         BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
         if (buffor == NULL) {
-            break; // W razie błędu odczytu przerywamy
+            break; // Break on read error
         }
 
-        // 2. Odczytujemy pierwsze 4 bajty w strukturze (pointerDataToNextPointerData)
+        // 2. Read the first 4 bytes in the structure (pointerDataToNextPointerData)
         int32_t inBlockOffset = curPtdOffset % BLOCK_SIZE;
         int32_t nextPtdOffset = -1;
         unmarshal_int32(&nextPtdOffset, buffor->buf + inBlockOffset);
 
-        // 3. Jeśli następny offset to -1, to znaczy że jesteśmy w ostatnim elemencie
+        // 3. If next offset is -1, it means we are at the last element
         if (nextPtdOffset == -1) {
             lastPtdOffset = curPtdOffset;
             break;
         }
 
-        // 4. Przechodzimy do następnego elementu
+        // 4. Move to the next element
         curPtdOffset = nextPtdOffset;
         lastPtdOffset = curPtdOffset;
     }
 
-    // Zwracamy offset ostatniego pointerToData
+    // Return offset of the last pointerToData
     return lastPtdOffset;
 }
 
@@ -449,37 +449,37 @@ static inline int32_t getToLastPointerToData(int32_t pointerToDataStart, int32_t
 static inline int32_t findFreeSpace(int32_t tableId, int32_t columnIndex, int32_t sizeNeeded,
                                         BtreeBuffors *btreeBuffors, int32_t blockEntry, FSMMapBtree *fsmMapBtree) {
 
-    // Zaczynamy szukanie od początkowego bloku dla danego typu (np. 1, 2, lub 3)
+    // Start search from the initial block for the given type (e.g., 1, 2, or 3)
     int32_t curBlock = blockEntry;
 
     while (1) {
-        // Sprawdzamy czy dany blok jest już zarejestrowany w mapie FSM
+        // Check if the given block is already registered in the FSM map
         BtreeBlockEntry *blockMeta = fsm_btree_get_block(fsmMapBtree, tableId, columnIndex, curBlock);
 
         if (blockMeta == NULL) {
-            // Blok nie istnieje w FSM - dotarliśmy do końca przydzielonych bloków tego typu.
-            // Rejestrujemy nowy blok z zajętym rozmiarem = 0.
+            // Block does not exist in FSM - reached the end of allocated blocks of this type.
+            // Register new block with used size = 0.
             fsm_btree_add_block(fsmMapBtree, tableId, columnIndex, curBlock, 0);
 
-            // Zwracamy fizyczny offset w pliku (początek nowo alokowanego bloku)
+            // Return physical offset in file (start of the newly allocated block)
             return curBlock * BLOCK_SIZE;
         }
         else {
-            // Blok istnieje. Sprawdzamy, czy po dodaniu 'sizeNeeded' nie przekroczymy limitu (btreeFreeSpace).
+            // Block exists. Check if adding 'sizeNeeded' exceeds the limit (btreeFreeSpace).
             if (blockMeta->blockSize + sizeNeeded <= btreeFreeSpace) {
-                // Jest wystarczająco wolnego miejsca! Zwracamy dokładny offset, od którego można pisać.
+                // There is enough free space! Return the exact offset to write to.
                 return (curBlock * BLOCK_SIZE) + blockMeta->blockSize;
             }
         }
 
-        // W tym bloku nie ma już miejsca - skaczemy o 4 bloki dalej
+        // No space left in this block - jump 4 blocks ahead
         curBlock += 4;
     }
 }
 
 static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int32_t columnIndex,
                                             BtreeBuffors *btreeBuffors, FSMMapBtree *fsmMap) {
-        int32_t size = sizeof(int32_t) * 2; // 8 bajtów (blockId + nextBlockOffset)
+        int32_t size = sizeof(int32_t) * 2; // 8 bytes (blockId + nextBlockOffset)
         int32_t offset = findFreeSpace(tableId, columnIndex, size, btreeBuffors, 3, fsmMap);
 
         int32_t block = calculateBlock(offset);
@@ -487,14 +487,14 @@ static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int
         if (buffor != NULL) {
             int32_t inBlock = offset % BLOCK_SIZE;
             marshal_int32(buffor->buf + inBlock, blockIdVal);
-            marshal_int32(buffor->buf + inBlock + sizeof(int32_t), -1); // na start brak następnego
+            marshal_int32(buffor->buf + inBlock + sizeof(int32_t), -1); // initially no next block
             buffor->isDirty = 1;
             fsm_btree_append_to_block(fsmMap, tableId, columnIndex, block, size);
         }
         return offset;
     }
 
-    // 2. Tworzy wpis dla dataBtree (Blok 2 - wartości klucza i wskaźnik do Blocks)
+    // 2. Creates entry for dataBtree (Block 2 - key values and pointer to Blocks)
     static inline int32_t createDataEntry(AllVar val, int32_t pointerToBlocks, int32_t tableId,
                                           int32_t columnIndex, BtreeBuffors *btreeBuffors, FSMMapBtree *fsmMap) {
         int32_t dataSize = sizeof(int16_t) + sizeof(int32_t) + all_var_size(&val) + sizeof(int32_t);
@@ -514,18 +514,18 @@ static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int
         return offset;
     }
 
-    // 3. Główna funkcja orkiestrująca, tworzy pointerToData (Blok 1) wywołując funkcje "w głąb"
+    // 3. Main orchestrating function, creates pointerToData (Block 1) calling deeper functions
     static inline void insertNewDataToLeaf(AllVar val, int32_t blockIdVal, int32_t lastPtdOffset, int32_t nodeOffset,
                                            int32_t tableId, int32_t columnIndex, BtreeBuffors *btreeBuffors, FSMMapBtree *fsmMap) {
 
-        // A) Tworzymy od najgłębszej warstwy: wpis bloków (Block 3)
+        // A) Create from deepest layer: blocks entry (Block 3)
         int32_t blocksOffset = createBlocksEntry(blockIdVal, tableId, columnIndex, btreeBuffors, fsmMap);
 
-        // B) Tworzymy wartość (Block 2) powiązaną ze stworzonym wpisem bloków
+        // B) Create value (Block 2) linked to created blocks entry
         int32_t dataOffset = createDataEntry(val, blocksOffset, tableId, columnIndex, btreeBuffors, fsmMap);
 
-        // C) Tworzymy pointerToData (Block 1) i wiążemy go z listą w liściu
-        int32_t size = sizeof(int32_t) * 2; // 8 bajtów (nextPtd + dataPtr)
+        // C) Create pointerToData (Block 1) and link it to the list in the leaf
+        int32_t size = sizeof(int32_t) * 2; // 8 bytes (nextPtd + dataPtr)
         int32_t newPtdOffset = findFreeSpace(tableId, columnIndex, size, btreeBuffors, 1, fsmMap);
 
         int32_t block = calculateBlock(newPtdOffset);
@@ -538,7 +538,7 @@ static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int
             fsm_btree_append_to_block(fsmMap, tableId, columnIndex, block, size);
         }
 
-        // D) Podpinamy nowy element do "last" (poprzedniego na liście) lub do głowy węzła
+        // D) Link new element to "last" (previous on the list) or to node head
         if (lastPtdOffset != -1) {
             int32_t prevBlock = calculateBlock(lastPtdOffset);
             BtreeBuffor *prevBuf = getBtreeBuffor(tableId, columnIndex, prevBlock, btreeBuffors);
@@ -547,7 +547,7 @@ static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int
                 prevBuf->isDirty = 1;
             }
         } else {
-            // Jeśli węzeł był zupełnie pusty, podpinamy do nagłówka (nodeOffset)
+            // If node was completely empty, link to header (nodeOffset)
             int32_t nodeBlock = calculateBlock(nodeOffset);
             BtreeBuffor *nodeBuf = getBtreeBuffor(tableId, columnIndex, nodeBlock, btreeBuffors);
             if (nodeBuf != NULL) {
@@ -562,7 +562,7 @@ static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int
 
 static inline void addToBtree(AllVar val, int32_t blockIdVal, BtreeBuffors *btreeBuffors, int32_t tableId,
                               int32_t columnIndex, FSMMapBtree *fsmMap) {
-        printf("DODAJĘ DO DRZEWA WARTOSC (Type: %d, Val: %d)\n", val.type, val.val.i32);
+        printf("ADDING VALUE TO TREE (Type: %d, Val: %d)\n", val.type, val.val.i32);
         if (btreeBuffors == NULL || fsmMap == NULL) {
             LOG_ERROR("addToBtree: Buffors or FSMMap is NULL");
             return;
@@ -670,7 +670,7 @@ static inline int32_t getBlockBtree(AllVar val, BtreeBuffors *btreeBuffors, int3
 
         int32_t offset = 0;
 
-        // 1. Przechodzenie w dół drzewa (węzły wewnętrzne)
+        // 1. Traversing down the tree (internal nodes)
         while (offset != -1) {
             int32_t block = calculateBlock(offset);
             BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
@@ -727,5 +727,579 @@ static inline int32_t getBlockBtree(AllVar val, BtreeBuffors *btreeBuffors, int3
 
 //------------------------------------------delete-----------------------------
 
-void delte
+void deleteBlock(FSMMapBtree *fsm,BtreeBuffors *btreeBuffors, int32_t tableId, int32_t columnIndex,int32_t blockId,int32_t offset) {
+    int32_t blockEach;
+    int32_t prevOffset = -1;
+    int32_t block = calculateBlock(offset);
+    BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+    unmarshal_int32(&blockEach,buffor->buf + (offset % BLOCK_SIZE));
+    while (blockEach!=blockId) {
+        prevOffset = offset;
+        unmarshal_int32(&offset,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+        block = calculateBlock(offset);
+        buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        unmarshal_int32(&blockEach,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+    }
+    if (prevOffset != -1) {
+        int32_t nextOffset;
+        unmarshal_int32(&nextOffset,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+
+        memset(buffor->buf + offset, 0, 8);
+        block = calculateBlock(offset);
+        buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        deleteElementUpdateSpace(fsm,tableId,columnIndex,block,offset,8);
+        marshal_int32(buffor->buf+prevOffset+sizeof(int32_t), nextOffset );
+    }
+    else {
+
+    }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  HELPER STRUCT — stores offsets needed for value deletion
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+typedef struct {
+    int32_t ptdOffset;       // PointerToData entry offset (Block 1)
+    int32_t prevPtdOffset;   // Previous PTD offset (-1 if head)
+    int32_t dataOffset;      // Data entry offset (Block 2)
+    int32_t ptrToBlocks;     // Block list head offset (Block 3)
+    int8_t  found;           // 1 if value found
+} BtreeDeleteInfo;
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 1 — REMOVING BLOCK FROM LIST (Block 3)
+ *
+ *  Removes blockId from the linked list of blocks.
+ *  Returns new head offset of the list (-1 if the list is now empty).
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline int32_t deleteBlockEntry(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+                                       int32_t tableId, int32_t columnIndex,
+                                       int32_t blockId, int32_t headOffset) {
+    if (headOffset == -1) return -1;
+
+    int32_t curOffset = headOffset;
+    int32_t prevOffset = -1;
+
+    while (curOffset != -1) {
+        int32_t block = calculateBlock(curOffset);
+        BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        if (buffor == NULL) return headOffset;
+
+        int32_t inBlock = curOffset % BLOCK_SIZE;
+        int32_t curBlockId = 0;
+        int32_t nextOffset = -1;
+        unmarshal_int32(&curBlockId, buffor->buf + inBlock);
+        unmarshal_int32(&nextOffset, buffor->buf + inBlock + sizeof(int32_t));
+
+        if (curBlockId == blockId) {
+            // Found — zero out this entry (8 bytes: blockId + nextOffset)
+            memset(buffor->buf + inBlock, 0, 8);
+            buffor->isDirty = 1;
+            deleteElementUpdateSpace(fsm, tableId, columnIndex, block, curOffset, 8);
+
+            if (prevOffset != -1) {
+                // Removing from middle/end — rewire prev->next
+                int32_t prevBlock = calculateBlock(prevOffset);
+                BtreeBuffor *prevBuf = getBtreeBuffor(tableId, columnIndex, prevBlock, btreeBuffors);
+                if (prevBuf != NULL) {
+                    marshal_int32(prevBuf->buf + (prevOffset % BLOCK_SIZE) + sizeof(int32_t), nextOffset);
+                    prevBuf->isDirty = 1;
+                }
+                return headOffset;
+            } else {
+                // Removing head — new head is nextOffset (-1 if list is empty)
+                return nextOffset;
+            }
+        }
+
+        prevOffset = curOffset;
+        curOffset = nextOffset;
+    }
+
+    return headOffset; // Not found — do not change anything
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 2 — UPDATING ptrToBlocks IN DATA ENTRY (Block 2)
+ *
+ *  When the block list head has changed, update the pointer in DataEntry.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void updateDataEntryBlocksPtr(BtreeBuffors *btreeBuffors,
+                                            int32_t tableId, int32_t columnIndex,
+                                            int32_t dataOffset, AllVar *val,
+                                            int32_t newPtrToBlocks) {
+    if (dataOffset == -1) return;
+
+    int32_t block = calculateBlock(dataOffset);
+    BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+    if (buffor == NULL) return;
+
+    int32_t inBlock = dataOffset % BLOCK_SIZE;
+    // ptrToBlocks is at the end of entry: type(2B) + length(4B) + value(varLen)
+    int32_t ptrOffset = inBlock + sizeof(int16_t) + sizeof(int32_t) + all_var_size(val);
+    marshal_int32(buffor->buf + ptrOffset, newPtrToBlocks);
+    buffor->isDirty = 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 3 — REMOVING DATA ENTRY (Block 2)
+ *
+ *  Zeros out the entire data entry when the block list is empty.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void deleteDataEntry(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+                                   int32_t tableId, int32_t columnIndex,
+                                   int32_t dataOffset, AllVar *val) {
+    if (dataOffset == -1) return;
+
+    int32_t block = calculateBlock(dataOffset);
+    BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+    if (buffor == NULL) return;
+
+    // Entry size: type(2B) + length(4B) + value(varLen) + ptrToBlocks(4B)
+    int32_t dataSize = sizeof(int16_t) + sizeof(int32_t) + all_var_size(val) + sizeof(int32_t);
+    int32_t inBlock = dataOffset % BLOCK_SIZE;
+
+    memset(buffor->buf + inBlock, 0, dataSize);
+    buffor->isDirty = 1;
+    deleteElementUpdateSpace(fsm, tableId, columnIndex, block, dataOffset, dataSize);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 4 — REMOVING POINTER-TO-DATA (Block 1)
+ *
+ *  Removes PTD entry from linked list and updates head in node if needed.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void deletePointerToDataEntry(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+                                            int32_t tableId, int32_t columnIndex,
+                                            int32_t nodeOffset,
+                                            int32_t ptdOffset, int32_t prevPtdOffset) {
+    if (ptdOffset == -1) return;
+
+    int32_t block = calculateBlock(ptdOffset);
+    BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+    if (buffor == NULL) return;
+
+    int32_t inBlock = ptdOffset % BLOCK_SIZE;
+
+    // Read nextPtd before zeroing out
+    int32_t nextPtd = -1;
+    unmarshal_int32(&nextPtd, buffor->buf + inBlock);
+
+    // Zero out PTD entry (8 bytes: nextPtd + dataPtr)
+    memset(buffor->buf + inBlock, 0, 8);
+    buffor->isDirty = 1;
+    deleteElementUpdateSpace(fsm, tableId, columnIndex, block, ptdOffset, 8);
+
+    if (prevPtdOffset != -1) {
+        // Rewire prev->next to our next
+        int32_t prevBlock = calculateBlock(prevPtdOffset);
+        BtreeBuffor *prevBuf = getBtreeBuffor(tableId, columnIndex, prevBlock, btreeBuffors);
+        if (prevBuf != NULL) {
+            marshal_int32(prevBuf->buf + (prevPtdOffset % BLOCK_SIZE), nextPtd);
+            prevBuf->isDirty = 1;
+        }
+    } else {
+        // Removing PTD list head — update pointer in node (Block 0)
+        int32_t nodeBlock = calculateBlock(nodeOffset);
+        BtreeBuffor *nodeBuf = getBtreeBuffor(tableId, columnIndex, nodeBlock, btreeBuffors);
+        if (nodeBuf != NULL) {
+            marshal_int32(nodeBuf->buf + (nodeOffset % BLOCK_SIZE), nextPtd);
+            nodeBuf->isDirty = 1;
+        }
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  HELPER — SEARCHING VALUE IN LEAF
+ *
+ *  Traverses the PTD list in the node and searches for value val.
+ *  Returns BtreeDeleteInfo with all offsets needed for deletion.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline BtreeDeleteInfo findValueInLeaf(int32_t nodeOffset, AllVar *val,
+                                              int32_t tableId, int32_t columnIndex,
+                                              BtreeBuffors *btreeBuffors) {
+    BtreeDeleteInfo info = {-1, -1, -1, -1, 0};
+
+    int32_t nodeBlock = calculateBlock(nodeOffset);
+    BtreeBuffor *nodeBuf = getBtreeBuffor(tableId, columnIndex, nodeBlock, btreeBuffors);
+    if (nodeBuf == NULL) return info;
+
+    int32_t ptdHead = -1;
+    unmarshal_int32(&ptdHead, nodeBuf->buf + (nodeOffset % BLOCK_SIZE));
+
+    int32_t curPtd = ptdHead;
+    int32_t prevPtd = -1;
+
+    while (curPtd != -1) {
+        int32_t block = calculateBlock(curPtd);
+        BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        if (buffor == NULL) return info;
+
+        int32_t inBlock = curPtd % BLOCK_SIZE;
+        int32_t nextPtd = -1;
+        int32_t dataPtr = -1;
+        unmarshal_int32(&nextPtd, buffor->buf + inBlock);
+        unmarshal_int32(&dataPtr, buffor->buf + inBlock + sizeof(int32_t));
+
+        if (dataPtr != -1) {
+            int32_t dataBlock = calculateBlock(dataPtr);
+            BtreeBuffor *dataBuf = getBtreeBuffor(tableId, columnIndex, dataBlock, btreeBuffors);
+            if (dataBuf != NULL) {
+                int32_t dataInBlock = dataPtr % BLOCK_SIZE;
+                int16_t type = 0;
+                int32_t length = 0;
+                unmarshal_int16(&type, dataBuf->buf + dataInBlock);
+                unmarshal_int32(&length, dataBuf->buf + dataInBlock + sizeof(int16_t));
+
+                if (type > 0 && length >= 0) {
+                    AllVar curVal;
+                    all_var_unmarshal(&curVal, type,
+                                     dataBuf->buf + dataInBlock + sizeof(int16_t) + sizeof(int32_t),
+                                     length);
+
+                    if (all_var_cmp(&curVal, val) == 0) {
+                        int32_t ptrToBlocks = -1;
+                        unmarshal_int32(&ptrToBlocks,
+                                        dataBuf->buf + dataInBlock + sizeof(int16_t) + sizeof(int32_t) + length);
+
+                        info.ptdOffset     = curPtd;
+                        info.prevPtdOffset = prevPtd;
+                        info.dataOffset    = dataPtr;
+                        info.ptrToBlocks   = ptrToBlocks;
+                        info.found         = 1;
+                        return info;
+                    }
+                }
+            }
+        }
+
+        prevPtd = curPtd;
+        curPtd = nextPtd;
+    }
+
+    return info;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  HELPER — CHECKING IF NODE IS EMPTY
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline int8_t isNodeEmpty(int32_t nodeOffset, int32_t tableId,
+                                 int32_t columnIndex, BtreeBuffors *btreeBuffors) {
+    int32_t block = calculateBlock(nodeOffset);
+    BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+    if (buffor == NULL) return 1;
+
+    int32_t ptdHead = -1;
+    unmarshal_int32(&ptdHead, buffor->buf + (nodeOffset % BLOCK_SIZE));
+    return (ptdHead == -1) ? 1 : 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  HELPER — COUNTING KEYS IN NODE
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline int32_t countNodeKeys(int32_t nodeOffset, int32_t tableId,
+                                    int32_t columnIndex, BtreeBuffors *btreeBuffors) {
+    int32_t block = calculateBlock(nodeOffset);
+    BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+    if (buffor == NULL) return 0;
+
+    int32_t ptdHead = -1;
+    unmarshal_int32(&ptdHead, buffor->buf + (nodeOffset % BLOCK_SIZE));
+
+    int32_t count = 0;
+    int32_t curPtd = ptdHead;
+    while (curPtd != -1) {
+        count++;
+        int32_t ptdBlock = calculateBlock(curPtd);
+        BtreeBuffor *ptdBuf = getBtreeBuffor(tableId, columnIndex, ptdBlock, btreeBuffors);
+        if (ptdBuf == NULL) break;
+        unmarshal_int32(&curPtd, ptdBuf->buf + (curPtd % BLOCK_SIZE));
+    }
+    return count;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 5a — REDISTRIBUTION BETWEEN NODES (Block 0)
+ *
+ *  Transfers LAST key from source node to destination node.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void redistributeFromNode(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+                                        int32_t tableId, int32_t columnIndex,
+                                        int32_t srcNodeOffset, int32_t destNodeOffset) {
+    int32_t srcBlock = calculateBlock(srcNodeOffset);
+    BtreeBuffor *srcBuf = getBtreeBuffor(tableId, columnIndex, srcBlock, btreeBuffors);
+    if (srcBuf == NULL) return;
+
+    int32_t ptdHead = -1;
+    unmarshal_int32(&ptdHead, srcBuf->buf + (srcNodeOffset % BLOCK_SIZE));
+    if (ptdHead == -1) return;
+
+    // Traverse to the last element
+    int32_t curPtd = ptdHead;
+    int32_t prevPtd = -1;
+    int32_t nextPtd = -1;
+
+    while (1) {
+        int32_t ptdBlock = calculateBlock(curPtd);
+        BtreeBuffor *ptdBuf = getBtreeBuffor(tableId, columnIndex, ptdBlock, btreeBuffors);
+        if (ptdBuf == NULL) return;
+
+        unmarshal_int32(&nextPtd, ptdBuf->buf + (curPtd % BLOCK_SIZE));
+        if (nextPtd == -1) break;
+
+        prevPtd = curPtd;
+        curPtd = nextPtd;
+    }
+
+    // Disconnect the last PTD from srcNode
+    if (prevPtd != -1) {
+        int32_t prevBlock = calculateBlock(prevPtd);
+        BtreeBuffor *prevBuf = getBtreeBuffor(tableId, columnIndex, prevBlock, btreeBuffors);
+        if (prevBuf != NULL) {
+            marshal_int32(prevBuf->buf + (prevPtd % BLOCK_SIZE), -1);
+            prevBuf->isDirty = 1;
+        }
+    } else {
+        srcBuf = getBtreeBuffor(tableId, columnIndex, srcBlock, btreeBuffors);
+        if (srcBuf != NULL) {
+            marshal_int32(srcBuf->buf + (srcNodeOffset % BLOCK_SIZE), -1);
+            srcBuf->isDirty = 1;
+        }
+    }
+
+    // Insert the moved PTD at the beginning of destNode list
+    int32_t destBlock = calculateBlock(destNodeOffset);
+    BtreeBuffor *destBuf = getBtreeBuffor(tableId, columnIndex, destBlock, btreeBuffors);
+    if (destBuf == NULL) return;
+
+    int32_t destHead = -1;
+    unmarshal_int32(&destHead, destBuf->buf + (destNodeOffset % BLOCK_SIZE));
+
+    int32_t movedBlock = calculateBlock(curPtd);
+    BtreeBuffor *movedBuf = getBtreeBuffor(tableId, columnIndex, movedBlock, btreeBuffors);
+    if (movedBuf != NULL) {
+        marshal_int32(movedBuf->buf + (curPtd % BLOCK_SIZE), destHead);
+        movedBuf->isDirty = 1;
+    }
+
+    destBuf = getBtreeBuffor(tableId, columnIndex, destBlock, btreeBuffors);
+    if (destBuf != NULL) {
+        marshal_int32(destBuf->buf + (destNodeOffset % BLOCK_SIZE), curPtd);
+        destBuf->isDirty = 1;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 5b — MERGING TWO NODES (Block 0)
+ *
+ *  Transfers ALL keys from srcNode to the end of destNode.
+ *  After the operation, srcNode is empty.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void mergeNodes(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+                              int32_t tableId, int32_t columnIndex,
+                              int32_t srcNodeOffset, int32_t destNodeOffset) {
+    int32_t srcBlock = calculateBlock(srcNodeOffset);
+    BtreeBuffor *srcBuf = getBtreeBuffor(tableId, columnIndex, srcBlock, btreeBuffors);
+    if (srcBuf == NULL) return;
+
+    int32_t srcHead = -1;
+    unmarshal_int32(&srcHead, srcBuf->buf + (srcNodeOffset % BLOCK_SIZE));
+    if (srcHead == -1) return;
+
+    int32_t destBlock = calculateBlock(destNodeOffset);
+    BtreeBuffor *destBuf = getBtreeBuffor(tableId, columnIndex, destBlock, btreeBuffors);
+    if (destBuf == NULL) return;
+
+    int32_t destHead = -1;
+    unmarshal_int32(&destHead, destBuf->buf + (destNodeOffset % BLOCK_SIZE));
+
+    if (destHead == -1) {
+        // destNode is empty — head becomes srcHead
+        marshal_int32(destBuf->buf + (destNodeOffset % BLOCK_SIZE), srcHead);
+        destBuf->isDirty = 1;
+    } else {
+        // Search for the last PTD in destNode
+        int32_t lastPtd = destHead;
+        int32_t nextPtd = -1;
+        while (1) {
+            int32_t ptdBlock = calculateBlock(lastPtd);
+            BtreeBuffor *ptdBuf = getBtreeBuffor(tableId, columnIndex, ptdBlock, btreeBuffors);
+            if (ptdBuf == NULL) return;
+
+            unmarshal_int32(&nextPtd, ptdBuf->buf + (lastPtd % BLOCK_SIZE));
+            if (nextPtd == -1) break;
+            lastPtd = nextPtd;
+        }
+
+        // Attach srcHead to the end of destNode
+        int32_t lastBlock = calculateBlock(lastPtd);
+        BtreeBuffor *lastBuf = getBtreeBuffor(tableId, columnIndex, lastBlock, btreeBuffors);
+        if (lastBuf != NULL) {
+            marshal_int32(lastBuf->buf + (lastPtd % BLOCK_SIZE), srcHead);
+            lastBuf->isDirty = 1;
+        }
+    }
+
+    // Zero out head of srcNode
+    srcBuf = getBtreeBuffor(tableId, columnIndex, srcBlock, btreeBuffors);
+    if (srcBuf != NULL) {
+        marshal_int32(srcBuf->buf + (srcNodeOffset % BLOCK_SIZE), -1);
+        srcBuf->isDirty = 1;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  STEP 5c — REMOVING EMPTY CHILD FROM PARENT (Block 0)
+ *
+ *  Removes empty child node from parent's pointer array
+ *  and shifts subsequent pointers one position to the left.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void removeChildFromParent(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+                                         int32_t tableId, int32_t columnIndex,
+                                         int32_t parentOffset, int32_t childOffset) {
+    if (parentOffset == -1 || childOffset == -1) return;
+
+    int32_t parentBlock = calculateBlock(parentOffset);
+    BtreeBuffor *parentBuf = getBtreeBuffor(tableId, columnIndex, parentBlock, btreeBuffors);
+    if (parentBuf == NULL) return;
+
+    int32_t nextLevelPtr = -1;
+    unmarshal_int32(&nextLevelPtr, parentBuf->buf + (parentOffset % BLOCK_SIZE) + sizeof(int32_t));
+    if (nextLevelPtr == -1) return;
+
+    for (int i = 0; i <= M; i++) {
+        int32_t slotOffset = nextLevelPtr + (int32_t)(i * sizeof(int32_t));
+        int32_t slotBlock = calculateBlock(slotOffset);
+        BtreeBuffor *slotBuf = getBtreeBuffor(tableId, columnIndex, slotBlock, btreeBuffors);
+        if (slotBuf == NULL) return;
+
+        int32_t childPtr = -1;
+        unmarshal_int32(&childPtr, slotBuf->buf + (slotOffset % BLOCK_SIZE));
+        if (childPtr == -1) break;
+
+        if (childPtr == childOffset) {
+            // Shift subsequent pointers one position to the left
+            for (int j = i; j < M; j++) {
+                int32_t nextSlot = nextLevelPtr + (int32_t)((j + 1) * sizeof(int32_t));
+                int32_t nextSlotBlock = calculateBlock(nextSlot);
+                BtreeBuffor *nextSlotBuf = getBtreeBuffor(tableId, columnIndex, nextSlotBlock, btreeBuffors);
+                if (nextSlotBuf == NULL) break;
+
+                int32_t nextChild = -1;
+                unmarshal_int32(&nextChild, nextSlotBuf->buf + (nextSlot % BLOCK_SIZE));
+
+                int32_t curSlot = nextLevelPtr + (int32_t)(j * sizeof(int32_t));
+                int32_t curSlotBlock = calculateBlock(curSlot);
+                BtreeBuffor *curSlotBuf = getBtreeBuffor(tableId, columnIndex, curSlotBlock, btreeBuffors);
+                if (curSlotBuf != NULL) {
+                    marshal_int32(curSlotBuf->buf + (curSlot % BLOCK_SIZE), nextChild);
+                    curSlotBuf->isDirty = 1;
+                }
+
+                if (nextChild == -1) break;
+            }
+            return;
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  ORCHESTRATOR — deleteVal
+ *
+ *  Combines all steps:
+ *    1. B-tree navigation down to leaf
+ *    2. findValueInLeaf — searches for value and collects offsets
+ *    3. deleteBlockEntry — removes blockId from block list (Block 3)
+ *    4. If list is empty → deleteDataEntry + deletePointerToDataEntry
+ *    5. If node is empty → removeChildFromParent
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+void deleteVal(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
+               int32_t tableId, int32_t columnIndex,
+               int32_t blockId, AllVar val) {
+    if (btreeBuffors == NULL || fsm == NULL) return;
+
+    BtreeTableEntry *table = fsm_btree_get_table(fsm, tableId);
+    if (table == NULL) return;
+
+    BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
+    if (col == NULL) return;
+
+    int32_t offset = 0;
+    int32_t parentOffset = -1;
+
+    /* ── 1. Navigation down the tree ── */
+    while (offset != -1) {
+        int32_t block = calculateBlock(offset);
+        BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        if (buffor == NULL) return;
+
+        int32_t nextLevelPtr = -1;
+        unmarshal_int32(&nextLevelPtr, buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+        if (nextLevelPtr == -1) {
+            break;
+        }
+
+        DataBtree *dataAllvar = getData(offset, tableId, columnIndex, btreeBuffors);
+        if (dataAllvar == NULL) return;
+
+        int32_t idx = findSmaller(dataAllvar->data, dataAllvar->size, val);
+        parentOffset = offset;
+        offset = nextLevelPtr + (int32_t)(idx * sizeof(int32_t));
+        free(dataAllvar);
+    }
+
+    /* ── 2. Search for value in leaf ── */
+    BtreeDeleteInfo info = findValueInLeaf(offset, &val, tableId, columnIndex, btreeBuffors);
+    if (!info.found) return;
+
+    /* ── 3. Remove blockId from block list (Block 3) ── */
+    int32_t newHead = deleteBlockEntry(fsm, btreeBuffors, tableId, columnIndex,
+                                       blockId, info.ptrToBlocks);
+
+    if (newHead != info.ptrToBlocks) {
+        if (newHead != -1) {
+            /* Head changed but list is not empty — update pointer */
+            updateDataEntryBlocksPtr(btreeBuffors, tableId, columnIndex,
+                                     info.dataOffset, &val, newHead);
+        } else {
+            /* ── 4. Block list empty — remove DataEntry and PTD ── */
+            deleteDataEntry(fsm, btreeBuffors, tableId, columnIndex,
+                            info.dataOffset, &val);
+
+            deletePointerToDataEntry(fsm, btreeBuffors, tableId, columnIndex,
+                                     offset, info.ptdOffset, info.prevPtdOffset);
+
+            /* ── 5. Check if node requires cleanup ── */
+            if (isNodeEmpty(offset, tableId, columnIndex, btreeBuffors) && parentOffset != -1) {
+                removeChildFromParent(fsm, btreeBuffors, tableId, columnIndex,
+                                      parentOffset, offset);
+            }
+        }
+    }
+}
+
+
 #endif //QUAKEDB3_0_BTREEFILEOPERATION_H

@@ -83,6 +83,12 @@ if(CMOCKA_LIBRARY)
     target_link_libraries(test_stress ${CMOCKA_LIBRARY})
     target_compile_definitions(test_stress PRIVATE LOG_LEVEL=0)
 
+    add_executable(test_btree_operations
+            ${CORE_SOURCES}
+            core/indexes/tests/test_btree_operations.c
+    )
+    target_compile_definitions(test_btree_operations PRIVATE LOG_LEVEL=0)
+
     foreach(TEST_FILE ${TEST_SOURCES})
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
         add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}

@@ -10,7 +10,14 @@
 #include "../../bufforing-stm/bufforing-stm/uthash.h"
 
 typedef struct {
+    int16_t *pointerTofreeSpaceGaps[BLOCK_SIZE];
+    int16_t *sizeFreeSpaceGaps[BLOCK_SIZE];   // only in data case
+    int32_t freeSpaceGapsCount;
+}FreeSpaceGaps;
+
+typedef struct {
     int32_t blockId;
+    FreeSpaceGaps *freeSpaceGaps;
     int32_t blockSize;
     UT_hash_handle hh;
 } BtreeBlockEntry;
@@ -220,6 +227,29 @@ static inline void fsm_btree_free(FSMMapBtree *fsm) {
     }
     fsm->tables = NULL;
     fsm->tableCount = 0;
+}
+
+// freeSpaceFunctions
+
+void deleteElementUpdateSpace(FSMMapBtree *fsm, int32_t tableId,int32_t columnIndex,int32_t block,int32_t startPosition,int32_t dataSize) {
+    BtreeBlockEntry* btreeBlockEntry = fsm_btree_get_block(fsm, tableId, columnIndex,block);
+    if (btreeBlockEntry == NULL) return;
+    if (btreeBlockEntry->freeSpaceGaps == NULL) {
+        FreeSpaceGaps *newGaps = malloc(sizeof(FreeSpaceGaps));
+        newGaps->freeSpaceGapsCount = 0;
+        newGaps->freeSpaceGapsCount++;
+        if (block%4==0) {
+            newGaps->pointerTofreeSpaceGaps[newGaps->freeSpaceGapsCount] = malloc(sizeof(FreeSpaceGaps));
+            newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount] = malloc(sizeof(FreeSpaceGaps));
+            *(newGaps->pointerTofreeSpaceGaps[newGaps->freeSpaceGapsCount]) = (int16_t)(startPosition%BLOCK_SIZE);
+            *(newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount]) = dataSize;
+        }
+        else {
+            newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount] = malloc(sizeof(FreeSpaceGaps));
+            *(newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount]) = (int16_t)(startPosition%BLOCK_SIZE);
+        }
+    }
+
 }
 
 
