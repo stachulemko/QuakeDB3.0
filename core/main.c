@@ -71,7 +71,8 @@ int main(void) {
     full_scan.rt = &result_tuple;
     full_scan.qe = &qe;
     //showBuffors(&buffors);
-    fullScan(&full_scan,&buffors);
+    fullScanWithUpdate(&full_scan,&buffors);
+    /*
     showBuffors(&buffors);
     printResultTuple(&result_tuple);
      //force_eviction(&buffors, &fsmCache, &fsmMapAll, 21);
@@ -91,5 +92,6 @@ int main(void) {
     } else {
         printf("Not Found\n");
     }
+    */
 
 }

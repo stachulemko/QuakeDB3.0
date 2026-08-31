@@ -83,5 +83,6 @@ CMakeFiles/test_btree_operations.dir/core/indexes/tests/test_btree_operations.c.
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/fsmMapBtree.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/../../bufforing-stm/bufforing-stm/uthash.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/flatMap.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/../../memory-mgmt/memory-mgmt/all_var.h

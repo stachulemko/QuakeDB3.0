@@ -19,7 +19,7 @@ SRCS = \
 	$(SRC_DIR)/tuple.c \
 	$(SRC_DIR)/block8kb.c \
 	$(SRC_DIR)/table_header.c \
-	$(SRC_DIR)/all_table.c \
+	$(SRC_DIR)/universal_block.c \
 	$(SRC_DIR)/file_manager_c.c
 
 OBJS   = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))

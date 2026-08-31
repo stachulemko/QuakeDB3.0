@@ -8,16 +8,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "../../bufforing-stm/bufforing-stm/uthash.h"
+#include "flatMap.h"
 
-typedef struct {
-    int16_t *pointerTofreeSpaceGaps[BLOCK_SIZE];
-    int16_t *sizeFreeSpaceGaps[BLOCK_SIZE];   // only in data case
-    int32_t freeSpaceGapsCount;
-}FreeSpaceGaps;
+#define GAP_TABLE_SIZE 2048
 
 typedef struct {
     int32_t blockId;
-    FreeSpaceGaps *freeSpaceGaps;
     int32_t blockSize;
     UT_hash_handle hh;
 } BtreeBlockEntry;
@@ -27,6 +23,8 @@ typedef struct {
     BtreeBlockEntry *blocks;
     int32_t blockCount;
     int32_t currentBlockId;
+    struct Entry *gapTable;          // flatMap for tracking free gaps (key=offset, value=gapSize)
+    int32_t gapCount;
     UT_hash_handle hh;
 } BtreeColumnIndex;
 
@@ -79,6 +77,11 @@ static inline BtreeColumnIndex *fsm_btree_get_or_create_column(BtreeTableEntry *
         if (col == NULL) return NULL;
         col->columnIndex = columnIndex;
         col->currentBlockId = -1;
+        col->gapTable = (struct Entry *)malloc(GAP_TABLE_SIZE * sizeof(struct Entry));
+        if (col->gapTable != NULL) {
+            initialize_table(col->gapTable, GAP_TABLE_SIZE);
+        }
+        col->gapCount = 0;
         HASH_ADD_INT(table->columns, columnIndex, col);
         table->columnCount++;
     }
@@ -184,6 +187,11 @@ static inline int8_t fsm_btree_create_index(FSMMapBtree *fsm, int32_t tableId, i
     if (col == NULL) return 0;
     col->columnIndex = columnIndex;
     col->currentBlockId = -1;
+    col->gapTable = (struct Entry *)malloc(GAP_TABLE_SIZE * sizeof(struct Entry));
+    if (col->gapTable != NULL) {
+        initialize_table(col->gapTable, GAP_TABLE_SIZE);
+    }
+    col->gapCount = 0;
     HASH_ADD_INT(table->columns, columnIndex, col);
     table->columnCount++;
     return 1;
@@ -220,6 +228,7 @@ static inline void fsm_btree_free(FSMMapBtree *fsm) {
                 free(block);
             }
             HASH_DEL(table->columns, col);
+            free(col->gapTable);
             free(col);
         }
         HASH_DEL(fsm->tables, table);
@@ -229,28 +238,67 @@ static inline void fsm_btree_free(FSMMapBtree *fsm) {
     fsm->tableCount = 0;
 }
 
-// freeSpaceFunctions
+// freeSpaceFunctions using flatMap
 
-void deleteElementUpdateSpace(FSMMapBtree *fsm, int32_t tableId,int32_t columnIndex,int32_t block,int32_t startPosition,int32_t dataSize) {
-    BtreeBlockEntry* btreeBlockEntry = fsm_btree_get_block(fsm, tableId, columnIndex,block);
-    if (btreeBlockEntry == NULL) return;
-    if (btreeBlockEntry->freeSpaceGaps == NULL) {
-        FreeSpaceGaps *newGaps = malloc(sizeof(FreeSpaceGaps));
-        newGaps->freeSpaceGapsCount = 0;
-        newGaps->freeSpaceGapsCount++;
-        if (block%4==0) {
-            newGaps->pointerTofreeSpaceGaps[newGaps->freeSpaceGapsCount] = malloc(sizeof(FreeSpaceGaps));
-            newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount] = malloc(sizeof(FreeSpaceGaps));
-            *(newGaps->pointerTofreeSpaceGaps[newGaps->freeSpaceGapsCount]) = (int16_t)(startPosition%BLOCK_SIZE);
-            *(newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount]) = dataSize;
-        }
-        else {
-            newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount] = malloc(sizeof(FreeSpaceGaps));
-            *(newGaps->sizeFreeSpaceGaps[newGaps->freeSpaceGapsCount]) = (int16_t)(startPosition%BLOCK_SIZE);
+static inline void deleteElementUpdateSpace(FSMMapBtree *fsm, int32_t tableId, int32_t columnIndex,
+                                            int32_t block, int32_t startPosition, int32_t dataSize) {
+    if (fsm == NULL || dataSize <= 0) return;
+
+    BtreeTableEntry *table = fsm_btree_get_table(fsm, tableId);
+    if (table == NULL) return;
+
+    BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
+    if (col == NULL || col->gapTable == NULL) return;
+
+    int16_t blockType = (int16_t)(block % 4);
+    int64_t key = create_key(blockType, (int32_t)startPosition);
+    if (insert(col->gapTable, GAP_TABLE_SIZE, key, (int16_t)dataSize) == 0) {
+        col->gapCount++;
+    }
+}
+
+static inline int32_t getFreeGap(int32_t tableId, int32_t columnIndex, int32_t sizeNeeded,
+                                 int32_t blockEntry, FSMMapBtree *fsmMapBtree) {
+    if (fsmMapBtree == NULL || sizeNeeded <= 0) return -1;
+
+    BtreeTableEntry *table = fsm_btree_get_table(fsmMapBtree, tableId);
+    if (table == NULL) return -1;
+
+    BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
+    if (col == NULL || col->gapTable == NULL || col->gapCount <= 0) return -1;
+
+    int32_t bestIndex = -1;
+    int32_t bestOffset = -1;
+    int16_t bestSize = INT16_MAX;
+    int16_t targetType = (int16_t)(blockEntry % 4);
+
+    for (size_t i = 0; i < GAP_TABLE_SIZE; i++) {
+        if (col->gapTable[i].key != EMPTY_KEY) {
+            int16_t bType = 0;
+            int32_t offset = 0;
+            read_key(col->gapTable[i].key, &bType, &offset);
+
+            if (bType == targetType) {
+                int16_t gapSize = col->gapTable[i].value;
+                if (gapSize >= sizeNeeded && gapSize < bestSize) {
+                    bestSize = gapSize;
+                    bestOffset = offset;
+                    bestIndex = (int32_t)i;
+                }
+            }
         }
     }
 
+    if (bestIndex != -1) {
+        remove_at_index(col->gapTable, bestIndex);
+        col->gapCount--;
+        return bestOffset;
+    }
+
+    return -1;
 }
+
+
 
 
 #endif //QUAKEDB3_0_FSMMAPBTREE_H

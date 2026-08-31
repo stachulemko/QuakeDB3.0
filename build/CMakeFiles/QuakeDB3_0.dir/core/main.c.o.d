@@ -90,10 +90,11 @@ CMakeFiles/QuakeDB3_0.dir/core/main.c.o: \
  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/../../memory-mgmt/memory-mgmt/all_var.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/../../bufforing-stm/bufforing-stm/uthash.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/flatMap.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
  /usr/include/time.h /usr/include/x86_64-linux-gnu/bits/time.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/btreeFileOperation.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h

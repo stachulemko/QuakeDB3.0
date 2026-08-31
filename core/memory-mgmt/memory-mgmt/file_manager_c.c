@@ -98,6 +98,7 @@ uint8_t *fm_get_block(const char *path, int32_t table_id, int32_t block_num) {
     snprintf(name, sizeof(name), "%d", table_id);
     make_path(full, sizeof(full), path, name);
     f = fopen(full, "rb");
+    // mmap here adding to ram
     if (!f) { LOG_ERROR("fm_get_block: cannot open %s\n", full); return NULL; }
     fseek(f, (long)block_num * BLOCK_SIZE, SEEK_SET);
     buf = (uint8_t *)malloc(BLOCK_SIZE);

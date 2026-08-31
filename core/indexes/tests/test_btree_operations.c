@@ -83,12 +83,51 @@ void test_insert_single_value(void) {
     TEST_PASS();
 }
 
+void debug_dump_node(TestEnv *e, int32_t nodeOffset, int depth) {
+    int32_t block = calculateBlock(nodeOffset);
+    BtreeBuffor *buffor = getBtreeBuffor(e->tableId, e->colIdx, block, &e->bufs);
+    if (buffor == NULL) { printf("%*sNULL@%d\n", depth*2, "", nodeOffset); return; }
+    int32_t ptdHead = -1, nextLevelPtr = -1;
+    unmarshal_int32(&ptdHead, buffor->buf + (nodeOffset % BLOCK_SIZE));
+    unmarshal_int32(&nextLevelPtr, buffor->buf + (nodeOffset % BLOCK_SIZE) + sizeof(int32_t));
+    buffor->pinCount = 0;
+    DataBtree *data = getData(nodeOffset, e->tableId, e->colIdx, &e->bufs);
+    printf("%*sNode@%d ptd=%d nxt=%d keys(%d):[", depth*2, "", nodeOffset, ptdHead, nextLevelPtr, data ? data->size : -1);
+    if (data) {
+        for (int i = 0; i < data->size; i++) {
+            if (data->data[i].type == 4) printf("%d", data->data[i].val.i32);
+            if (i < data->size-1) printf(",");
+        }
+        free(data);
+    }
+    printf("]\n");
+    if (nextLevelPtr != -1) {
+        for (int i = 0; i <= M+1; i++) {
+            int32_t slot = nextLevelPtr + i * (int32_t)sizeof(int32_t);
+            BtreeBuffor *sb = getBtreeBuffor(e->tableId, e->colIdx, calculateBlock(slot), &e->bufs);
+            if (!sb) break;
+            int32_t ch = -1;
+            unmarshal_int32(&ch, sb->buf + (slot % BLOCK_SIZE));
+            sb->pinCount = 0;
+            if (ch == -1) break;
+            printf("%*s  child[%d]->%d:\n", depth*2, "", i, ch);
+            debug_dump_node(e, ch, depth+1);
+        }
+    }
+}
+
 void test_insert_multiple_unique_values(void) {
     TEST_START("Insert 10 unique values and find each");
     TestEnv e;
     env_init(&e, 101, 0, 20);
     for (int i = 1; i <= 10; i++) {
         env_add(&e, i * 10, i);
+        printf("\n  [After insert %d (val=%d)]:\n", i, i*10);
+        debug_dump_node(&e, 0, 2);
+        for (int j = 1; j <= i; j++) {
+            int32_t r = env_find(&e, j * 10);
+            if (r != j) printf("    SEARCH FAIL: val=%d expected=%d got=%d\n", j*10, j, r);
+        }
     }
     for (int i = 1; i <= 10; i++) {
         int32_t result = env_find(&e, i * 10);
@@ -361,7 +400,12 @@ void test_delete_all_in_reverse_order(void) {
     // Delete in reverse
     for (int i = 8; i >= 1; i--) {
         env_delete(&e, i * 10, i);
-        TEST_ASSERT(env_find(&e, i * 10) == -1, "Deleted value should be gone");
+        int32_t r = env_find(&e, i * 10);
+        if (r != -1) {
+            printf("\n  DEBUG: val=%d blockId=%d still found (got %d) after delete\n", i*10, i, r);
+            debug_dump_node(&e, 0, 2);
+        }
+        TEST_ASSERT(r == -1, "Deleted value should be gone");
     }
     TEST_PASS();
 }
@@ -470,7 +514,12 @@ void test_insert_50_then_delete_25(void) {
     }
     // Values 26..50 should remain
     for (int i = 26; i <= 50; i++) {
-        TEST_ASSERT(env_find(&e, i) == i, "Remaining value should be found");
+        int32_t r = env_find(&e, i);
+        if (r != i) {
+            printf("\n  DEBUG50: val=%d expected=%d got=%d\n", i, i, r);
+            debug_dump_node(&e, 0, 3);
+        }
+        TEST_ASSERT(r == i, "Remaining value should be found");
     }
     TEST_PASS();
 }

@@ -8,6 +8,7 @@
 #include "../../memory-mgmt/memory-mgmt/log.h"
 #include "../../memory-mgmt/memory-mgmt/file_manager_c.h"
 
+
 typedef struct {
     int32_t tableId;
     int32_t pinCount;
@@ -103,7 +104,8 @@ static inline DataBuffor* evict(Buffors *buffors,int32_t tableId,int32_t block_i
                     //fm_save_block_at("data", buffors->buffors[i].tableId, buf, buffors->buffors[i].universalBlock.block->header.block_id);
                 }
                 freeUniversalBlock(buffors->buffors[i].universalBlock);
-                uint8_t* buf = fm_get_block(DATA_TABLE_PATH, tableId, block_id);
+                uint8_t* buf = fm_get_block(DATA_TABLE_PATH, tableId, block_id); // createmmap
+
                 buffors->buffors[i].universalBlock = createUniversalBlock(buf);
                 free(buf);
                 return &buffors->buffors[i];
@@ -111,7 +113,6 @@ static inline DataBuffor* evict(Buffors *buffors,int32_t tableId,int32_t block_i
         }
     }
 }
-
 
 static inline DataBuffor* getBuffor(int32_t tableId,int32_t block_id, Buffors *buffors) {
     DataBuffor* existingBuffor = getIfExisting(tableId, block_id, buffors);
@@ -196,7 +197,7 @@ DataBuffor* addNewBlock(Buffors *buffors , DataBuffor *newBuffor){
 
 void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count){
     Tuple tuple;
-    tuple_set(&tuple, getAndIcrement(mvcc), 0, 0, 0, 0, 0, 0, bit_map, bit_map_count, data, data_count);
+    tuple_set(&tuple, getAndIcrement(mvcc), 0, 0, 0, 0, 0, -1, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
     block8kb_add(buffor->universalBlock->block, &tuple);
     buffor->isDirty = 1;
@@ -285,6 +286,8 @@ void showBuffors(Buffors *buffors) {
 
     printf("==========================\n");
 }
+
+// update space -----------------
 
 
 

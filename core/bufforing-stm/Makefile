@@ -14,7 +14,8 @@ CMOCKA     = $(shell pkg-config --cflags --libs cmocka)
 
 TEST_SRCS  = \
 	$(TEST_DIR)/test_dataBuffor.c \
-	$(TEST_DIR)/test_fsmMap.c
+	$(TEST_DIR)/test_fsmMap.c \
+	$(TEST_DIR)/test_QuaeryExecutor.c
 
 TEST_BINS  = $(patsubst $(TEST_DIR)/%.c,$(TEST_BIN)/%,$(TEST_SRCS))
 
@@ -30,8 +31,8 @@ $(MEM_LIB): lib
 $(TEST_BIN):
 	mkdir -p $(TEST_BIN)
 
-$(TEST_BIN)/%: $(TEST_DIR)/%.c $(MEM_LIB) | $(TEST_BIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $< -L$(MEM_DIR) -lmemory_mgmt $(CMOCKA) -o $@
+$(TEST_BIN)/%: $(TEST_DIR)/%.c $(SRC_DIR)/dataBuffor.c $(SRC_DIR)/fsmMap.c $(MEM_LIB) | $(TEST_BIN)
+	$(CC) $(CFLAGS) $(INCLUDES) $< $(SRC_DIR)/dataBuffor.c $(SRC_DIR)/fsmMap.c -L$(MEM_DIR) -lmemory_mgmt $(CMOCKA) -o $@
 
 test: $(TEST_BINS)
 	@echo "=== Running bufforing-stm tests ==="

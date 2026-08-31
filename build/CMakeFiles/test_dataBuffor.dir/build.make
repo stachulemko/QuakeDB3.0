@@ -251,34 +251,6 @@ CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/tests/test_dataBuffor.c.s: cma
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/tests/test_dataBuffor.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/test_dataBuffor.c -o CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/tests/test_dataBuffor.c.s
 
-CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o: CMakeFiles/test_dataBuffor.dir/flags.make
-CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
-CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o: CMakeFiles/test_dataBuffor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o -MF CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o.d -o CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o -c /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
-
-CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c > CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.i
-
-CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c -o CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.s
-
-CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o: CMakeFiles/test_dataBuffor.dir/flags.make
-CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o: /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.c
-CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o: CMakeFiles/test_dataBuffor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o -MF CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o.d -o CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o -c /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.c
-
-CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.c > CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.i
-
-CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.c -o CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.s
-
 # Object files for target test_dataBuffor
 test_dataBuffor_OBJECTS = \
 "CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o" \
@@ -293,9 +265,7 @@ test_dataBuffor_OBJECTS = \
 "CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" \
 "CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" \
 "CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" \
-"CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/tests/test_dataBuffor.c.o" \
-"CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o" \
-"CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o"
+"CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/tests/test_dataBuffor.c.o"
 
 # External object files for target test_dataBuffor
 test_dataBuffor_EXTERNAL_OBJECTS =
@@ -313,12 +283,10 @@ test_dataBuffor: CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tup
 test_dataBuffor: CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 test_dataBuffor: CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 test_dataBuffor: CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/tests/test_dataBuffor.c.o
-test_dataBuffor: CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o
-test_dataBuffor: CMakeFiles/test_dataBuffor.dir/core/indexes/indexes/fsmMapBtree.c.o
 test_dataBuffor: CMakeFiles/test_dataBuffor.dir/build.make
 test_dataBuffor: /usr/lib/x86_64-linux-gnu/libcmocka.so
 test_dataBuffor: CMakeFiles/test_dataBuffor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking C executable test_dataBuffor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking C executable test_dataBuffor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_dataBuffor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

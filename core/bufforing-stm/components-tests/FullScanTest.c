@@ -188,11 +188,82 @@ void test_selectAlld(void **state) {
 
 }
 
+void test_fullScanWithUpdate_simple(void **state) {
+    SetedUpEnv seted_up_en = setUpTablesSimple();
+    Transaction *transaction = (Transaction *)malloc(sizeof(Transaction));
+
+    beginTransaction(&(seted_up_en.mvcc), transaction);
+    QueryExecutor qe = {0};
+    int32_t cols[MAX_COLUMNS] = {0, 1};
+    Qeselect(&qe, cols, 2);
+    Qefrom(&qe, 20);
+    Qeend(&qe, &transaction, &(seted_up_en.fsmCache));
+
+    ResultTuple result_tuple = {0};
+    FullScan full_scan = {0};
+    full_scan.rt = &result_tuple;
+    full_scan.qe = &qe;
+    fullScanWithUpdate(&full_scan, &(seted_up_en.buffors));
+
+    assert_int_equal(evaluate(result_tuple, &(seted_up_en.buffors), 20), 1);
+
+    free(transaction);
+}
+
+void test_fullScanWithUpdate_demanding(void **state) {
+    SetedUpEnv seted_up_en = setUpTablesDemanding();
+    Transaction *transaction = (Transaction *)malloc(sizeof(Transaction));
+
+    beginTransaction(&(seted_up_en.mvcc), transaction);
+    QueryExecutor qe = {0};
+    int32_t cols[MAX_COLUMNS] = {0, 1, 2};
+    Qeselect(&qe, cols, 3);
+    Qefrom(&qe, 21);
+    Qeend(&qe, &transaction, &(seted_up_en.fsmCache));
+
+    ResultTuple result_tuple = {0};
+    FullScan full_scan = {0};
+    full_scan.rt = &result_tuple;
+    full_scan.qe = &qe;
+    fullScanWithUpdate(&full_scan, &(seted_up_en.buffors));
+
+    assert_int_equal(evaluate(result_tuple, &(seted_up_en.buffors), 21), 1);
+
+    free(transaction);
+}
+
+void test_where_fullScanWithUpdate(void **state) {
+    SetedUpEnv seted_up_en = setUpTablesDemanding();
+    Transaction *transaction = (Transaction *)malloc(sizeof(Transaction));
+
+    beginTransaction(&(seted_up_en.mvcc), transaction);
+    QueryExecutor qe = {0};
+    int32_t cols[MAX_COLUMNS] = {2};
+    AllVar vals[MAX_COLUMNS] = {all_var_from_string("Furniture")};
+    Qewhere(&qe, cols, vals, 1);
+    Qefrom(&qe, 21);
+    Qeend(&qe, &transaction, &(seted_up_en.fsmCache));
+
+    ResultTuple result_tuple = {0};
+    FullScan full_scan = {0};
+    full_scan.rt = &result_tuple;
+    full_scan.qe = &qe;
+    fullScanWithUpdate(&full_scan, &(seted_up_en.buffors));
+
+    assert_int_equal(result_tuple.tuple_count, 2);
+    assert_int_equal(result_tuple.tuples[0].dnb.data[0].val.i32, 103);
+    assert_int_equal(result_tuple.tuples[1].dnb.data[0].val.i32, 104);
+
+    free(transaction);
+}
 
 int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_selectAll),
         cmocka_unit_test(test_selectAlld),
+        cmocka_unit_test(test_fullScanWithUpdate_simple),
+        cmocka_unit_test(test_fullScanWithUpdate_demanding),
+        cmocka_unit_test(test_where_fullScanWithUpdate),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

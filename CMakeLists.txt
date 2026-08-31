@@ -53,6 +53,7 @@ if(CMOCKA_LIBRARY)
             core/memory-mgmt/tests/test_universal_block.c
             core/bufforing-stm/tests/test_dataBuffor.c
             core/bufforing-stm/tests/test_fsmMap.c
+            core/bufforing-stm/tests/test_QuaeryExecutor.c
     )
 
     add_executable(test_components
@@ -91,13 +92,9 @@ if(CMOCKA_LIBRARY)
 
     foreach(TEST_FILE ${TEST_SOURCES})
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
-        add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}
-                core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
-                core/indexes/indexes/btree.h
-                core/indexes/indexes/fsmMapBtree.h
-                core/indexes/indexes/fsmMapBtree.c
-                core/indexes/indexes/btreeFileOperation.h)
+        add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE})
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
+        target_compile_definitions(${TEST_NAME} PRIVATE LOG_LEVEL=0)
     endforeach()
 else()
     message(WARNING "cmocka not found — test targets skipped. Install with: sudo apt install libcmocka-dev")

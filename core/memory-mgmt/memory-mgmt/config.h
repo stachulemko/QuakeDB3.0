@@ -22,13 +22,13 @@
 
 #define INDEX_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/indexes"
 
-#define VIEW_MODE 1    // 1 - read commited ,
+#define VIEW_MODE 1    // 1 - Repeatable Read ,
 
 #define RESULT_SPACE 10
 
 #define MAX_INDEX_BLOCKS 12  // number of block have to be divide by 3 wthout change
 
-#define M 4   // max btreeLevel
+#define M 4
 
 #define btreeFreeSpace 2000
 
