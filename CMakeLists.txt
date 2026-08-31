@@ -97,6 +97,13 @@ if(CMOCKA_LIBRARY)
         target_compile_definitions(${TEST_NAME} PRIVATE LOG_LEVEL=0)
     endforeach()
 
+    add_executable(test_sqlExecutor
+            ${CORE_SOURCES}
+            core/bufforing-stm/tests/test_sqlExecutor.c
+    )
+    target_link_libraries(test_sqlExecutor ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_sqlExecutor PRIVATE LOG_LEVEL=0)
+
     add_executable(test_QuaeryExecutor_rc
             ${CORE_SOURCES}
             core/bufforing-stm/tests/test_QuaeryExecutor_rc.c

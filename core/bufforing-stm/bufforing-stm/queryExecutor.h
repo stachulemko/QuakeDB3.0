@@ -14,6 +14,10 @@
 
 
 typedef struct {
+    int8_t update;
+    AllVar valuesUpdate[MAX_COLUMNS];
+    int32_t countColumnsUpdate;
+
     int8_t select;
     int32_t columns[MAX_COLUMNS];
     int32_t countColumns;
@@ -37,17 +41,17 @@ typedef struct {
 }QueryExecutor;
 
 typedef struct {
-    Tuple tuples[RESULT_SPACE];
+    Tuple *tuples[RESULT_SPACE];
     int32_t tuple_count;
 }ResultTuple;
 
 
 void printResultTuple(ResultTuple *result) {
     for (int i = 0; i < result->tuple_count; i++) {
-        Tuple t = result->tuples[i];
+        Tuple *t = result->tuples[i];
         printf("Tuple %d: ", i);
-        for (int j = 0; j < t.dnb.data_count; j++) {
-            AllVar value = t.dnb.data[j];
+        for (int j = 0; j < t->dnb.data_count; j++) {
+            AllVar value = t->dnb.data[j];
             if (value.type == ID_INT32) {
                 printf("INT32: %d ", value.val.i32);
             } else if (value.type == ID_STRING) {
@@ -60,6 +64,13 @@ void printResultTuple(ResultTuple *result) {
     }
 }
 
+void Qupdate(QueryExecutor *qe, AllVar valuesUpdate[MAX_COLUMNS],int32_t countColumnsUpdate) {
+    qe->update = 1;
+    qe->countColumnsUpdate = countColumnsUpdate;
+    for (int i = 0; i < MAX_COLUMNS; i++) {
+        qe->valuesUpdate[i] = valuesUpdate[i];
+    }
+}
 
 void Qeselect(QueryExecutor *qe, int32_t columns[MAX_COLUMNS],int32_t countColumns) {
     qe->select = 1;
@@ -93,15 +104,15 @@ void Qeend(QueryExecutor *qe,Transaction **transaction,FSMCache *c) {
 
 void parseWhere(Block8kb * block, QueryExecutor *qe,ResultTuple *result) {
     for (int i=0;i<block->tuple_count;i++) {
-        Tuple t = block->tuples[i];
+        Tuple *t = &block->tuples[i];
         if (VIEW_MODE == 1) {
-            if (t.header.t_xmin > qe->transaction->xid || (t.header.t_xmax != 0 && t.header.t_xmax <= qe->transaction->xid)) {
+            if (t->header.t_xmin > qe->transaction->xid || (t->header.t_xmax != 0 && t->header.t_xmax <= qe->transaction->xid)) {
                 continue;
             }
         }
         for (int j=0;j<qe->vCount;j++) {
             int colIndex = qe->columsWhere[j];
-            AllVar value = t.dnb.data[colIndex];
+            AllVar value = t->dnb.data[colIndex];
 
             if (value.type == qe->valuesWhere[j].type) {
 
@@ -128,17 +139,17 @@ void parseSelect(Block8kb * block, QueryExecutor *qe,ResultTuple *result) {
     for (int i=0;i<block->tuple_count;i++) {
         if (result->tuple_count >= RESULT_SPACE) break;
 
-        Tuple t = block->tuples[i];
-        Tuple resultTuple = {0};
-        tuple_init(&resultTuple);
+        Tuple *t = &block->tuples[i];
+        Tuple *resultTuple = (Tuple *)malloc(sizeof(Tuple));
+        tuple_init(resultTuple);
 
-        resultTuple.dnb.data_count = qe->countColumns;
-        resultTuple.dnb.bit_map_count = qe->countColumns;
+        resultTuple->dnb.data_count = qe->countColumns;
+        resultTuple->dnb.bit_map_count = qe->countColumns;
 
         for (int j=0;j<qe->countColumns;j++) {
             int colIndex = qe->columns[j];
-            resultTuple.dnb.data[j] = t.dnb.data[colIndex];
-            resultTuple.dnb.bit_map[j] = t.dnb.bit_map[colIndex];
+            resultTuple->dnb.data[j] = t->dnb.data[colIndex];
+            resultTuple->dnb.bit_map[j] = t->dnb.bit_map[colIndex];
         }
 
         result->tuples[result->tuple_count++] = resultTuple;
@@ -245,11 +256,11 @@ int8_t passIsolation(Tuple t, QueryExecutor *qe, int32_t index, int32_t *xidMax,
 }
 
 
-void whereIf(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Tuple t) {
+void whereIf(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Tuple *t) {
     (void)block;
     for (int j=0;j<qe->vCount;j++) {
         int colIndex = qe->columsWhere[j];
-        AllVar value = t.dnb.data[colIndex];
+        AllVar value = t->dnb.data[colIndex];
 
         if (value.type == qe->valuesWhere[j].type) {
 
@@ -271,24 +282,25 @@ void whereIf(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Tuple t) {
     }
 }
 
-void selectIf(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Tuple t) {
+void selectIf(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Tuple *t) {
     (void)block;
-    Tuple resultTuple = {0};
-    tuple_init(&resultTuple);
+    Tuple *resultTuple = (Tuple *)malloc(sizeof(Tuple));
+    tuple_init(resultTuple);
 
-    resultTuple.dnb.data_count = qe->countColumns;
-    resultTuple.dnb.bit_map_count = qe->countColumns;
+    resultTuple->dnb.data_count = qe->countColumns;
+    resultTuple->dnb.bit_map_count = qe->countColumns;
 
     for (int j=0;j<qe->countColumns;j++) {
         int colIndex = qe->columns[j];
-        resultTuple.dnb.data[j] = t.dnb.data[colIndex];
-        resultTuple.dnb.bit_map[j] = t.dnb.bit_map[colIndex];
+        resultTuple->dnb.data[j] = t->dnb.data[colIndex];
+        resultTuple->dnb.bit_map[j] = t->dnb.bit_map[colIndex];
     }
 
     result->tuples[result->tuple_count++] = resultTuple;
 }
 
-void applyCommand(Block8kb *block, QueryExecutor *qe, ResultTuple *result, Tuple t, int16_t command) {
+
+void applyCommand(Block8kb *block, QueryExecutor *qe, ResultTuple *result, Tuple *t, int16_t command) {
     if (command == 0) whereIf(block, qe, result, t);
     else if (command == 1) selectIf(block, qe, result, t);
 }
@@ -303,7 +315,7 @@ NextData parserCommands(Block8kb * block, QueryExecutor *qe,ResultTuple *result,
     while (1) {
         if (i >= currBlock->tuple_count) {
             if (VIEW_MODE == 2 && xidMax > 0) {
-                applyCommand(currBlock, qe, result, currBlock->tuples[blockTupleIndex], command);
+                applyCommand(currBlock, qe, result, &currBlock->tuples[blockTupleIndex], command);
             }
             NextData nextData;
             nextData.blockId = blockId;
@@ -318,7 +330,7 @@ NextData parserCommands(Block8kb * block, QueryExecutor *qe,ResultTuple *result,
             i++;
             continue;
         }
-        applyCommand(currBlock, qe, result, t, command);
+        applyCommand(currBlock, qe, result, &currBlock->tuples[i], command);
         if (oneTimeWrite == 0 && t.header.optional_oid == 0) {
             oneTimeWrite = 1;
             if (currBlock != block) {
@@ -366,11 +378,14 @@ NextData parserWithUpdate(QueryExecutor *qe, Block8kb *block, ResultTuple *resul
     nextData.blockId = blockId;
     nextData.i = -1;
     if (qe->from == 1) {
-        if (qe->where == 1) {
+        if (qe->where == 1 && qe->select ==1 || qe->update == 1) {
             nextData = parserCommands(block, qe, result, buffors, tableId, blockId, 0, i);
         }
-        else if (qe->select == 1) {
+        if (qe->select == 1 && qe->update != 1) {
             nextData = parserCommands(block, qe, result, buffors, tableId, blockId, 1, i);
+        }
+        if (qe->update == 1) {
+            nextData = parserCommands(block, qe, result, buffors, tableId, blockId, 0, i);
         }
     }
     else {

@@ -254,11 +254,11 @@ static void test_whereIf_int32_match(void **state) {
     Tuple t1 = make_tuple_2col(1, 0, -1, 100, "Alice");
     Tuple t2 = make_tuple_2col(1, 0, -1, 200, "Bob");
 
-    whereIf(NULL, &qe, &result, t1);
+    whereIf(NULL, &qe, &result, &t1);
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 100);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 100);
 
-    whereIf(NULL, &qe, &result, t2);
+    whereIf(NULL, &qe, &result, &t2);
     // t2 does not match, count should still be 1
     assert_int_equal(result.tuple_count, 1);
 }
@@ -274,11 +274,11 @@ static void test_whereIf_string_match(void **state) {
     Tuple t1 = make_tuple_2col(1, 0, -1, 1, "Alice");
     Tuple t2 = make_tuple_2col(1, 0, -1, 2, "Bob");
 
-    whereIf(NULL, &qe, &result, t1);
+    whereIf(NULL, &qe, &result, &t1);
     assert_int_equal(result.tuple_count, 1);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Alice");
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Alice");
 
-    whereIf(NULL, &qe, &result, t2);
+    whereIf(NULL, &qe, &result, &t2);
     assert_int_equal(result.tuple_count, 1);
 }
 
@@ -293,11 +293,11 @@ static void test_whereIf_int64_match(void **state) {
     Tuple t1 = make_tuple_3col(1, 0, -1, 1, "Item", 9876543210LL);
     Tuple t2 = make_tuple_3col(1, 0, -1, 2, "Item", 12345LL);
 
-    whereIf(NULL, &qe, &result, t1);
+    whereIf(NULL, &qe, &result, &t1);
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data[2].val.i64, 9876543210LL);
+    assert_int_equal(result.tuples[0]->dnb.data[2].val.i64, 9876543210LL);
 
-    whereIf(NULL, &qe, &result, t2);
+    whereIf(NULL, &qe, &result, &t2);
     assert_int_equal(result.tuple_count, 1);
 }
 
@@ -312,7 +312,7 @@ static void test_whereIf_type_mismatch(void **state) {
     ResultTuple result = {0};
     Tuple t = make_tuple_2col(1, 0, -1, 1, "Alice");
 
-    whereIf(NULL, &qe, &result, t);
+    whereIf(NULL, &qe, &result, &t);
     assert_int_equal(result.tuple_count, 0);
 }
 
@@ -328,12 +328,12 @@ static void test_whereIf_result_space_limit(void **state) {
 
     // Add RESULT_SPACE (10) tuples
     for (int i = 0; i < RESULT_SPACE; i++) {
-        whereIf(NULL, &qe, &result, t);
+        whereIf(NULL, &qe, &result, &t);
     }
     assert_int_equal(result.tuple_count, RESULT_SPACE);
 
     // 11th match should not overflow result array
-    whereIf(NULL, &qe, &result, t);
+    whereIf(NULL, &qe, &result, &t);
     assert_int_equal(result.tuple_count, RESULT_SPACE);
 }
 
@@ -352,13 +352,13 @@ static void test_whereIf_multiple_conditions(void **state) {
     // t3 matches neither
     Tuple t3 = make_tuple_2col(1, 0, -1, 30, "other");
 
-    whereIf(NULL, &qe, &result, t1);
+    whereIf(NULL, &qe, &result, &t1);
     assert_int_equal(result.tuple_count, 1);
 
-    whereIf(NULL, &qe, &result, t2);
+    whereIf(NULL, &qe, &result, &t2);
     assert_int_equal(result.tuple_count, 2);
 
-    whereIf(NULL, &qe, &result, t3);
+    whereIf(NULL, &qe, &result, &t3);
     assert_int_equal(result.tuple_count, 2);
 }
 
@@ -375,12 +375,12 @@ static void test_selectIf_all_columns(void **state) {
     ResultTuple result = {0};
     Tuple t = make_tuple_3col(1, 0, -1, 42, "Bob", 123456789LL);
 
-    selectIf(NULL, &qe, &result, t);
+    selectIf(NULL, &qe, &result, &t);
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data_count, 3);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 42);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Bob");
-    assert_int_equal(result.tuples[0].dnb.data[2].val.i64, 123456789LL);
+    assert_int_equal(result.tuples[0]->dnb.data_count, 3);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 42);
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Bob");
+    assert_int_equal(result.tuples[0]->dnb.data[2].val.i64, 123456789LL);
 }
 
 static void test_selectIf_subset_columns(void **state) {
@@ -392,11 +392,11 @@ static void test_selectIf_subset_columns(void **state) {
     ResultTuple result = {0};
     Tuple t = make_tuple_3col(1, 0, -1, 99, "SkipMe", 888LL);
 
-    selectIf(NULL, &qe, &result, t);
+    selectIf(NULL, &qe, &result, &t);
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data_count, 2);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 99);
-    assert_int_equal(result.tuples[0].dnb.data[1].val.i64, 888LL);
+    assert_int_equal(result.tuples[0]->dnb.data_count, 2);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 99);
+    assert_int_equal(result.tuples[0]->dnb.data[1].val.i64, 888LL);
 }
 
 static void test_selectIf_reordered_columns(void **state) {
@@ -408,11 +408,11 @@ static void test_selectIf_reordered_columns(void **state) {
     ResultTuple result = {0};
     Tuple t = make_tuple_2col(1, 0, -1, 10, "Hello");
 
-    selectIf(NULL, &qe, &result, t);
+    selectIf(NULL, &qe, &result, &t);
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data_count, 2);
-    assert_string_equal(result.tuples[0].dnb.data[0].val.str, "Hello");
-    assert_int_equal(result.tuples[0].dnb.data[1].val.i32, 10);
+    assert_int_equal(result.tuples[0]->dnb.data_count, 2);
+    assert_string_equal(result.tuples[0]->dnb.data[0].val.str, "Hello");
+    assert_int_equal(result.tuples[0]->dnb.data[1].val.i32, 10);
 }
 
 static void test_selectIf_multiple_calls(void **state) {
@@ -426,14 +426,14 @@ static void test_selectIf_multiple_calls(void **state) {
     Tuple t2 = make_tuple_2col(1, 0, -1, 2, "B");
     Tuple t3 = make_tuple_2col(1, 0, -1, 3, "C");
 
-    selectIf(NULL, &qe, &result, t1);
-    selectIf(NULL, &qe, &result, t2);
-    selectIf(NULL, &qe, &result, t3);
+    selectIf(NULL, &qe, &result, &t1);
+    selectIf(NULL, &qe, &result, &t2);
+    selectIf(NULL, &qe, &result, &t3);
 
     assert_int_equal(result.tuple_count, 3);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 1);
-    assert_int_equal(result.tuples[1].dnb.data[0].val.i32, 2);
-    assert_int_equal(result.tuples[2].dnb.data[0].val.i32, 3);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 1);
+    assert_int_equal(result.tuples[1]->dnb.data[0].val.i32, 2);
+    assert_int_equal(result.tuples[2]->dnb.data[0].val.i32, 3);
 }
 
 /* -------------------------------------------------------------------------
@@ -468,8 +468,8 @@ static void test_parserCommands_where_mode(void **state) {
     assert_int_equal(nd.blockId, 1);
     assert_int_equal(nd.i, 4);
     assert_int_equal(result.tuple_count, 2);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "B");
-    assert_string_equal(result.tuples[1].dnb.data[1].val.str, "C");
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "B");
+    assert_string_equal(result.tuples[1]->dnb.data[1].val.str, "C");
 
     free(block);
 }
@@ -499,9 +499,9 @@ static void test_parserCommands_select_mode(void **state) {
     assert_int_equal(nd.blockId, 1);
     assert_int_equal(nd.i, 3);
     assert_int_equal(result.tuple_count, 3);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 10);
-    assert_int_equal(result.tuples[1].dnb.data[0].val.i32, 20);
-    assert_int_equal(result.tuples[2].dnb.data[0].val.i32, 30);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 10);
+    assert_int_equal(result.tuples[1]->dnb.data[0].val.i32, 20);
+    assert_int_equal(result.tuples[2]->dnb.data[0].val.i32, 30);
 
     free(block);
 }
@@ -537,8 +537,8 @@ static void test_parserCommands_with_isolation(void **state) {
     assert_int_equal(nd.blockId, 1);
     assert_int_equal(nd.i, 4);
     assert_int_equal(result.tuple_count, 2);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 10);
-    assert_int_equal(result.tuples[1].dnb.data[0].val.i32, 40);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 10);
+    assert_int_equal(result.tuples[1]->dnb.data[0].val.i32, 40);
 
     free(block);
 }
@@ -571,8 +571,8 @@ static void test_parserCommands_starti_offset(void **state) {
     assert_int_equal(nd.blockId, 1);
     assert_int_equal(nd.i, 4);
     assert_int_equal(result.tuple_count, 2);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 3);
-    assert_int_equal(result.tuples[1].dnb.data[0].val.i32, 4);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 3);
+    assert_int_equal(result.tuples[1]->dnb.data[0].val.i32, 4);
 
     free(block);
 }
@@ -626,7 +626,7 @@ static void test_parserWithUpdate_where_mode(void **state) {
     assert_int_equal(nd.blockId, 1);
     assert_int_equal(nd.i, 2);
     assert_int_equal(result.tuple_count, 1);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Lucky");
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Lucky");
 
     free(block);
 }
@@ -656,8 +656,8 @@ test_parserWithUpdate_select_mode(void **state) {
     assert_int_equal(nd.blockId, 1);
     assert_int_equal(nd.i, 2);
     assert_int_equal(result.tuple_count, 2);
-    assert_string_equal(result.tuples[0].dnb.data[0].val.str, "First");
-    assert_string_equal(result.tuples[1].dnb.data[0].val.str, "Second");
+    assert_string_equal(result.tuples[0]->dnb.data[0].val.str, "First");
+    assert_string_equal(result.tuples[1]->dnb.data[0].val.str, "Second");
 
     free(block);
 }
@@ -717,12 +717,12 @@ static void test_fullScan_select(void **state) {
     fullScan(&fs, &env.buffors);
 
     assert_int_equal(result.tuple_count, 3);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 1);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Alpha");
-    assert_int_equal(result.tuples[1].dnb.data[0].val.i32, 2);
-    assert_string_equal(result.tuples[1].dnb.data[1].val.str, "Beta");
-    assert_int_equal(result.tuples[2].dnb.data[0].val.i32, 3);
-    assert_string_equal(result.tuples[2].dnb.data[1].val.str, "Gamma");
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 1);
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Alpha");
+    assert_int_equal(result.tuples[1]->dnb.data[0].val.i32, 2);
+    assert_string_equal(result.tuples[1]->dnb.data[1].val.str, "Beta");
+    assert_int_equal(result.tuples[2]->dnb.data[0].val.i32, 3);
+    assert_string_equal(result.tuples[2]->dnb.data[1].val.str, "Gamma");
 
     free_test_buffors(&env.buffors);
     fsm_cache_free(&env.fsmCache);
@@ -749,8 +749,8 @@ static void test_fullScan_where(void **state) {
     fullScan(&fs, &env.buffors);
 
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 2);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Beta");
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 2);
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Beta");
 
     free_test_buffors(&env.buffors);
     fsm_cache_free(&env.fsmCache);
@@ -776,12 +776,12 @@ static void test_fullScanWithUpdate_select(void **state) {
     fullScanWithUpdate(&fs, &env.buffors);
 
     assert_int_equal(result.tuple_count, 3);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 1);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Alpha");
-    assert_int_equal(result.tuples[1].dnb.data[0].val.i32, 2);
-    assert_string_equal(result.tuples[1].dnb.data[1].val.str, "Beta");
-    assert_int_equal(result.tuples[2].dnb.data[0].val.i32, 3);
-    assert_string_equal(result.tuples[2].dnb.data[1].val.str, "Gamma");
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 1);
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Alpha");
+    assert_int_equal(result.tuples[1]->dnb.data[0].val.i32, 2);
+    assert_string_equal(result.tuples[1]->dnb.data[1].val.str, "Beta");
+    assert_int_equal(result.tuples[2]->dnb.data[0].val.i32, 3);
+    assert_string_equal(result.tuples[2]->dnb.data[1].val.str, "Gamma");
 
     free_test_buffors(&env.buffors);
     fsm_cache_free(&env.fsmCache);
@@ -808,8 +808,8 @@ static void test_fullScanWithUpdate_where(void **state) {
     fullScanWithUpdate(&fs, &env.buffors);
 
     assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0].dnb.data[0].val.i32, 3);
-    assert_string_equal(result.tuples[0].dnb.data[1].val.str, "Gamma");
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 3);
+    assert_string_equal(result.tuples[0]->dnb.data[1].val.str, "Gamma");
 
     free_test_buffors(&env.buffors);
     fsm_cache_free(&env.fsmCache);
