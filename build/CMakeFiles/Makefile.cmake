@@ -56,4 +56,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_dataBuffor.dir/DependInfo.cmake"
   "CMakeFiles/test_fsmMap.dir/DependInfo.cmake"
   "CMakeFiles/test_QuaeryExecutor.dir/DependInfo.cmake"
+  "CMakeFiles/test_QuaeryExecutor_rc.dir/DependInfo.cmake"
   )

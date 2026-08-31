@@ -324,6 +324,19 @@ test_QuaeryExecutor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/build
 .PHONY : test_QuaeryExecutor/fast
 
+#=============================================================================
+# Target rules for targets named test_QuaeryExecutor_rc
+
+# Build rule for target.
+test_QuaeryExecutor_rc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_QuaeryExecutor_rc
+.PHONY : test_QuaeryExecutor_rc
+
+# fast build rule for target.
+test_QuaeryExecutor_rc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/build
+.PHONY : test_QuaeryExecutor_rc/fast
+
 core/bufforing-stm/bufforing-stm/dataBuffor.o: core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.o
 
@@ -345,6 +358,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 
 core/bufforing-stm/bufforing-stm/dataBuffor.i: core/bufforing-stm/bufforing-stm/dataBuffor.c.i
@@ -368,6 +382,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 
 core/bufforing-stm/bufforing-stm/dataBuffor.s: core/bufforing-stm/bufforing-stm/dataBuffor.c.s
@@ -391,6 +406,7 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 
 core/bufforing-stm/bufforing-stm/fsmMap.o: core/bufforing-stm/bufforing-stm/fsmMap.c.o
@@ -414,6 +430,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.o
 
 core/bufforing-stm/bufforing-stm/fsmMap.i: core/bufforing-stm/bufforing-stm/fsmMap.c.i
@@ -437,6 +454,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.i
 
 core/bufforing-stm/bufforing-stm/fsmMap.s: core/bufforing-stm/bufforing-stm/fsmMap.c.s
@@ -460,6 +478,7 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.s
 
 core/bufforing-stm/bufforing-stm/queryExecutor.o: core/bufforing-stm/bufforing-stm/queryExecutor.c.o
@@ -654,6 +673,30 @@ core/bufforing-stm/tests/test_QuaeryExecutor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/tests/test_QuaeryExecutor.c.s
 .PHONY : core/bufforing-stm/tests/test_QuaeryExecutor.c.s
 
+core/bufforing-stm/tests/test_QuaeryExecutor_rc.o: core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.o
+.PHONY : core/bufforing-stm/tests/test_QuaeryExecutor_rc.o
+
+# target to build an object file
+core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.o
+.PHONY : core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.o
+
+core/bufforing-stm/tests/test_QuaeryExecutor_rc.i: core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.i
+.PHONY : core/bufforing-stm/tests/test_QuaeryExecutor_rc.i
+
+# target to preprocess a source file
+core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.i
+.PHONY : core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.i
+
+core/bufforing-stm/tests/test_QuaeryExecutor_rc.s: core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.s
+.PHONY : core/bufforing-stm/tests/test_QuaeryExecutor_rc.s
+
+# target to generate assembly for a file
+core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.s
+.PHONY : core/bufforing-stm/tests/test_QuaeryExecutor_rc.c.s
+
 core/bufforing-stm/tests/test_dataBuffor.o: core/bufforing-stm/tests/test_dataBuffor.c.o
 .PHONY : core/bufforing-stm/tests/test_dataBuffor.o
 
@@ -771,6 +814,7 @@ core/memory-mgmt/memory-mgmt/all_var.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.o
 
 core/memory-mgmt/memory-mgmt/all_var.i: core/memory-mgmt/memory-mgmt/all_var.c.i
@@ -794,6 +838,7 @@ core/memory-mgmt/memory-mgmt/all_var.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.i
 
 core/memory-mgmt/memory-mgmt/all_var.s: core/memory-mgmt/memory-mgmt/all_var.c.s
@@ -817,6 +862,7 @@ core/memory-mgmt/memory-mgmt/all_var.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.s
 
 core/memory-mgmt/memory-mgmt/block8kb.o: core/memory-mgmt/memory-mgmt/block8kb.c.o
@@ -840,6 +886,7 @@ core/memory-mgmt/memory-mgmt/block8kb.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.o
 
 core/memory-mgmt/memory-mgmt/block8kb.i: core/memory-mgmt/memory-mgmt/block8kb.c.i
@@ -863,6 +910,7 @@ core/memory-mgmt/memory-mgmt/block8kb.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.i
 
 core/memory-mgmt/memory-mgmt/block8kb.s: core/memory-mgmt/memory-mgmt/block8kb.c.s
@@ -886,6 +934,7 @@ core/memory-mgmt/memory-mgmt/block8kb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.s
 
 core/memory-mgmt/memory-mgmt/block_header.o: core/memory-mgmt/memory-mgmt/block_header.c.o
@@ -909,6 +958,7 @@ core/memory-mgmt/memory-mgmt/block_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.o
 
 core/memory-mgmt/memory-mgmt/block_header.i: core/memory-mgmt/memory-mgmt/block_header.c.i
@@ -932,6 +982,7 @@ core/memory-mgmt/memory-mgmt/block_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.i
 
 core/memory-mgmt/memory-mgmt/block_header.s: core/memory-mgmt/memory-mgmt/block_header.c.s
@@ -955,6 +1006,7 @@ core/memory-mgmt/memory-mgmt/block_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.s
 
 core/memory-mgmt/memory-mgmt/data_null_bitmap.o: core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
@@ -978,6 +1030,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 
 core/memory-mgmt/memory-mgmt/data_null_bitmap.i: core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
@@ -1001,6 +1054,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 
 core/memory-mgmt/memory-mgmt/data_null_bitmap.s: core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
@@ -1024,6 +1078,7 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 
 core/memory-mgmt/memory-mgmt/file_manager_c.o: core/memory-mgmt/memory-mgmt/file_manager_c.c.o
@@ -1047,6 +1102,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 
 core/memory-mgmt/memory-mgmt/file_manager_c.i: core/memory-mgmt/memory-mgmt/file_manager_c.c.i
@@ -1070,6 +1126,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 
 core/memory-mgmt/memory-mgmt/file_manager_c.s: core/memory-mgmt/memory-mgmt/file_manager_c.c.s
@@ -1093,6 +1150,7 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 
 core/memory-mgmt/memory-mgmt/table_header.o: core/memory-mgmt/memory-mgmt/table_header.c.o
@@ -1116,6 +1174,7 @@ core/memory-mgmt/memory-mgmt/table_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.o
 
 core/memory-mgmt/memory-mgmt/table_header.i: core/memory-mgmt/memory-mgmt/table_header.c.i
@@ -1139,6 +1198,7 @@ core/memory-mgmt/memory-mgmt/table_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.i
 
 core/memory-mgmt/memory-mgmt/table_header.s: core/memory-mgmt/memory-mgmt/table_header.c.s
@@ -1162,6 +1222,7 @@ core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.s
 
 core/memory-mgmt/memory-mgmt/tuple.o: core/memory-mgmt/memory-mgmt/tuple.c.o
@@ -1185,6 +1246,7 @@ core/memory-mgmt/memory-mgmt/tuple.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.o
 
 core/memory-mgmt/memory-mgmt/tuple.i: core/memory-mgmt/memory-mgmt/tuple.c.i
@@ -1208,6 +1270,7 @@ core/memory-mgmt/memory-mgmt/tuple.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.i
 
 core/memory-mgmt/memory-mgmt/tuple.s: core/memory-mgmt/memory-mgmt/tuple.c.s
@@ -1231,6 +1294,7 @@ core/memory-mgmt/memory-mgmt/tuple.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.s
 
 core/memory-mgmt/memory-mgmt/tuple_header.o: core/memory-mgmt/memory-mgmt/tuple_header.c.o
@@ -1254,6 +1318,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.o
 
 core/memory-mgmt/memory-mgmt/tuple_header.i: core/memory-mgmt/memory-mgmt/tuple_header.c.i
@@ -1277,6 +1342,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.i
 
 core/memory-mgmt/memory-mgmt/tuple_header.s: core/memory-mgmt/memory-mgmt/tuple_header.c.s
@@ -1300,6 +1366,7 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.s
 
 core/memory-mgmt/memory-mgmt/types_converter.o: core/memory-mgmt/memory-mgmt/types_converter.c.o
@@ -1323,6 +1390,7 @@ core/memory-mgmt/memory-mgmt/types_converter.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.o
 
 core/memory-mgmt/memory-mgmt/types_converter.i: core/memory-mgmt/memory-mgmt/types_converter.c.i
@@ -1346,6 +1414,7 @@ core/memory-mgmt/memory-mgmt/types_converter.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.i
 
 core/memory-mgmt/memory-mgmt/types_converter.s: core/memory-mgmt/memory-mgmt/types_converter.c.s
@@ -1369,6 +1438,7 @@ core/memory-mgmt/memory-mgmt/types_converter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.s
 
 core/memory-mgmt/memory-mgmt/universal_block.o: core/memory-mgmt/memory-mgmt/universal_block.c.o
@@ -1392,6 +1462,7 @@ core/memory-mgmt/memory-mgmt/universal_block.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.o
 
 core/memory-mgmt/memory-mgmt/universal_block.i: core/memory-mgmt/memory-mgmt/universal_block.c.i
@@ -1415,6 +1486,7 @@ core/memory-mgmt/memory-mgmt/universal_block.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.i
 
 core/memory-mgmt/memory-mgmt/universal_block.s: core/memory-mgmt/memory-mgmt/universal_block.c.s
@@ -1438,6 +1510,7 @@ core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.s
 
 core/memory-mgmt/tests/test_all_var.o: core/memory-mgmt/tests/test_all_var.c.o
@@ -1618,6 +1691,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... QuakeDB3_0"
 	@echo "... test_QuaeryExecutor"
+	@echo "... test_QuaeryExecutor_rc"
 	@echo "... test_all_var"
 	@echo "... test_block8kb"
 	@echo "... test_block_header"
@@ -1662,6 +1736,9 @@ help:
 	@echo "... core/bufforing-stm/tests/test_QuaeryExecutor.o"
 	@echo "... core/bufforing-stm/tests/test_QuaeryExecutor.i"
 	@echo "... core/bufforing-stm/tests/test_QuaeryExecutor.s"
+	@echo "... core/bufforing-stm/tests/test_QuaeryExecutor_rc.o"
+	@echo "... core/bufforing-stm/tests/test_QuaeryExecutor_rc.i"
+	@echo "... core/bufforing-stm/tests/test_QuaeryExecutor_rc.s"
 	@echo "... core/bufforing-stm/tests/test_dataBuffor.o"
 	@echo "... core/bufforing-stm/tests/test_dataBuffor.i"
 	@echo "... core/bufforing-stm/tests/test_dataBuffor.s"

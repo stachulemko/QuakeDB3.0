@@ -85,10 +85,11 @@ static void test_passIsolation_visible_created_in_past(void **state) {
     Transaction txn = {.xid = 5};
     QueryExecutor qe = {0};
     qe.transaction = &txn;
+    int32_t xidMax = 0; int32_t blockTupleIndex = 0;
 
     Tuple t = make_tuple_2col(3, 0, -1, 1, "test");
     // t_xmin (3) <= xid (5) and t_xmax (0) == 0 -> visible (returns 0)
-    assert_int_equal(passIsolation(t, &qe), 0);
+    assert_int_equal(passIsolation(t, &qe, 0, &xidMax, &blockTupleIndex), 0);
 }
 
 static void test_passIsolation_visible_created_in_current_txn(void **state) {
@@ -96,10 +97,11 @@ static void test_passIsolation_visible_created_in_current_txn(void **state) {
     Transaction txn = {.xid = 5};
     QueryExecutor qe = {0};
     qe.transaction = &txn;
+    int32_t xidMax = 0; int32_t blockTupleIndex = 0;
 
     Tuple t = make_tuple_2col(5, 0, -1, 1, "test");
     // t_xmin (5) <= xid (5) and t_xmax (0) == 0 -> visible (returns 0)
-    assert_int_equal(passIsolation(t, &qe), 0);
+    assert_int_equal(passIsolation(t, &qe, 0, &xidMax, &blockTupleIndex), 0);
 }
 
 static void test_passIsolation_invisible_created_in_future(void **state) {
@@ -107,10 +109,11 @@ static void test_passIsolation_invisible_created_in_future(void **state) {
     Transaction txn = {.xid = 5};
     QueryExecutor qe = {0};
     qe.transaction = &txn;
+    int32_t xidMax = 0; int32_t blockTupleIndex = 0;
 
     Tuple t = make_tuple_2col(6, 0, -1, 1, "test");
     // t_xmin (6) > xid (5) -> invisible (returns 1)
-    assert_int_equal(passIsolation(t, &qe), 1);
+    assert_int_equal(passIsolation(t, &qe, 0, xidMax, blockTupleIndex), 1);
 }
 
 static void test_passIsolation_invisible_deleted_in_past(void **state) {
@@ -118,10 +121,11 @@ static void test_passIsolation_invisible_deleted_in_past(void **state) {
     Transaction txn = {.xid = 5};
     QueryExecutor qe = {0};
     qe.transaction = &txn;
+    int32_t xidMax = 0; int32_t blockTupleIndex = 0;
 
     Tuple t = make_tuple_2col(2, 4, -1, 1, "test");
     // t_xmin (2) <= xid (5) but t_xmax (4) <= xid (5) -> deleted, invisible (returns 1)
-    assert_int_equal(passIsolation(t, &qe), 1);
+    assert_int_equal(passIsolation(t, &qe, 0, xidMax, blockTupleIndex), 1);
 }
 
 static void test_passIsolation_invisible_deleted_in_current_txn(void **state) {
@@ -129,10 +133,11 @@ static void test_passIsolation_invisible_deleted_in_current_txn(void **state) {
     Transaction txn = {.xid = 5};
     QueryExecutor qe = {0};
     qe.transaction = &txn;
+    int32_t xidMax = 0; int32_t blockTupleIndex = 0;
 
     Tuple t = make_tuple_2col(2, 5, -1, 1, "test");
     // t_xmin (2) <= xid (5) and t_xmax (5) <= xid (5) -> deleted by current txn, invisible (returns 1)
-    assert_int_equal(passIsolation(t, &qe), 1);
+    assert_int_equal(passIsolation(t, &qe, 0, xidMax, blockTupleIndex), 1);
 }
 
 static void test_passIsolation_visible_deleted_in_future(void **state) {
@@ -140,14 +145,102 @@ static void test_passIsolation_visible_deleted_in_future(void **state) {
     Transaction txn = {.xid = 5};
     QueryExecutor qe = {0};
     qe.transaction = &txn;
+    int32_t xidMax = 0; int32_t blockTupleIndex = 0;
 
     Tuple t = make_tuple_2col(2, 6, -1, 1, "test");
     // t_xmin (2) <= xid (5) and t_xmax (6) > xid (5) -> not deleted yet at xid 5, visible (returns 0)
-    assert_int_equal(passIsolation(t, &qe), 0);
+    assert_int_equal(passIsolation(t, &qe, 0, &xidMax, &blockTupleIndex), 0);
 }
 
 /* -------------------------------------------------------------------------
- * 3. whereIf tests
+ * 3. readCommited tests
+ * ------------------------------------------------------------------------- */
+
+static void test_readCommited_null_qe(void **state) {
+    (void)state;
+    int32_t xidMax = 0;
+    int32_t blockTupleIndex = 0;
+    Tuple t = make_tuple_2col(10, 5, -1, 1, "test");
+    // NULL query_executor -> nothing changes
+    readCommited(t, NULL, &blockTupleIndex, &xidMax, 3);
+    assert_int_equal(xidMax, 0);
+    assert_int_equal(blockTupleIndex, 0);
+}
+
+static void test_readCommited_xmin_wins(void **state) {
+    (void)state;
+    Transaction txn = {.xid = 5};
+    QueryExecutor qe = {0};
+    qe.transaction = &txn;
+    int32_t xidMax = 0;
+    int32_t blockTupleIndex = -1;
+
+    // t_xmin (10) > t_xmax (5) -> xmin wins, xidMax = 10, blockTupleIndex = 2
+    Tuple t = make_tuple_2col(10, 5, -1, 1, "test");
+    readCommited(t, &qe, &blockTupleIndex, &xidMax, 2);
+    assert_int_equal(xidMax, 10);
+    assert_int_equal(blockTupleIndex, 2);
+}
+
+static void test_readCommited_xmax_wins(void **state) {
+    (void)state;
+    Transaction txn = {.xid = 5};
+    QueryExecutor qe = {0};
+    qe.transaction = &txn;
+    int32_t xidMax = 0;
+    int32_t blockTupleIndex = -1;
+
+    // t_xmin (3) <= t_xmax (8) -> xmax wins, xidMax = 8, blockTupleIndex = 1
+    Tuple t = make_tuple_2col(3, 8, -1, 99, "test");
+    readCommited(t, &qe, &blockTupleIndex, &xidMax, 1);
+    assert_int_equal(xidMax, 8);
+    assert_int_equal(blockTupleIndex, 1);
+}
+
+static void test_readCommited_lower_xid_does_not_update(void **state) {
+    (void)state;
+    Transaction txn = {.xid = 5};
+    QueryExecutor qe = {0};
+    qe.transaction = &txn;
+    int32_t xidMax = 20;
+    int32_t blockTupleIndex = 5;
+
+    // t_xmin (3) <= xidMax (20) and t_xmax (0) <= xidMax (20) -> no update
+    Tuple t = make_tuple_2col(3, 0, -1, 1, "old");
+    readCommited(t, &qe, &blockTupleIndex, &xidMax, 0);
+    assert_int_equal(xidMax, 20);
+    assert_int_equal(blockTupleIndex, 5);
+}
+
+static void test_readCommited_tracks_best_across_multiple(void **state) {
+    (void)state;
+    Transaction txn = {.xid = 5};
+    QueryExecutor qe = {0};
+    qe.transaction = &txn;
+    int32_t xidMax = 0;
+    int32_t blockTupleIndex = -1;
+
+    // tuple 0: xmin=5, xmax=0 -> xmin wins, xidMax=5, idx=0
+    Tuple t0 = make_tuple_2col(5, 0, -1, 10, "v1");
+    readCommited(t0, &qe, &blockTupleIndex, &xidMax, 0);
+    assert_int_equal(xidMax, 5);
+    assert_int_equal(blockTupleIndex, 0);
+
+    // tuple 1: xmin=7, xmax=0 -> xmin(7) > xidMax(5), updates, idx=1
+    Tuple t1 = make_tuple_2col(7, 0, -1, 20, "v2");
+    readCommited(t1, &qe, &blockTupleIndex, &xidMax, 1);
+    assert_int_equal(xidMax, 7);
+    assert_int_equal(blockTupleIndex, 1);
+
+    // tuple 2: xmin=3, xmax=0 -> xmin(3) < xidMax(7), no update
+    Tuple t2 = make_tuple_2col(3, 0, -1, 30, "v3");
+    readCommited(t2, &qe, &blockTupleIndex, &xidMax, 2);
+    assert_int_equal(xidMax, 7);
+    assert_int_equal(blockTupleIndex, 1);
+}
+
+/* -------------------------------------------------------------------------
+ * 4. whereIf tests
  * ------------------------------------------------------------------------- */
 
 static void test_whereIf_int32_match(void **state) {
@@ -738,6 +831,13 @@ int main(void) {
         cmocka_unit_test(test_passIsolation_invisible_deleted_in_past),
         cmocka_unit_test(test_passIsolation_invisible_deleted_in_current_txn),
         cmocka_unit_test(test_passIsolation_visible_deleted_in_future),
+
+        // readCommited tests
+        cmocka_unit_test(test_readCommited_null_qe),
+        cmocka_unit_test(test_readCommited_xmin_wins),
+        cmocka_unit_test(test_readCommited_xmax_wins),
+        cmocka_unit_test(test_readCommited_lower_xid_does_not_update),
+        cmocka_unit_test(test_readCommited_tracks_best_across_multiple),
 
         // whereIf tests
         cmocka_unit_test(test_whereIf_int32_match),

@@ -22,7 +22,9 @@
 
 #define INDEX_TABLE_PATH "/home/stas/dev/QuakeDB3.0B/core/indexes"
 
-#define VIEW_MODE 1    // 1 - Repeatable Read ,
+#ifndef VIEW_MODE
+#define VIEW_MODE 1    // 1 - Repeatable Read , 2 - Read Committed
+#endif
 
 #define RESULT_SPACE 10
 

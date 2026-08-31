@@ -14,5 +14,6 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_dataBuffor.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fsmMap.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_QuaeryExecutor.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_QuaeryExecutor_rc.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/edit_cache.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/rebuild_cache.dir

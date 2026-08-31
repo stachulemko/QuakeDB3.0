@@ -96,6 +96,13 @@ if(CMOCKA_LIBRARY)
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
         target_compile_definitions(${TEST_NAME} PRIVATE LOG_LEVEL=0)
     endforeach()
+
+    add_executable(test_QuaeryExecutor_rc
+            ${CORE_SOURCES}
+            core/bufforing-stm/tests/test_QuaeryExecutor_rc.c
+    )
+    target_link_libraries(test_QuaeryExecutor_rc ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_QuaeryExecutor_rc PRIVATE LOG_LEVEL=0 VIEW_MODE=2)
 else()
     message(WARNING "cmocka not found — test targets skipped. Install with: sudo apt install libcmocka-dev")
 endif()

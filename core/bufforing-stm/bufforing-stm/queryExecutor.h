@@ -211,7 +211,24 @@ typedef struct {
     int32_t i;
 }NextData;
 
-int8_t passIsolation(Tuple t,QueryExecutor *qe) {
+
+void readCommited(Tuple t, QueryExecutor *query_executor, int32_t *blockTupleIndex, int32_t *xidMax, int32_t index) {
+    if (query_executor == NULL) return;
+    if (t.header.t_xmin > *xidMax || t.header.t_xmax > *xidMax) {
+        if (t.header.t_xmin > t.header.t_xmax) {
+            *xidMax = t.header.t_xmin;
+            *blockTupleIndex = index;
+        }
+        else {
+            *xidMax = t.header.t_xmax;
+            *blockTupleIndex = index;
+        }
+    }
+}
+
+
+
+int8_t passIsolation(Tuple t, QueryExecutor *qe, int32_t index, int32_t *xidMax, int32_t *blockTupleIndex) {
     if (VIEW_MODE == 1) {
         if (t.header.t_xmin > qe->transaction->xid || (t.header.t_xmax != 0 && t.header.t_xmax <= qe->transaction->xid)) {
             return 1;
@@ -219,6 +236,10 @@ int8_t passIsolation(Tuple t,QueryExecutor *qe) {
         else {
             return 0;
         }
+    }
+    if (VIEW_MODE == 2) {
+        readCommited(t, qe, blockTupleIndex, xidMax, index);
+        return 1;
     }
     return 0;
 }
@@ -267,14 +288,23 @@ void selectIf(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Tuple t) {
     result->tuples[result->tuple_count++] = resultTuple;
 }
 
+void applyCommand(Block8kb *block, QueryExecutor *qe, ResultTuple *result, Tuple t, int16_t command) {
+    if (command == 0) whereIf(block, qe, result, t);
+    else if (command == 1) selectIf(block, qe, result, t);
+}
 
 NextData parserCommands(Block8kb * block, QueryExecutor *qe,ResultTuple *result,Buffors * buffors,int32_t tableId,int32_t blockId,int16_t command,int32_t starti) {
     DataBuffor* data_buffor=NULL;
     Block8kb *currBlock = block;
     int8_t oneTimeWrite = 1;
     int32_t i = starti;
+    int32_t xidMax = 0;
+    int32_t blockTupleIndex =0;
     while (1) {
         if (i >= currBlock->tuple_count) {
+            if (VIEW_MODE == 2 && xidMax > 0) {
+                applyCommand(currBlock, qe, result, currBlock->tuples[blockTupleIndex], command);
+            }
             NextData nextData;
             nextData.blockId = blockId;
             nextData.i = i;
@@ -284,16 +314,11 @@ NextData parserCommands(Block8kb * block, QueryExecutor *qe,ResultTuple *result,
             return nextData;
         }
         Tuple t = currBlock->tuples[i];
-        if (passIsolation(t,qe) == 1 ) {
+        if (passIsolation(t, qe, i, &xidMax, &blockTupleIndex) == 1 ) {
             i++;
             continue;
         }
-        if (command == 0) {
-            whereIf(currBlock,qe,result,t);
-        }
-        else if (command == 1) {
-            selectIf(currBlock,qe,result,t);
-        }
+        applyCommand(currBlock, qe, result, t, command);
         if (oneTimeWrite == 0 && t.header.optional_oid == 0) {
             oneTimeWrite = 1;
             if (currBlock != block) {
