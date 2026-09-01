@@ -31,8 +31,6 @@ add_executable(QuakeDB3_0
         core/main.c
         core/bufforing-stm/bufforing-stm/Llist.h
         core/bufforing-stm/bufforing-stm/transaction.h
-        "core/bufforing-stm/bufforing-stm/fullScan.h"
-        core/bufforing-stm/bufforing-stm/queryExecutor.h
         core/bufforing-stm/bufforing-stm/queryExecutor.c
         core/bufforing-stm/bufforing-stm/transaction.c
         core/bufforing-stm/bufforing-stm/setUpCaches.h

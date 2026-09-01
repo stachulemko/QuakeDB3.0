@@ -9,10 +9,18 @@
 #include "block8kb.h"
 #include "transaction.h"
 #include "fsmMap.h"
-#include "queryExecutor.h"
 #include "../../memory-mgmt/memory-mgmt/all_var.h"
 #include <stdlib.h>
 #include <string.h>
+
+/* =========================================================================
+ * ResultTuple — wynik zapytania SELECT
+ * ========================================================================= */
+
+typedef struct {
+    Tuple   *tuples[RESULT_SPACE];
+    int32_t  tuple_count;
+} ResultTuple;
 
 /* =========================================================================
  * Operators (pasowane do evaluateAllVar)
