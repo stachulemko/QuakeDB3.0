@@ -81,9 +81,9 @@ CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o: \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/transaction.h \
- /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/queryExecutor.h \
- /usr/include/assert.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/all_var.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/fsmMap.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../../memory-mgmt/memory-mgmt/all_var.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../../memory-mgmt/memory-mgmt/block8kb.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../../memory-mgmt/memory-mgmt/tuple.h

@@ -199,11 +199,27 @@ void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32
     Tuple tuple;
     tuple_set(&tuple, getAndIcrement(mvcc), 0, 0, 0, 0, 0, -1, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
+    buffor->pinCount++;
     block8kb_add(buffor->universalBlock->block, &tuple);
     buffor->isDirty = 1;
     buffor->isUsed = 1;
     buffor->pinCount = 0;
     buffor->tableId = tableId;
+}
+
+
+
+
+DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid) {
+    Tuple tuple;
+    tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
+    DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
+    buffor->pinCount++;
+    block8kb_add(buffor->universalBlock->block, &tuple);
+    buffor->isDirty = 1;
+    buffor->isUsed = 1;
+    buffor->tableId = tableId;
+    return buffor;
 }
 
 

@@ -7,6 +7,8 @@
 #include <string.h>
 
 #include "../bufforing-stm/sqlExecutor.h"
+#include "../bufforing-stm/fsmMap.h"
+#include "../bufforing-stm/mvcc.h"
 #include "../../memory-mgmt/memory-mgmt/all_var.h"
 #include "../../memory-mgmt/memory-mgmt/block8kb.h"
 #include "../../memory-mgmt/memory-mgmt/tuple.h"
@@ -34,6 +36,19 @@ static SqlExecutor make_se(int32_t xid) {
     txn.xid = xid;
     se.transaction = &txn;
     return se;
+}
+
+static void free_test_buffors(Buffors *b) {
+    for (int i = 0; i < b->count; i++) {
+        if (b->buffors[i].isUsed && b->buffors[i].universalBlock) {
+            if (b->buffors[i].universalBlock->block)
+                free(b->buffors[i].universalBlock->block);
+            if (b->buffors[i].universalBlock->header)
+                free(b->buffors[i].universalBlock->header);
+            free(b->buffors[i].universalBlock);
+        }
+    }
+    free(b->buffors);
 }
 
 /* =========================================================================
@@ -162,7 +177,7 @@ static void test_execBlock_select_all(void **state) {
     block8kb_add(block, &t2);
 
     ResultTuple result = {0};
-    sql_execBlock(block, &se, &result);
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
 
     assert_int_equal(result.tuple_count, 2);
     assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 10);
@@ -187,7 +202,7 @@ static void test_execBlock_select_subset_columns(void **state) {
     block8kb_add(block, &t);
 
     ResultTuple result = {0};
-    sql_execBlock(block, &se, &result);
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
 
     assert_int_equal(result.tuple_count, 1);
     assert_int_equal(result.tuples[0]->dnb.data_count, 1);
@@ -219,7 +234,7 @@ static void test_execBlock_where_select(void **state) {
     block8kb_add(block, &t3);
 
     ResultTuple result = {0};
-    sql_execBlock(block, &se, &result);
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
 
     assert_int_equal(result.tuple_count, 2);
     assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 20);
@@ -244,7 +259,7 @@ static void test_execBlock_where_no_match(void **state) {
     block8kb_add(block, &t);
 
     ResultTuple result = {0};
-    sql_execBlock(block, &se, &result);
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
 
     assert_int_equal(result.tuple_count, 0);
     free(block);
@@ -254,9 +269,23 @@ static void test_execBlock_where_no_match(void **state) {
  * 4. sql_execBlock — UPDATE
  * ========================================================================= */
 
-static void test_execBlock_update_where(void **state) {
+static void test_execBlock_update_sets_xmax_and_new_tuple(void **state) {
     (void)state;
-    SqlExecutor se = make_se(1);
+
+    // Setup infrastruktury
+    Buffors buffors;
+    initializeBuffors(&buffors, 10);
+    FSMCache *c = NULL;
+    FSMCacheCreateC(&c);
+    fsm_cache_set(c, 1);
+    FSMMapAll fsmMapAll;
+    init_FSMMapAll(&fsmMapAll);
+    addTableToFSMMapAll(&fsmMapAll, 1);
+    MVCC *mvcc = NULL;
+    create_MVCC(&mvcc);
+
+    SqlExecutor se = make_se(5); // xid = 5
+    se.tableId = 1;
     sql_addWhere(&se, 0, all_var_from_int32(10), SQL_EQ, 1);
     int32_t upd_cols[] = {0};
     AllVar  upd_vals[] = {all_var_from_int32(999)};
@@ -265,20 +294,75 @@ static void test_execBlock_update_where(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
 
-    Tuple t1 = make_tuple(1, 0, 10, "target", 0);
-    Tuple t2 = make_tuple(1, 0, 20, "other",  0);
+    Tuple t1 = make_tuple(1, 0, 10, "target", 0); // pasuje WHERE
+    Tuple t2 = make_tuple(1, 0, 20, "other",  0); // nie pasuje
     block8kb_add(block, &t1);
     block8kb_add(block, &t2);
 
     ResultTuple result = {0};
-    sql_execBlock(block, &se, &result);
+    sql_execBlock(block, &se, &result, &buffors, c, &fsmMapAll, mvcc);
 
-    // tylko t1 pasuje — jej col0 zmieniony na 999
-    assert_int_equal(result.tuple_count, 1);
-    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 999);
+    // stary tuple t1 dostał xmax = xid transakcji
+    assert_int_equal(block->tuples[0].header.t_xmax, 5);
     // t2 niezmieniona
+    assert_int_equal(block->tuples[1].header.t_xmax, 0);
     assert_int_equal(block->tuples[1].dnb.data[0].val.i32, 20);
 
+    free(block);
+    free(c);
+    free(mvcc);
+    free_test_buffors(&buffors);
+}
+
+/* =========================================================================
+ * 5. RR — wersjonowanie: stary tuple (xmax ustawiony) pomijany
+ * ========================================================================= */
+
+static void test_rr_skips_old_version_picks_new(void **state) {
+    (void)state;
+    SqlExecutor se = make_se(10); // xid = 10
+    int32_t cols[] = {0};
+    sql_setSelect(&se, cols, 1);
+
+    Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
+    block8kb_init(block, 4000, -1, 1, 0, 0, 0, 0);
+
+    // stara wersja — xmin=1, xmax=5 (zaktualizowana przez txn 5, usunięta dla txn>=5)
+    Tuple old = make_tuple(1, 5, 42, "old", 0);
+    // nowa wersja — xmin=5, xmax=0 (aktywna)
+    Tuple new = make_tuple(5, 0, 999, "new", 0);
+
+    block8kb_add(block, &old);
+    block8kb_add(block, &new);
+
+    ResultTuple result = {0};
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
+
+    // tylko nowa wersja widoczna (xmin=5 <= 10, xmax=0)
+    assert_int_equal(result.tuple_count, 1);
+    assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 999);
+
+    free(result.tuples[0]);
+    free(block);
+}
+
+static void test_rr_invisible_before_xmin(void **state) {
+    (void)state;
+    SqlExecutor se = make_se(3); // xid = 3
+    int32_t cols[] = {0};
+    sql_setSelect(&se, cols, 1);
+
+    Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
+    block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
+
+    // xmin=5 > xid=3 → niewidoczny (przyszła transakcja)
+    Tuple t = make_tuple(5, 0, 77, "future", 0);
+    block8kb_add(block, &t);
+
+    ResultTuple result = {0};
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
+
+    assert_int_equal(result.tuple_count, 0);
     free(block);
 }
 
@@ -305,7 +389,7 @@ static void test_execBlock_isolation_rr(void **state) {
     block8kb_add(block, &t4);
 
     ResultTuple result = {0};
-    sql_execBlock(block, &se, &result);
+    sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
 
     assert_int_equal(result.tuple_count, 2);
     assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 1);
@@ -341,10 +425,14 @@ int main(void) {
         cmocka_unit_test(test_execBlock_where_no_match),
 
         // UPDATE
-        cmocka_unit_test(test_execBlock_update_where),
+        cmocka_unit_test(test_execBlock_update_sets_xmax_and_new_tuple),
 
         // Izolacja RR
         cmocka_unit_test(test_execBlock_isolation_rr),
+
+        // RR wersjonowanie
+        cmocka_unit_test(test_rr_skips_old_version_picks_new),
+        cmocka_unit_test(test_rr_invisible_before_xmin),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

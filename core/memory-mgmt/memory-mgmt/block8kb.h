@@ -58,4 +58,17 @@ void    block8kb_unmarshal(Block8kb *b, const uint8_t buf[BLOCK_SIZE]);
 
 void    block8kb_show(const Block8kb *b);
 
+
+
+static inline void addDirectylToIndexTuple(int32_t index,Tuple *t, Block8kb *b) {
+    if (index<=b->tuple_count) {
+        b->tuples[index] = *t;
+    }
+}
+
+static inline void moveBlockOfTuples(int32_t startPosition,Block8kb *b,int32_t number) {
+
+
+}
+
 #endif

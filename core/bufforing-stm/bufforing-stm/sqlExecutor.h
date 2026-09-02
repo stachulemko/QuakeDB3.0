@@ -145,10 +145,116 @@ static Tuple *sql_doSelect(SqlExecutor *se, Tuple *t) {
  * 3. UPDATE — modyfikacja in-place
  * ========================================================================= */
 
-static void sql_doUpdate(SqlExecutor *se, Tuple *t) {
-    for (int j = 0; j < se->updCount; j++) {
-        t->dnb.data[se->updColumns[j]] = se->updValues[j];
+/* Bit w t_infomask: tuple wstawiony przez UPDATE — pomijany w skanowaniu, dostępny tylko przez chain traversal */
+#define INFOMASK_CHAIN_MEMBER ((int32_t)0x0001)
+
+uint32_t pack(int16_t a, int16_t b) {
+    return ((uint32_t)(uint16_t)a << 16) | (uint16_t)b;
+}
+void unpack(uint32_t p, int16_t *a, int16_t *b) {
+    *a = (int16_t)(p >> 16);
+    *b = (int16_t)(p & 0xFFFF);
+}
+
+/* xmax == 0 or xmax < 0 means "not deleted" */
+static inline int8_t xmax_is_none(int32_t xmax) {
+    return xmax == 0 || xmax < 0;
+}
+
+static inline int8_t isVisible(Tuple *tuple, int32_t xid) {
+    if (tuple->header.t_xmin > xid) return 0;
+    if (!xmax_is_none(tuple->header.t_xmax) && tuple->header.t_xmax <= xid) return 0;
+    return 1;
+}
+
+static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
+    if (xmax_is_none(tuple->header.t_xmax)) return 0;
+    int32_t oldest = getOldestXid(mvcc);
+    if (oldest == -1) oldest = INT32_MAX;
+    return !isVisible(tuple, oldest);
+}
+
+static inline void vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVCC *mvcc) {
+    if (currTuple != NULL) {
+        if (canVacuum(currTuple, mvcc)) {
+            prevTuple->header.t_cid = currTuple->header.t_cid;
+            free(currTuple);
+        }
     }
+}
+
+/* Follow chain for Repeatable Read: returns the version visible at xid */
+static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc) {
+    Tuple *prev = NULL;
+    Tuple *curr = start;
+    while (curr != NULL) {
+        if (curr->header.t_xmin <= xid &&
+            (xmax_is_none(curr->header.t_xmax) || curr->header.t_xmax > xid)) {
+            return curr;
+        }
+        if (curr->header.t_cid == 0) return NULL;
+        int16_t blockId, tupleIdx;
+        unpack((uint32_t)curr->header.t_cid, &blockId, &tupleIdx);
+        DataBuffor *buf = getBuffor(tableId, (int32_t)blockId, buffors);
+        if (buf == NULL || buf->universalBlock == NULL) return NULL;
+        Tuple *next = &buf->universalBlock->block->tuples[(int32_t)tupleIdx];
+        vacumingTupleIfDead(curr, prev != NULL ? prev : curr, mvcc);
+        prev = curr;
+        curr = next;
+    }
+    return NULL;
+}
+
+/* Follow chain for Read Committed: returns the latest version with xmin <= xid */
+static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc) {
+    Tuple *prev = NULL;
+    Tuple *cur = start;
+    Tuple *lastVisible = NULL;
+    while (cur != NULL) {
+        if (cur->header.t_xmin <= xid) {
+            lastVisible = cur;
+        }
+        if (cur->header.t_cid == 0) break;
+        int16_t blockId, tupleIdx;
+        unpack((uint32_t)cur->header.t_cid, &blockId, &tupleIdx);
+        DataBuffor *buf = getBuffor(tableId, (int32_t)blockId, buffors);
+        if (buf == NULL || buf->universalBlock == NULL) break;
+        Tuple *next = &buf->universalBlock->block->tuples[(int32_t)tupleIdx];
+        vacumingTupleIfDead(cur, prev != NULL ? prev : cur, mvcc);
+        prev = cur;
+        cur = next;
+    }
+    return lastVisible;
+}
+
+
+static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t blockId) {
+    t->header.t_xmax = se->transaction->xid;
+
+    Tuple newTuple = *t;
+
+    newTuple.header.t_xmin = se->transaction->xid;
+
+    for (int j = 0; j < se->updCount; j++) {
+        newTuple.dnb.data[se->updColumns[j]] = se->updValues[j];
+    }
+
+    DataBuffor *dataBuffor = addTupleToOtherFunction(buffors, c, fsmMapAll, mvcc, se->tableId,
+        newTuple.dnb.data, newTuple.dnb.data_count,
+        newTuple.dnb.bit_map, newTuple.dnb.bit_map_count,
+        se->transaction->xid, -1, -1, newTuple.header.t_infomask,
+        newTuple.header.t_hoff, newTuple.header.null_bitmap, newTuple.header.optional_oid);
+    int32_t newIdx     = dataBuffor->universalBlock->block->tuple_count - 1;
+    int32_t newBlockId = (int32_t)dataBuffor->universalBlock->block->header.block_id;
+    uint32_t pointerToNextUpdatedTuple = pack((int16_t)newBlockId, (int16_t)newIdx);
+    t->header.t_cid = pointerToNextUpdatedTuple;
+    /* oznacz nowy tuple jako chain member przez infomask — t_cid=0 oznacza koniec łańcucha */
+    dataBuffor->universalBlock->block->tuples[newIdx].header.t_infomask |= INFOMASK_CHAIN_MEMBER;
+    dataBuffor->universalBlock->block->tuples[newIdx].header.t_cid = 0;
+    dataBuffor->isDirty = 1;
+    dataBuffor->pinCount = 0;
+
+
 }
 
 /* =========================================================================
@@ -176,57 +282,72 @@ static void sql_trackRC(Tuple *t, int32_t index, int32_t *xidMax, int32_t *bestI
 }
 
 /* =========================================================================
- * 5. Single-pass przez jeden blok
+ * 5. Single-pass przez jeden blok (tylko Repeatable Read)
  *    kolejność: izolacja → WHERE → UPDATE → SELECT/wynik
  * ========================================================================= */
 
-void sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result) {
-    if (VIEW_MODE == 2) {
-        // Read Committed — znajdź najnowszą widoczną wersję w bloku
-        int32_t xidMax    = 0;
-        int32_t bestIndex = -1;
-
-        for (int i = 0; i < block->tuple_count; i++) {
-            sql_trackRC(&block->tuples[i], i, &xidMax, &bestIndex);
-        }
-
-        if (bestIndex < 0 || result->tuple_count >= RESULT_SPACE) return;
-
-        Tuple *t = &block->tuples[bestIndex];
-        if (se->where && !sql_matchWhere(se, t)) return;
-        if (se->update) sql_doUpdate(se, t);
-        if (se->select) {
-            result->tuples[result->tuple_count++] = sql_doSelect(se, t);
-        } else {
-            result->tuples[result->tuple_count++] = t;
-        }
-        return;
-    }
-
-    // Repeatable Read — skanuj wszystkie widoczne tuple
+void sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
+                   Buffors *buffors, FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
     for (int i = 0; i < block->tuple_count; i++) {
         if (result->tuple_count >= RESULT_SPACE) break;
 
         Tuple *t = &block->tuples[i];
 
-        if (!sql_isVisibleRR(se, t)) continue;
-        if (se->where && !sql_matchWhere(se, t)) continue;
+        /* pomiń chain members — dostępne tylko przez chain traversal z roota */
+        if (t->header.t_infomask & INFOMASK_CHAIN_MEMBER) continue;
 
-        if (se->update) sql_doUpdate(se, t);
+        /* RR: idź po łańcuchu i znajdź wersję widoczną przy xid tej transakcji */
+        Tuple *visible = sql_followChainRR(t, buffors, se->tableId, se->transaction->xid, mvcc);
+        if (visible == NULL) continue;
+
+        if (se->where && !sql_matchWhere(se, visible)) continue;
+        if (se->update) sql_doUpdate(se, visible, buffors, c, fsmMapAll, mvcc, block->header.block_id);
 
         if (se->select) {
-            result->tuples[result->tuple_count++] = sql_doSelect(se, t);
+            result->tuples[result->tuple_count++] = sql_doSelect(se, visible);
         } else {
-            result->tuples[result->tuple_count++] = t;
+            result->tuples[result->tuple_count++] = visible;
         }
     }
 }
 
 
-void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors) {
+void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
+                  FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
+    if (VIEW_MODE == 2) {
+        // Read Committed — chain traversal: pomiń chain members, od roota idź do końca łańcucha
+        for (int i = 1; i <= se->endBlock; i++) {
+            DataBuffor *buf = getBuffor(se->tableId, i, buffors);
+            Block8kb   *block = buf->universalBlock->block;
+            for (int j = 0; j < block->tuple_count; j++) {
+                if (result->tuple_count >= RESULT_SPACE) break;
+                Tuple *t = &block->tuples[j];
+
+                /* pomiń chain members */
+                if (t->header.t_infomask & INFOMASK_CHAIN_MEMBER) continue;
+
+                /* RC: idź po łańcuchu do najnowszej wersji z xmin <= xid */
+                Tuple *visible = sql_followChainRC(t, buffors, se->tableId, se->transaction->xid, mvcc);
+                if (visible == NULL) continue;
+
+                if (se->where && !sql_matchWhere(se, visible)) continue;
+                if (se->update) sql_doUpdate(se, visible, buffors, c, fsmMapAll, mvcc, i);
+                if (se->select) {
+                    result->tuples[result->tuple_count++] = sql_doSelect(se, visible);
+                } else {
+                    result->tuples[result->tuple_count++] = visible;
+                }
+            }
+            buf->isUsed   = 1;
+            buf->pinCount = 0;
+        }
+        return;
+    }
+
+    // Repeatable Read — skanuj wszystkie bloki
     for (int i = 1; i <= se->endBlock; i++) {
         DataBuffor *buf = getBuffor(se->tableId, i, buffors);
-        sql_execBlock(buf->universalBlock->block, se, result);
+        sql_execBlock(buf->universalBlock->block, se, result, buffors, c, fsmMapAll, mvcc);
         buf->isUsed   = 1;
         buf->pinCount = 0;
     }
