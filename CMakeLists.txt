@@ -35,6 +35,8 @@ add_executable(QuakeDB3_0
         core/bufforing-stm/bufforing-stm/transaction.c
         core/bufforing-stm/bufforing-stm/setUpCaches.h
         core/bufforing-stm/bufforing-stm/setUpCaches.c
+        core/bufforing-stm/bufforing-stm/hotUpdate.h
+        core/bufforing-stm/bufforing-stm/hotUpdate.c
 )
 
 # Find cmocka
@@ -88,9 +90,31 @@ if(CMOCKA_LIBRARY)
     )
     target_compile_definitions(test_btree_operations PRIVATE LOG_LEVEL=0)
 
+    add_executable(test_btree_update_indexes
+            ${CORE_SOURCES}
+            core/indexes/tests/test_btree_update_indexes.c
+    )
+    target_compile_definitions(test_btree_update_indexes PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_btree_block_count
+            ${CORE_SOURCES}
+            core/indexes/tests/test_btree_block_count.c
+    )
+    target_compile_definitions(test_btree_block_count PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_bq
+            core/vacuum/vacuum/bq.c
+            core/vacuum/tests/test_bq.c
+    )
+    target_compile_definitions(test_bq PRIVATE LOG_LEVEL=0)
+
     foreach(TEST_FILE ${TEST_SOURCES})
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
-        add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE})
+        add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}
+                core/vacuum/vacuum/bucketQueue.h
+                core/vacuum/vacuum/bucketQueue.c
+                core/vacuum/vacuum/vacuum.h
+                core/vacuum/vacuum/vacuum.c)
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
         target_compile_definitions(${TEST_NAME} PRIVATE LOG_LEVEL=0)
     endforeach()
@@ -108,6 +132,13 @@ if(CMOCKA_LIBRARY)
     )
     target_link_libraries(test_sqlExecutor_chain ${CMOCKA_LIBRARY})
     target_compile_definitions(test_sqlExecutor_chain PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_hotUpdate
+            ${CORE_SOURCES}
+            core/bufforing-stm/tests/test_hotUpdate.c
+    )
+    target_link_libraries(test_hotUpdate ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_hotUpdate PRIVATE LOG_LEVEL=0)
 
     add_executable(test_QuaeryExecutor_rc
             ${CORE_SOURCES}

@@ -25,6 +25,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_types_converter.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
   "CMakeFiles/test_types_converter.dir/core/memory-mgmt/tests/test_types_converter.c.o"
   "CMakeFiles/test_types_converter.dir/core/memory-mgmt/tests/test_types_converter.c.o.d"
+  "CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/bucketQueue.c.o"
+  "CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/bucketQueue.c.o.d"
+  "CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/vacuum.c.o"
+  "CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/vacuum.c.o.d"
   "test_types_converter"
   "test_types_converter.pdb"
 )

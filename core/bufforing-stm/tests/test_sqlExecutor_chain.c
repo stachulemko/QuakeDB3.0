@@ -34,6 +34,10 @@ static void env_setup(TestEnv *env) {
     init_FSMMapAll(&env->fsmMapAll);
     addTableToFSMMapAll(&env->fsmMapAll, CHAIN_TABLE);
     create_MVCC(&env->mvcc);
+    /* domyślnie wszystkie sloty = TXN_COMMITED — brak aktywnych transakcji */
+    for (int i = 0; i < MAX_TRANSACTIONS; i++) {
+        env->mvcc->txn_status[i] = TXN_COMMITED;
+    }
 }
 
 static void env_teardown(TestEnv *env) {
@@ -49,6 +53,18 @@ static void env_teardown(TestEnv *env) {
     free(env->buffors.buffors);
     free(env->c);
     free(env->mvcc);
+}
+
+/* Oznacz snapshot jako aktywny (przed updateami) — vacuum go nie tknie */
+static void env_hold_snapshot(TestEnv *env, int32_t xid) {
+    if (xid >= 0 && xid < MAX_TRANSACTIONS)
+        env->mvcc->txn_status[xid] = TXN_ACTIVE;
+}
+
+/* Zwolnij snapshot (po odczycie) */
+static void env_release_snapshot(TestEnv *env, int32_t xid) {
+    if (xid >= 0 && xid < MAX_TRANSACTIONS)
+        env->mvcc->txn_status[xid] = TXN_COMMITED;
 }
 
 static int32_t env_endblock(TestEnv *env) {
@@ -106,6 +122,8 @@ static void env_update_by_id(TestEnv *env, int32_t txn_xid, int32_t id_val, int3
 
 /* SELECT col0 for all tuples, for given transaction xid */
 static ResultTuple env_select(TestEnv *env, int32_t txn_xid) {
+    if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
+        env->mvcc->txn_status[txn_xid] = TXN_ACTIVE;
     Transaction txn = {.xid = txn_xid};
     SqlExecutor se  = {0};
     se.transaction  = &txn;
@@ -115,11 +133,15 @@ static ResultTuple env_select(TestEnv *env, int32_t txn_xid) {
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
     sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
+        env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;
 }
 
 /* SELECT col1 WHERE col0==id_val, for given transaction xid (2-column) */
 static ResultTuple env_select_by_id(TestEnv *env, int32_t txn_xid, int32_t id_val) {
+    if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
+        env->mvcc->txn_status[txn_xid] = TXN_ACTIVE;
     Transaction txn = {.xid = txn_xid};
     SqlExecutor se  = {0};
     se.transaction  = &txn;
@@ -130,6 +152,8 @@ static ResultTuple env_select_by_id(TestEnv *env, int32_t txn_xid, int32_t id_va
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
     sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
+        env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;
 }
 
@@ -145,6 +169,9 @@ static void test_chain_single_update_rr_two_snapshots(void **state) {
     (void)state;
     TestEnv env;
     env_setup(&env);
+
+    env_hold_snapshot(&env, 2);    /* txn 2 startuje przed updateem */
+    env_hold_snapshot(&env, 7);    /* txn 7 startuje przed updateem */
 
     env_insert(&env, 1, 100);      /* v1: xmin=1, val=100 */
     env_update(&env, 5, 100, 200); /* txn 5: 100 → 200 */
@@ -182,6 +209,11 @@ static void test_chain_triple_update_rr_versioning(void **state) {
     (void)state;
     TestEnv env;
     env_setup(&env);
+
+    env_hold_snapshot(&env,  3);
+    env_hold_snapshot(&env,  7);
+    env_hold_snapshot(&env, 12);
+    env_hold_snapshot(&env, 20);
 
     env_insert(&env,  1, 10);
     env_update(&env,  5, 10, 20);
@@ -223,6 +255,9 @@ static void test_chain_many_tuples_partial_update_rr(void **state) {
     (void)state;
     TestEnv env;
     env_setup(&env);
+
+    env_hold_snapshot(&env, 2);   /* widzi oryginały */
+    env_hold_snapshot(&env, 7);   /* widzi po updateach */
 
     /* INSERT 8 tuple (val = 10,20,30,40,50,60,70,80), xmin=1 */
     for (int v = 10; v <= 80; v += 10) {
@@ -276,6 +311,11 @@ static void test_chain_independent_chains_snapshot_isolation(void **state) {
     (void)state;
     TestEnv env;
     env_setup(&env);
+
+    env_hold_snapshot(&env,  3);
+    env_hold_snapshot(&env,  7);
+    env_hold_snapshot(&env, 15);
+    env_hold_snapshot(&env, 25);
 
     env_insert2(&env, 1, 1, 100);
     env_insert2(&env, 1, 2, 200);
@@ -370,6 +410,11 @@ static void test_chain_large_multi_update_sum_check(void **state) {
     TestEnv env;
     env_setup(&env);
 
+    env_hold_snapshot(&env,  2);
+    env_hold_snapshot(&env,  7);
+    env_hold_snapshot(&env, 12);
+    env_hold_snapshot(&env, 20);
+
     /* Wstaw 9 tuple: val = 1..9 */
     for (int v = 1; v <= 9; v++) {
         env_insert(&env, 1, v);
@@ -452,6 +497,10 @@ static void test_chain_concurrent_transactions_hold_snapshots(void **state) {
     TestEnv env;
     env_setup(&env);
 
+    env_hold_snapshot(&env,  1);
+    env_hold_snapshot(&env,  6);
+    env_hold_snapshot(&env, 15);
+
     env_insert(&env,  1, 999);
     env_update(&env,  5,  999, 1000);
     env_update(&env, 10, 1000, 9999);
@@ -489,13 +538,15 @@ static void test_chain_no_duplicate_versions_in_result(void **state) {
     TestEnv env;
     env_setup(&env);
 
+    int32_t xids[] = {2, 6, 11, 16, 20};
+    for (int i = 0; i < 5; i++) env_hold_snapshot(&env, xids[i]);
+
     env_insert(&env,  1,  1);
     env_update(&env,  5,  1, 10);
     env_update(&env, 10, 10, 100);
     env_update(&env, 15,100, 1000);
 
     /* Każdy snapshot widzi dokładnie 1 tuple — nigdy duplikat */
-    int32_t xids[] = {2, 6, 11, 16, 20};
     int32_t expected[] = {1, 10, 100, 1000, 1000};
 
     for (int i = 0; i < 5; i++) {
@@ -523,6 +574,10 @@ static void test_chain_mixed_updated_and_original(void **state) {
     (void)state;
     TestEnv env;
     env_setup(&env);
+
+    env_hold_snapshot(&env,  3);
+    env_hold_snapshot(&env,  7);
+    env_hold_snapshot(&env, 15);
 
     for (int v = 1; v <= 5; v++) {
         env_insert(&env, 1, v);
@@ -566,6 +621,105 @@ static void test_chain_mixed_updated_and_original(void **state) {
 }
 
 /* =========================================================================
+ * Helper: zbuduj minimalny Tuple z podanym xmin/xmax (bez danych)
+ * ========================================================================= */
+
+static Tuple make_tuple(int32_t xmin, int32_t xmax) {
+    Tuple t = {0};
+    t.header.t_xmin = xmin;
+    t.header.t_xmax = xmax;
+    return t;
+}
+
+/* =========================================================================
+ * canVacuum — testy komponentowe
+ * ========================================================================= */
+
+/* 1. xmax == 0 → żywa tupla, nie można vacuumować */
+static void test_canVacuum_xmax_zero_returns_false(void **state) {
+    (void)state;
+    MVCC *mvcc;
+    create_MVCC(&mvcc);
+    /* brak aktywnych transakcji */
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
+        mvcc->txn_status[i] = TXN_COMMITED;
+
+    Tuple t = make_tuple(1, 0);
+    assert_int_equal(canVacuum(&t, mvcc), 0);
+    free(mvcc);
+}
+
+/* 2. xmax < 0 → żywa tupla (xmax sentinel < 0), nie można vacuumować */
+static void test_canVacuum_xmax_negative_returns_false(void **state) {
+    (void)state;
+    MVCC *mvcc;
+    create_MVCC(&mvcc);
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
+        mvcc->txn_status[i] = TXN_COMMITED;
+
+    Tuple t = make_tuple(1, -1);
+    assert_int_equal(canVacuum(&t, mvcc), 0);
+    free(mvcc);
+}
+
+/* 3. xmax ustawiony, brak aktywnych transakcji (oldest==-1) → można vacuumować */
+static void test_canVacuum_no_active_txns_returns_true(void **state) {
+    (void)state;
+    MVCC *mvcc;
+    create_MVCC(&mvcc);
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
+        mvcc->txn_status[i] = TXN_COMMITED;
+
+    Tuple t = make_tuple(1, 5);
+    assert_int_equal(canVacuum(&t, mvcc), 1);
+    free(mvcc);
+}
+
+/* 4. xmax < oldest aktywnej transakcji → każda aktywna widzi tuplę jako martwą → można vacuumować */
+static void test_canVacuum_xmax_less_than_oldest_returns_true(void **state) {
+    (void)state;
+    MVCC *mvcc;
+    create_MVCC(&mvcc);
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
+        mvcc->txn_status[i] = TXN_COMMITED;
+    /* najstarsza aktywna to xid=10 */
+    mvcc->txn_status[10] = TXN_ACTIVE;
+    mvcc->txn_status[15] = TXN_ACTIVE;
+
+    Tuple t = make_tuple(1, 5); /* xmax=5 < oldest=10 */
+    assert_int_equal(canVacuum(&t, mvcc), 1);
+    free(mvcc);
+}
+
+/* 5. xmax == oldest → aktywna transakcja mogła jeszcze widzieć tuplę → nie można vacuumować */
+static void test_canVacuum_xmax_equal_oldest_returns_false(void **state) {
+    (void)state;
+    MVCC *mvcc;
+    create_MVCC(&mvcc);
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
+        mvcc->txn_status[i] = TXN_COMMITED;
+    mvcc->txn_status[10] = TXN_ACTIVE;
+
+    Tuple t = make_tuple(1, 10); /* xmax=10 == oldest=10 */
+    assert_int_equal(canVacuum(&t, mvcc), 0);
+    free(mvcc);
+}
+
+/* 6. xmax > oldest → jakaś aktywna transakcja nadal widzi tuplę jako żywą → nie można vacuumować */
+static void test_canVacuum_xmax_greater_than_oldest_returns_false(void **state) {
+    (void)state;
+    MVCC *mvcc;
+    create_MVCC(&mvcc);
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
+        mvcc->txn_status[i] = TXN_COMMITED;
+    mvcc->txn_status[5] = TXN_ACTIVE; /* oldest=5 */
+
+    Tuple t = make_tuple(1, 20); /* xmax=20 > oldest=5 */
+    assert_int_equal(canVacuum(&t, mvcc), 0);
+    free(mvcc);
+}
+
+/* =========================================================================
  * Main
  * ========================================================================= */
 
@@ -579,6 +733,13 @@ int main(void) {
         cmocka_unit_test(test_chain_concurrent_transactions_hold_snapshots),
         cmocka_unit_test(test_chain_no_duplicate_versions_in_result),
         cmocka_unit_test(test_chain_mixed_updated_and_original),
+        /* canVacuum */
+        cmocka_unit_test(test_canVacuum_xmax_zero_returns_false),
+        cmocka_unit_test(test_canVacuum_xmax_negative_returns_false),
+        cmocka_unit_test(test_canVacuum_no_active_txns_returns_true),
+        cmocka_unit_test(test_canVacuum_xmax_less_than_oldest_returns_true),
+        cmocka_unit_test(test_canVacuum_xmax_equal_oldest_returns_false),
+        cmocka_unit_test(test_canVacuum_xmax_greater_than_oldest_returns_false),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

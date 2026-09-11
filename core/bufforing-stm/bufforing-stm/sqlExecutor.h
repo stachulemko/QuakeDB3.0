@@ -10,6 +10,7 @@
 #include "transaction.h"
 #include "fsmMap.h"
 #include "../../memory-mgmt/memory-mgmt/all_var.h"
+#include "../../indexes/indexes/btreeFileOperation.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -76,6 +77,10 @@ typedef struct {
     int32_t endBlock;
 
     Transaction *transaction;
+
+    /* B-tree indexes (opcjonalne — NULL jesli brak indeksow) */
+    FSMMapBtree  *fsmMapBtree;
+    BtreeBuffors *btreeBuffors;
 } SqlExecutor;
 
 /* =========================================================================
@@ -147,6 +152,7 @@ static Tuple *sql_doSelect(SqlExecutor *se, Tuple *t) {
 
 /* Bit w t_infomask: tuple wstawiony przez UPDATE — pomijany w skanowaniu, dostępny tylko przez chain traversal */
 #define INFOMASK_CHAIN_MEMBER ((int32_t)0x0001)
+#define INFOMASK_DEAD         ((int32_t)0x0002)
 
 uint32_t pack(int16_t a, int16_t b) {
     return ((uint32_t)(uint16_t)a << 16) | (uint16_t)b;
@@ -170,22 +176,26 @@ static inline int8_t isVisible(Tuple *tuple, int32_t xid) {
 static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
     if (xmax_is_none(tuple->header.t_xmax)) return 0;
     int32_t oldest = getOldestXid(mvcc);
-    if (oldest == -1) oldest = INT32_MAX;
-    return !isVisible(tuple, oldest);
+    /* oldest == -1 → brak aktywnych transakcji → można usunąć wszystko z xmax */
+    if (oldest == -1) return 1;
+    /* xmax < oldest → każda aktywna transakcja (xid >= oldest) widzi tuplę jako martwą */
+    return tuple->header.t_xmax < oldest;
 }
 
 static inline void vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVCC *mvcc) {
     if (currTuple != NULL) {
         if (canVacuum(currTuple, mvcc)) {
+            /* przepnij łańcuch: prevTuple przeskakuje przez currTuple */
             prevTuple->header.t_cid = currTuple->header.t_cid;
-            free(currTuple);
+            currTuple->header.t_infomask |= INFOMASK_DEAD;
+            /* tuple jest częścią bloku — pamięć bloku recyklingowana osobno */
         }
     }
 }
 
 /* Follow chain for Repeatable Read: returns the version visible at xid */
 static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc) {
-    Tuple *prev = NULL;
+    Tuple *prev = NULL;         
     Tuple *curr = start;
     while (curr != NULL) {
         if (curr->header.t_xmin <= xid &&
@@ -229,6 +239,11 @@ static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId,
 
 
 static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t blockId) {
+    /* hotUpdate: usun stary tuple z indeksow przed oznaczeniem xmax */
+    if (se->fsmMapBtree != NULL && se->btreeBuffors != NULL) {
+        btree_delete_tuple_indexes(se->fsmMapBtree, se->btreeBuffors, se->tableId, t, blockId);
+    }
+
     t->header.t_xmax = se->transaction->xid;
 
     Tuple newTuple = *t;
@@ -244,8 +259,16 @@ static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,
         newTuple.dnb.bit_map, newTuple.dnb.bit_map_count,
         se->transaction->xid, -1, -1, newTuple.header.t_infomask,
         newTuple.header.t_hoff, newTuple.header.null_bitmap, newTuple.header.optional_oid);
+
     int32_t newIdx     = dataBuffor->universalBlock->block->tuple_count - 1;
     int32_t newBlockId = (int32_t)dataBuffor->universalBlock->block->header.block_id;
+
+    /* hotUpdateA: dodaj nowy tuple do indeksow po jego zapisaniu */
+    if (se->fsmMapBtree != NULL && se->btreeBuffors != NULL) {
+        btree_insert_tuple_indexes(se->fsmMapBtree, se->btreeBuffors, se->tableId,
+                                   &dataBuffor->universalBlock->block->tuples[newIdx], newBlockId);
+    }
+
     uint32_t pointerToNextUpdatedTuple = pack((int16_t)newBlockId, (int16_t)newIdx);
     t->header.t_cid = pointerToNextUpdatedTuple;
     /* oznacz nowy tuple jako chain member przez infomask — t_cid=0 oznacza koniec łańcucha */
@@ -253,8 +276,6 @@ static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,
     dataBuffor->universalBlock->block->tuples[newIdx].header.t_cid = 0;
     dataBuffor->isDirty = 1;
     dataBuffor->pinCount = 0;
-
-
 }
 
 /* =========================================================================

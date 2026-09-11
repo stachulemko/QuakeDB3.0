@@ -1,0 +1,1 @@
+/usr/bin/gcc -g -O0 -g CMakeFiles/test_bq.dir/core/vacuum/vacuum/bq.c.o CMakeFiles/test_bq.dir/core/vacuum/tests/test_bq.c.o -o test_bq 

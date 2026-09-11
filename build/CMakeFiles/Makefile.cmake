@@ -46,6 +46,9 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_tuple_add.dir/DependInfo.cmake"
   "CMakeFiles/test_stress.dir/DependInfo.cmake"
   "CMakeFiles/test_btree_operations.dir/DependInfo.cmake"
+  "CMakeFiles/test_btree_update_indexes.dir/DependInfo.cmake"
+  "CMakeFiles/test_btree_block_count.dir/DependInfo.cmake"
+  "CMakeFiles/test_bq.dir/DependInfo.cmake"
   "CMakeFiles/test_all_var.dir/DependInfo.cmake"
   "CMakeFiles/test_block8kb.dir/DependInfo.cmake"
   "CMakeFiles/test_block_header.dir/DependInfo.cmake"
@@ -58,5 +61,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_QuaeryExecutor.dir/DependInfo.cmake"
   "CMakeFiles/test_sqlExecutor.dir/DependInfo.cmake"
   "CMakeFiles/test_sqlExecutor_chain.dir/DependInfo.cmake"
+  "CMakeFiles/test_hotUpdate.dir/DependInfo.cmake"
   "CMakeFiles/test_QuaeryExecutor_rc.dir/DependInfo.cmake"
   )

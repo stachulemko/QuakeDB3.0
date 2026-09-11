@@ -251,6 +251,34 @@ CMakeFiles/test_tuple.dir/core/memory-mgmt/tests/test_tuple.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_tuple.dir/core/memory-mgmt/tests/test_tuple.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/tests/test_tuple.c -o CMakeFiles/test_tuple.dir/core/memory-mgmt/tests/test_tuple.c.s
 
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o: CMakeFiles/test_tuple.dir/flags.make
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o: /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bucketQueue.c
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o: CMakeFiles/test_tuple.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o -MF CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o.d -o CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o -c /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bucketQueue.c
+
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bucketQueue.c > CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.i
+
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bucketQueue.c -o CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.s
+
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o: CMakeFiles/test_tuple.dir/flags.make
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o: /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o: CMakeFiles/test_tuple.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o -MF CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o.d -o CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o -c /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c
+
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c > CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.i
+
+CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c -o CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.s
+
 # Object files for target test_tuple
 test_tuple_OBJECTS = \
 "CMakeFiles/test_tuple.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o" \
@@ -265,7 +293,9 @@ test_tuple_OBJECTS = \
 "CMakeFiles/test_tuple.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" \
 "CMakeFiles/test_tuple.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" \
 "CMakeFiles/test_tuple.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" \
-"CMakeFiles/test_tuple.dir/core/memory-mgmt/tests/test_tuple.c.o"
+"CMakeFiles/test_tuple.dir/core/memory-mgmt/tests/test_tuple.c.o" \
+"CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o" \
+"CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o"
 
 # External object files for target test_tuple
 test_tuple_EXTERNAL_OBJECTS =
@@ -283,10 +313,12 @@ test_tuple: CMakeFiles/test_tuple.dir/core/memory-mgmt/memory-mgmt/tuple_header.
 test_tuple: CMakeFiles/test_tuple.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 test_tuple: CMakeFiles/test_tuple.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 test_tuple: CMakeFiles/test_tuple.dir/core/memory-mgmt/tests/test_tuple.c.o
+test_tuple: CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bucketQueue.c.o
+test_tuple: CMakeFiles/test_tuple.dir/core/vacuum/vacuum/vacuum.c.o
 test_tuple: CMakeFiles/test_tuple.dir/build.make
 test_tuple: /usr/lib/x86_64-linux-gnu/libcmocka.so
 test_tuple: CMakeFiles/test_tuple.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking C executable test_tuple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking C executable test_tuple"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_tuple.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

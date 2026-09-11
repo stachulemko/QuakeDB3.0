@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o.d"
+  "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/hotUpdate.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/queryExecutor.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/setUpCaches.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/transaction.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o.d"

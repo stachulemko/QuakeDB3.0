@@ -25,6 +25,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
   "CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o"
   "CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o.d"
+  "CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bucketQueue.c.o"
+  "CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bucketQueue.c.o.d"
+  "CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o"
+  "CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o.d"
   "test_all_var"
   "test_all_var.pdb"
 )

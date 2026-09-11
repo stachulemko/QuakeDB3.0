@@ -30,6 +30,7 @@ typedef struct {
 
 typedef struct {
     int32_t blockId;
+    int32_t count;
     int32_t pointerToNextBlock;
 }Blocks ;
 
@@ -238,6 +239,7 @@ static inline int32_t calculateBlock(int32_t pointer) {
     return pointer / BLOCK_SIZE;
 }
 
+
 static inline DataBtree* getData(int32_t start, int32_t tableId, int32_t columnIndex,
                                      BtreeBuffors *btreeBuffors) {
         int32_t offset = start;
@@ -331,11 +333,12 @@ static inline int32_t allocateBlocksEntry(int32_t blockIdVal, BtreeBuffors *btre
 
     int32_t inBlockOffset = newBlocksOffset % BLOCK_SIZE;
     marshal_int32(buffor->buf + inBlockOffset, blockIdVal);
-    marshal_int32(buffor->buf + inBlockOffset + sizeof(int32_t), -1);
+    marshal_int32(buffor->buf + inBlockOffset + sizeof(int32_t), 1);
+    marshal_int32(buffor->buf + inBlockOffset + sizeof(int32_t) * 2, -1);
     buffor->isDirty = 1;
     buffor->pinCount = 0;
 
-    fsm_btree_append_to_block(fsmMap, tableId, columnIndex, 3, sizeof(int32_t) * 2);
+    fsm_btree_append_to_block(fsmMap, tableId, columnIndex, 3, sizeof(int32_t) * 3);
     return newBlocksOffset;
 }
 
@@ -354,8 +357,8 @@ int32_t getLastBlockOffset(int32_t firstBlockOffset, int32_t tableId, int32_t co
 
         int32_t inBlockOffset = curOffset % BLOCK_SIZE;
 
-        // 3. Read pointer to NEXT block (+4 bytes, because first 4B is blockId)
-        unmarshal_int32(&nextOffset, buffor->buf + inBlockOffset + sizeof(int32_t));
+        // 3. Read pointer to NEXT block (+8 bytes: blockId(4B) + count(4B))
+        unmarshal_int32(&nextOffset, buffor->buf + inBlockOffset + sizeof(int32_t) * 2);
         buffor->pinCount = 0;
 
         // 4. If next is -1, then curOffset is the LAST block!
@@ -372,18 +375,44 @@ int32_t getLastBlockOffset(int32_t firstBlockOffset, int32_t tableId, int32_t co
 
 void addBlockToVal(int32_t ptrToBlocks, int32_t tableId, int32_t columnIndex,
                    BtreeBuffors *btreeBuffors, FSMMapBtree *fsmMap, int32_t blockIdVal) {
+    // Check if blockId already exists in the list - if so, increment count
+    int32_t curOffset = ptrToBlocks;
+    while (curOffset != -1) {
+        int32_t block = calculateBlock(curOffset);
+        BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        if (buffor == NULL) break;
+
+        int32_t inBlock = curOffset % BLOCK_SIZE;
+        int32_t curBlockId = 0;
+        unmarshal_int32(&curBlockId, buffor->buf + inBlock);
+
+        if (curBlockId == blockIdVal) {
+            int32_t count = 0;
+            unmarshal_int32(&count, buffor->buf + inBlock + sizeof(int32_t));
+            count++;
+            marshal_int32(buffor->buf + inBlock + sizeof(int32_t), count);
+            buffor->isDirty = 1;
+            buffor->pinCount = 0;
+            return;
+        }
+
+        int32_t nextOffset = -1;
+        unmarshal_int32(&nextOffset, buffor->buf + inBlock + sizeof(int32_t) * 2);
+        buffor->pinCount = 0;
+        curOffset = nextOffset;
+    }
+
+    // blockId not found - allocate new entry and link it
     int32_t lastOffset = getLastBlockOffset(ptrToBlocks, tableId, columnIndex, btreeBuffors);
     if (lastOffset == -1) return;
 
-    // Allocate new block entry [blockIdVal, -1] in block region 3
     int32_t newOffset = allocateBlocksEntry(blockIdVal, btreeBuffors, tableId, columnIndex, fsmMap);
     if (newOffset == -1) return;
 
-    // Update the last entry's nextPtr to point to the new entry
     int32_t lastBlock = calculateBlock(lastOffset);
     BtreeBuffor *lastBuf = getBtreeBuffor(tableId, columnIndex, lastBlock, btreeBuffors);
     if (lastBuf != NULL) {
-        marshal_int32(lastBuf->buf + (lastOffset % BLOCK_SIZE) + sizeof(int32_t), newOffset);
+        marshal_int32(lastBuf->buf + (lastOffset % BLOCK_SIZE) + sizeof(int32_t) * 2, newOffset);
         lastBuf->isDirty = 1;
         lastBuf->pinCount = 0;
     }
@@ -488,7 +517,7 @@ static inline int32_t findFreeSpace(int32_t tableId, int32_t columnIndex, int32_
 
 static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int32_t columnIndex,
                                         BtreeBuffors *btreeBuffors, FSMMapBtree *fsmMap) {
-    int32_t size = sizeof(int32_t) * 2; 
+    int32_t size = sizeof(int32_t) * 3;
     int32_t offset = findFreeSpace(tableId, columnIndex, size, btreeBuffors, 3, fsmMap);
 
     int32_t block = calculateBlock(offset);
@@ -496,7 +525,8 @@ static inline int32_t createBlocksEntry(int32_t blockIdVal, int32_t tableId, int
     if (buffor != NULL) {
         int32_t inBlock = offset % BLOCK_SIZE;
         marshal_int32(buffor->buf + inBlock, blockIdVal);
-        marshal_int32(buffor->buf + inBlock + sizeof(int32_t), -1);
+        marshal_int32(buffor->buf + inBlock + sizeof(int32_t), 1);
+        marshal_int32(buffor->buf + inBlock + sizeof(int32_t) * 2, -1);
         buffor->isDirty = 1;
         buffor->pinCount = 0;
         fsm_btree_append_to_block(fsmMap, tableId, columnIndex, block, size);
@@ -1193,11 +1223,11 @@ void deleteBlock(FSMMapBtree *fsm,BtreeBuffors *btreeBuffors, int32_t tableId, i
     buffor->pinCount = 0;
     while (blockEach!=blockId) {
         prevOffset = offset;
-        unmarshal_int32(&offset,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+        unmarshal_int32(&offset,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t) * 2);
         block = calculateBlock(offset);
         buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
         if (buffor == NULL) return;
-        unmarshal_int32(&blockEach,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+        unmarshal_int32(&blockEach,buffor->buf + (offset % BLOCK_SIZE));
         buffor->pinCount = 0;
     }
     if (prevOffset != -1) {
@@ -1205,17 +1235,17 @@ void deleteBlock(FSMMapBtree *fsm,BtreeBuffors *btreeBuffors, int32_t tableId, i
         block = calculateBlock(offset);
         buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
         if (buffor != NULL) {
-            unmarshal_int32(&nextOffset,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
-            memset(buffor->buf + offset, 0, 8);
+            unmarshal_int32(&nextOffset,buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t) * 2);
+            memset(buffor->buf + (offset % BLOCK_SIZE), 0, sizeof(int32_t) * 3);
             buffor->isDirty = 1;
             buffor->pinCount = 0;
-            deleteElementUpdateSpace(fsm,tableId,columnIndex,block,offset,8);
+            deleteElementUpdateSpace(fsm,tableId,columnIndex,block,offset,sizeof(int32_t) * 3);
         }
 
         int32_t prevBlock = calculateBlock(prevOffset);
         BtreeBuffor *prevBuf = getBtreeBuffor(tableId, columnIndex, prevBlock, btreeBuffors);
         if (prevBuf != NULL) {
-            marshal_int32(prevBuf->buf+prevOffset+sizeof(int32_t), nextOffset );
+            marshal_int32(prevBuf->buf+(prevOffset % BLOCK_SIZE)+sizeof(int32_t) * 2, nextOffset );
             prevBuf->isDirty = 1;
             prevBuf->pinCount = 0;
         }
@@ -1261,29 +1291,38 @@ static inline int32_t deleteBlockEntry(FSMMapBtree *fsm, BtreeBuffors *btreeBuff
 
         int32_t inBlock = curOffset % BLOCK_SIZE;
         int32_t curBlockId = 0;
+        int32_t count = 0;
         int32_t nextOffset = -1;
         unmarshal_int32(&curBlockId, buffor->buf + inBlock);
-        unmarshal_int32(&nextOffset, buffor->buf + inBlock + sizeof(int32_t));
+        unmarshal_int32(&count, buffor->buf + inBlock + sizeof(int32_t));
+        unmarshal_int32(&nextOffset, buffor->buf + inBlock + sizeof(int32_t) * 2);
 
         if (curBlockId == blockId) {
-            // Found — zero out this entry (8 bytes: blockId + nextOffset)
-            memset(buffor->buf + inBlock, 0, 8);
+            count--;
+            if (count > 0) {
+                // Still references left — just decrement count
+                marshal_int32(buffor->buf + inBlock + sizeof(int32_t), count);
+                buffor->isDirty = 1;
+                buffor->pinCount = 0;
+                return headOffset;
+            }
+
+            // count == 0 — remove this entry (12 bytes: blockId + count + nextOffset)
+            memset(buffor->buf + inBlock, 0, sizeof(int32_t) * 3);
             buffor->isDirty = 1;
             buffor->pinCount = 0;
-            deleteElementUpdateSpace(fsm, tableId, columnIndex, block, curOffset, 8);
+            deleteElementUpdateSpace(fsm, tableId, columnIndex, block, curOffset, sizeof(int32_t) * 3);
 
             if (prevOffset != -1) {
-                // Removing from middle/end — rewire prev->next
                 int32_t prevBlock = calculateBlock(prevOffset);
                 BtreeBuffor *prevBuf = getBtreeBuffor(tableId, columnIndex, prevBlock, btreeBuffors);
                 if (prevBuf != NULL) {
-                    marshal_int32(prevBuf->buf + (prevOffset % BLOCK_SIZE) + sizeof(int32_t), nextOffset);
+                    marshal_int32(prevBuf->buf + (prevOffset % BLOCK_SIZE) + sizeof(int32_t) * 2, nextOffset);
                     prevBuf->isDirty = 1;
                     prevBuf->pinCount = 0;
                 }
                 return headOffset;
             } else {
-                // Removing head — new head is nextOffset (-1 if list is empty)
                 return nextOffset;
             }
         }
@@ -1293,7 +1332,7 @@ static inline int32_t deleteBlockEntry(FSMMapBtree *fsm, BtreeBuffors *btreeBuff
         curOffset = nextOffset;
     }
 
-    return headOffset; // Not found — do not change anything
+    return headOffset;
 }
 
 
@@ -1875,6 +1914,72 @@ void deleteVal(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
             }
         }
     }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  btree_delete_tuple_indexes
+ *
+ *  Usuwa wartosci tuple z wszystkich indeksow B-tree dla danej tabeli.
+ *  Kolumny bez indeksu sa pomijane.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void btree_delete_tuple_indexes(
+        FSMMapBtree *fsmMapBtree,
+        BtreeBuffors *btreeBuffors,
+        int32_t tableId,
+        Tuple *tuple, int32_t blockId) {
+    if (fsmMapBtree == NULL || btreeBuffors == NULL || tuple == NULL) return;
+
+    BtreeTableEntry *table = fsm_btree_get_table(fsmMapBtree, tableId);
+    if (table == NULL) return;
+
+    for (int32_t col = 0; col < tuple->dnb.data_count; col++) {
+        if (fsm_btree_get_column(table, col) == NULL) continue;
+        deleteVal(fsmMapBtree, btreeBuffors, tableId, col, blockId, tuple->dnb.data[col]);
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  btree_insert_tuple_indexes
+ *
+ *  Wstawia wartosci tuple do wszystkich indeksow B-tree dla danej tabeli.
+ *  Kolumny bez indeksu sa pomijane.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void btree_insert_tuple_indexes(
+        FSMMapBtree *fsmMapBtree,
+        BtreeBuffors *btreeBuffors,
+        int32_t tableId,
+        Tuple *tuple, int32_t blockId) {
+    if (fsmMapBtree == NULL || btreeBuffors == NULL || tuple == NULL) return;
+
+    BtreeTableEntry *table = fsm_btree_get_table(fsmMapBtree, tableId);
+    if (table == NULL) return;
+
+    for (int32_t col = 0; col < tuple->dnb.data_count; col++) {
+        if (fsm_btree_get_column(table, col) == NULL) continue;
+        addToBtree(tuple->dnb.data[col], blockId, btreeBuffors, tableId, col, fsmMapBtree);
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  btree_update_tuple_indexes
+ *
+ *  Atomowy update indeksow: usuwa stary tuple, wstawia nowy.
+ *  Zlozony z btree_delete_tuple_indexes + btree_insert_tuple_indexes.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+static inline void btree_update_tuple_indexes(
+        FSMMapBtree *fsmMapBtree,
+        BtreeBuffors *btreeBuffors,
+        int32_t tableId,
+        Tuple *oldTuple, int32_t oldBlockId,
+        Tuple *newTuple, int32_t newBlockId) {
+    btree_delete_tuple_indexes(fsmMapBtree, btreeBuffors, tableId, oldTuple, oldBlockId);
+    btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId, newTuple, newBlockId);
 }
 
 
