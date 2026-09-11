@@ -4,19 +4,20 @@
 /*
  * block_header.h — 8 kb block header (C struct replacing the blockHeader class)
  *
- * Binary layout (17 bytes):
+ * Binary layout (19 bytes):
  *   nextblock       int32_t  4 B
  *   block_id        int32_t  4 B
  *   pd_lsn          int32_t  4 B
  *   pd_checksum     int16_t  2 B
  *   pd_flags        int16_t  2 B
  *   contain_toast   int8_t   1 B
+ *   dead_count      int16_t  2 B  — ilosc martwych tupli w bloku
  */
 
 #include <stdint.h>
 #include "types_converter.h"
 
-#define BLOCK_HEADER_SIZE 17
+#define BLOCK_HEADER_SIZE 19
 
 typedef struct {
     int32_t nextblock;
@@ -25,6 +26,7 @@ typedef struct {
     int16_t pd_checksum;
     int16_t pd_flags;
     int8_t  contain_toast;
+    int16_t dead_count;
 } BlockHeader;
 
 void block_header_init   (BlockHeader *h);

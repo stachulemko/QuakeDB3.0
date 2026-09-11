@@ -14,6 +14,7 @@ static void test_init_defaults(void **state) {
     assert_int_equal(0,  h.pd_checksum);
     assert_int_equal(0,  h.pd_flags);
     assert_int_equal(0,  h.contain_toast);
+    assert_int_equal(0,  h.dead_count);
 }
 
 static void test_set_and_get(void **state) {
@@ -26,6 +27,7 @@ static void test_set_and_get(void **state) {
     assert_int_equal(200, h.pd_checksum);
     assert_int_equal(300, h.pd_flags);
     assert_int_equal(1,   h.contain_toast);
+    assert_int_equal(0,   h.dead_count);
 }
 
 static void test_marshal_size(void **state) {
@@ -52,6 +54,7 @@ static void test_marshal_unmarshal_roundtrip(void **state) {
     assert_int_equal(src.pd_checksum,   dst.pd_checksum);
     assert_int_equal(src.pd_flags,      dst.pd_flags);
     assert_int_equal(src.contain_toast, dst.contain_toast);
+    assert_int_equal(src.dead_count,    dst.dead_count);
 }
 
 static void test_negative_values_roundtrip(void **state) {

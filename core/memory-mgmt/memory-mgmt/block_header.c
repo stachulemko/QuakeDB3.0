@@ -8,6 +8,7 @@ void block_header_init(BlockHeader *h) {
     h->pd_checksum  = 0;
     h->pd_flags     = 0;
     h->contain_toast = 0;
+    h->dead_count   = 0;
 }
 
 void block_header_set(BlockHeader *h, int32_t nextblock, int32_t block_id,
@@ -19,6 +20,7 @@ void block_header_set(BlockHeader *h, int32_t nextblock, int32_t block_id,
     h->pd_checksum   = pd_checksum;
     h->pd_flags      = pd_flags;
     h->contain_toast = contain_toast;
+    h->dead_count    = 0;
 }
 
 int block_header_marshal(uint8_t *buf, const BlockHeader *h) {
@@ -29,7 +31,8 @@ int block_header_marshal(uint8_t *buf, const BlockHeader *h) {
     off += marshal_int16(buf + off, h->pd_checksum);
     off += marshal_int16(buf + off, h->pd_flags);
     off += marshal_int8 (buf + off, h->contain_toast);
-    return off; /* zawsze BLOCK_HEADER_SIZE = 17 */
+    off += marshal_int16(buf + off, h->dead_count);
+    return off; /* zawsze BLOCK_HEADER_SIZE = 19 */
 }
 
 void block_header_unmarshal(BlockHeader *h, const uint8_t *buf) {
@@ -39,6 +42,7 @@ void block_header_unmarshal(BlockHeader *h, const uint8_t *buf) {
     unmarshal_int16(&h->pd_checksum,   buf + 12);
     unmarshal_int16(&h->pd_flags,      buf + 14);
     unmarshal_int8 (&h->contain_toast, buf + 16);
+    unmarshal_int16(&h->dead_count,    buf + 17);
 }
 
 void block_header_show(const BlockHeader *h) {
@@ -48,4 +52,5 @@ void block_header_show(const BlockHeader *h) {
     printf("pd_checksum:   %d\n", h->pd_checksum);
     printf("pd_flags:      %d\n", h->pd_flags);
     printf("contain_toast: %d\n", (int)h->contain_toast);
+    printf("dead_count:    %d\n", h->dead_count);
 }

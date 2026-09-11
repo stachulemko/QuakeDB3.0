@@ -182,12 +182,13 @@ static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
     return tuple->header.t_xmax < oldest;
 }
 
-static inline void vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVCC *mvcc) {
+static inline void vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVCC *mvcc,DataBuffor *buf) {
     if (currTuple != NULL) {
         if (canVacuum(currTuple, mvcc)) {
             /* przepnij łańcuch: prevTuple przeskakuje przez currTuple */
             prevTuple->header.t_cid = currTuple->header.t_cid;
             currTuple->header.t_infomask |= INFOMASK_DEAD;
+            buf->isDirty = 1;
             /* tuple jest częścią bloku — pamięć bloku recyklingowana osobno */
         }
     }
@@ -206,11 +207,13 @@ static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId,
         int16_t blockId, tupleIdx;
         unpack((uint32_t)curr->header.t_cid, &blockId, &tupleIdx);
         DataBuffor *buf = getBuffor(tableId, (int32_t)blockId, buffors);
-        if (buf == NULL || buf->universalBlock == NULL) return NULL;
+        if (buf == NULL) return NULL;
+        if (buf->universalBlock == NULL) { buf->pinCount = 0; return NULL; }
         Tuple *next = &buf->universalBlock->block->tuples[(int32_t)tupleIdx];
-        vacumingTupleIfDead(curr, prev != NULL ? prev : curr, mvcc);
+        vacumingTupleIfDead(curr, prev != NULL ? prev : curr, mvcc,buf);
         prev = curr;
         curr = next;
+        buf->pinCount = 0;
     }
     return NULL;
 }
@@ -228,11 +231,13 @@ static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId,
         int16_t blockId, tupleIdx;
         unpack((uint32_t)cur->header.t_cid, &blockId, &tupleIdx);
         DataBuffor *buf = getBuffor(tableId, (int32_t)blockId, buffors);
-        if (buf == NULL || buf->universalBlock == NULL) break;
+        if (buf == NULL) break;
+        if (buf->universalBlock == NULL) { buf->pinCount = 0; break; }
         Tuple *next = &buf->universalBlock->block->tuples[(int32_t)tupleIdx];
-        vacumingTupleIfDead(cur, prev != NULL ? prev : cur, mvcc);
+        vacumingTupleIfDead(cur, prev != NULL ? prev : cur, mvcc, buf);
         prev = cur;
         cur = next;
+        buf->pinCount = 0;
     }
     return lastVisible;
 }
@@ -339,6 +344,8 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
         // Read Committed — chain traversal: pomiń chain members, od roota idź do końca łańcucha
         for (int i = 1; i <= se->endBlock; i++) {
             DataBuffor *buf = getBuffor(se->tableId, i, buffors);
+            if (buf == NULL) continue;
+            if (buf->universalBlock == NULL) { buf->pinCount = 0; continue; }
             Block8kb   *block = buf->universalBlock->block;
             for (int j = 0; j < block->tuple_count; j++) {
                 if (result->tuple_count >= RESULT_SPACE) break;
@@ -368,6 +375,8 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
     // Repeatable Read — skanuj wszystkie bloki
     for (int i = 1; i <= se->endBlock; i++) {
         DataBuffor *buf = getBuffor(se->tableId, i, buffors);
+        if (buf == NULL) continue;
+        if (buf->universalBlock == NULL) { buf->pinCount = 0; continue; }
         sql_execBlock(buf->universalBlock->block, se, result, buffors, c, fsmMapAll, mvcc);
         buf->isUsed   = 1;
         buf->pinCount = 0;
