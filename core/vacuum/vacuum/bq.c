@@ -362,6 +362,17 @@ int bq_next_bucket(const bq_t *q, int32_t after, int32_t *out) {
     return BQ_OK;
 }
 
+int bq_last_bucket(const bq_t *q, int32_t *out) { return bq_max(q, out); }
+
+int bq_prev_bucket(const bq_t *q, int32_t before, int32_t *out) {
+    uint32_t idx = IDX(before);
+    if (idx == 0) return BQ_ENOTFOUND;
+    uint32_t b = bq__prev_set(q, idx - 1);
+    if (b >= q->nbuckets) return BQ_ENOTFOUND;
+    if (out) *out = UNIDX(b);
+    return BQ_OK;
+}
+
 uint32_t bq_bucket_head(const bq_t *q, int32_t val) {
     uint32_t b = IDX(val);
     if (b >= q->nbuckets) return BQ_NIL;
@@ -502,4 +513,8 @@ int bq_mgr_remove_table(BqManager *mgr, int32_t tableId) {
         }
     }
     return BQ_ENOTFOUND;
+}
+
+int8_t bq_mgr_exists(BqManager *mgr, int32_t tableId) {
+    return bq_mgr_get(mgr, tableId) != NULL ? 1 : 0;
 }

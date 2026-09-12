@@ -323,10 +323,26 @@ static inline int32_t findSmaller(AllVar *data, int32_t number, AllVar val) {
 
 static inline int32_t allocateBlocksEntry(int32_t blockIdVal, BtreeBuffors *btreeBuffors,
                                          int32_t tableId, int32_t columnIndex, FSMMapBtree *fsmMap) {
-    BtreeBlockEntry *block3Entry = fsm_btree_get_block(fsmMap, tableId, columnIndex, 3);
-    if (block3Entry == NULL) return -1;
+    int32_t size = sizeof(int32_t) * 3;
 
-    int32_t newBlocksOffset = 3 * BLOCK_SIZE + block3Entry->blockSize;
+    /* Znajdz wolne miejsce w bloku 3 lub nastepnym jesli 3 jest pelny */
+    int32_t curBlock = 3;
+    int32_t newBlocksOffset = -1;
+    while (1) {
+        BtreeBlockEntry *blockMeta = fsm_btree_get_block(fsmMap, tableId, columnIndex, curBlock);
+        if (blockMeta == NULL) {
+            fsm_btree_add_block(fsmMap, tableId, columnIndex, curBlock, 0);
+            newBlocksOffset = curBlock * BLOCK_SIZE;
+            break;
+        }
+        if (BLOCK_SIZE - blockMeta->blockSize >= size) {
+            newBlocksOffset = curBlock * BLOCK_SIZE + blockMeta->blockSize;
+            break;
+        }
+        curBlock += 4;
+    }
+    if (newBlocksOffset == -1) return -1;
+
     int32_t blockId = calculateBlock(newBlocksOffset);
     BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, blockId, btreeBuffors);
     if (buffor == NULL) return -1;
@@ -338,7 +354,7 @@ static inline int32_t allocateBlocksEntry(int32_t blockIdVal, BtreeBuffors *btre
     buffor->isDirty = 1;
     buffor->pinCount = 0;
 
-    fsm_btree_append_to_block(fsmMap, tableId, columnIndex, 3, sizeof(int32_t) * 3);
+    fsm_btree_append_to_block(fsmMap, tableId, columnIndex, blockId, size);
     return newBlocksOffset;
 }
 
@@ -1209,6 +1225,110 @@ static inline int32_t getBlockBtree(AllVar val, BtreeBuffors *btreeBuffors, int3
         free(dataAllvar);
         return -1;
     }
+
+
+typedef struct {
+    int32_t *blocks;
+    int32_t  count;
+} BtreeBlocksResult;
+
+static inline void collectBlocks(int32_t ptrToBlocks, int32_t tableId, int32_t columnIndex,
+                                 BtreeBuffors *btreeBuffors, BtreeBlocksResult *result) {
+    int32_t cur = ptrToBlocks;
+    while (cur != -1) {
+        int32_t blk = calculateBlock(cur);
+        BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, blk, btreeBuffors);
+        if (buffor == NULL) break;
+
+        int32_t bId = -1;
+        unmarshal_int32(&bId, buffor->buf + (cur % BLOCK_SIZE));
+
+        int32_t nextPtr = -1;
+        unmarshal_int32(&nextPtr, buffor->buf + (cur % BLOCK_SIZE) + sizeof(int32_t) * 2);
+        buffor->pinCount = 0;
+
+        if (bId == -1) break;
+
+        result->blocks = realloc(result->blocks, (result->count + 1) * sizeof(int32_t));
+        result->blocks[result->count++] = bId;
+
+        cur = nextPtr;
+    }
+}
+
+static inline BtreeBlocksResult getBlocksBtree(AllVar val, BtreeBuffors *btreeBuffors, int32_t tableId,
+                                                int32_t columnIndex, FSMMapBtree *fsmMap, int8_t operator, int16_t method) {
+    BtreeBlocksResult result = {NULL, 0};
+
+    if (btreeBuffors == NULL || fsmMap == NULL) return result;
+
+    BtreeTableEntry *table = fsm_btree_get_table(fsmMap, tableId);
+    if (table == NULL) return result;
+
+    BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
+    if (col == NULL) return result;
+
+    int32_t offset = 0;
+
+    while (offset != -1) {
+        int32_t block = calculateBlock(offset);
+        BtreeBuffor *buffor = getBtreeBuffor(tableId, columnIndex, block, btreeBuffors);
+        if (buffor == NULL) break;
+
+        int32_t nextLevelPtr = -1;
+        unmarshal_int32(&nextLevelPtr, buffor->buf + (offset % BLOCK_SIZE) + sizeof(int32_t));
+        buffor->pinCount = 0;
+        if (nextLevelPtr == -1) break;
+
+        DataBtree *dataAllvar = getData(offset, tableId, columnIndex, btreeBuffors);
+        if (dataAllvar == NULL) break;
+
+        if (operator == 0) {
+            for (int i = 0; i < dataAllvar->size; i++) {
+                if (dataAllvar->data[i].type > 0 && all_var_cmp(&dataAllvar->data[i], &val) == 0) {
+                    int32_t ptrToBlocks = dataAllvar->dataOffsets[i];
+                    free(dataAllvar);
+                    if (ptrToBlocks != -1) {
+                        collectBlocks(ptrToBlocks, tableId, columnIndex, btreeBuffors, &result);
+                    }
+                    return result;
+                }
+            }
+        }
+
+        int32_t idx = findSmaller(dataAllvar->data, dataAllvar->size, val);
+        int32_t slot = nextLevelPtr + (int32_t)(idx * sizeof(int32_t));
+        int32_t childOffset = -1;
+        BtreeBuffor *slotBuf = getBtreeBuffor(tableId, columnIndex, calculateBlock(slot), btreeBuffors);
+        if (slotBuf) {
+            unmarshal_int32(&childOffset, slotBuf->buf + (slot % BLOCK_SIZE));
+            slotBuf->pinCount = 0;
+        }
+        offset = childOffset;
+        free(dataAllvar);
+    }
+
+    if (offset == -1) return result;
+
+    DataBtree *dataAllvar = getData(offset, tableId, columnIndex, btreeBuffors);
+    if (dataAllvar == NULL) return result;
+
+    for (int i = 0; i < dataAllvar->size; i++) {
+        if (dataAllvar->data[i].type > 0) {
+            if (evaluateAllVar(&dataAllvar->data[i], &val, operator, method) == 1) {
+                int32_t ptrToBlocks = dataAllvar->dataOffsets[i];
+                free(dataAllvar);
+                if (ptrToBlocks != -1) {
+                    collectBlocks(ptrToBlocks, tableId, columnIndex, btreeBuffors, &result);
+                }
+                return result;
+            }
+        }
+    }
+
+    free(dataAllvar);
+    return result;
+}
 
 
 //------------------------------------------delete-----------------------------

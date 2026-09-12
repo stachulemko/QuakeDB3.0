@@ -48,6 +48,8 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_btree_operations.dir/DependInfo.cmake"
   "CMakeFiles/test_btree_update_indexes.dir/DependInfo.cmake"
   "CMakeFiles/test_btree_block_count.dir/DependInfo.cmake"
+  "CMakeFiles/test_btree_get_blocks.dir/DependInfo.cmake"
+  "CMakeFiles/test_fullScan_index.dir/DependInfo.cmake"
   "CMakeFiles/test_bq.dir/DependInfo.cmake"
   "CMakeFiles/test_all_var.dir/DependInfo.cmake"
   "CMakeFiles/test_block8kb.dir/DependInfo.cmake"

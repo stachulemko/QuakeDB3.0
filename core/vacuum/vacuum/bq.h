@@ -78,6 +78,9 @@ uint32_t bq_size(const bq_t *q);
 /* iteracja rosnaco */
 int      bq_first_bucket(const bq_t *q, int32_t *out);
 int      bq_next_bucket(const bq_t *q, int32_t after, int32_t *out);
+/* iteracja malejaco */
+int      bq_last_bucket(const bq_t *q, int32_t *out);
+int      bq_prev_bucket(const bq_t *q, int32_t before, int32_t *out);
 /* elementy w kubelku */
 uint32_t bq_bucket_head(const bq_t *q, int32_t val);
 uint32_t bq_node_next(const bq_t *q, uint32_t node);
@@ -125,5 +128,6 @@ void     bq_mgr_free(BqManager *mgr);
 bq_t*    bq_mgr_get(BqManager *mgr, int32_t tableId);
 int      bq_mgr_add_table(BqManager *mgr, int32_t tableId);
 int      bq_mgr_remove_table(BqManager *mgr, int32_t tableId);
+int8_t   bq_mgr_exists(BqManager *mgr, int32_t tableId);
 
 #endif /* BQ_H */

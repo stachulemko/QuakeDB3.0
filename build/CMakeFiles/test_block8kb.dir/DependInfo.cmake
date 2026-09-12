@@ -21,7 +21,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.c" "CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" "gcc" "CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c" "CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" "gcc" "CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/tests/test_block8kb.c" "CMakeFiles/test_block8kb.dir/core/memory-mgmt/tests/test_block8kb.c.o" "gcc" "CMakeFiles/test_block8kb.dir/core/memory-mgmt/tests/test_block8kb.c.o.d"
-  "/home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bucketQueue.c" "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bucketQueue.c.o" "gcc" "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bucketQueue.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c" "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/vacuum.c.o" "gcc" "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/vacuum.c.o.d"
   )
 

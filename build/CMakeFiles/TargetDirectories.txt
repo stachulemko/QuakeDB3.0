@@ -6,6 +6,8 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_operations.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_update_indexes.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_block_count.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_get_blocks.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fullScan_index.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_bq.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_all_var.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_block8kb.dir

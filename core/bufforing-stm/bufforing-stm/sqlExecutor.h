@@ -182,21 +182,25 @@ static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
     return tuple->header.t_xmax < oldest;
 }
 
-static inline void vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVCC *mvcc,DataBuffor *buf) {
+static inline void vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVCC *mvcc, DataBuffor *buf,
+                                       FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors,
+                                       int32_t tableId, int32_t blockId) {
     if (currTuple != NULL) {
         if (canVacuum(currTuple, mvcc)) {
             /* przepnij łańcuch: prevTuple przeskakuje przez currTuple */
             prevTuple->header.t_cid = currTuple->header.t_cid;
             currTuple->header.t_infomask |= INFOMASK_DEAD;
+            buf->universalBlock->block->header.dead_count++;
             buf->isDirty = 1;
-            /* tuple jest częścią bloku — pamięć bloku recyklingowana osobno */
+            btree_delete_tuple_indexes(fsmMapBtree, btreeBuffors, tableId, currTuple, blockId);
         }
     }
 }
 
 /* Follow chain for Repeatable Read: returns the version visible at xid */
-static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc) {
-    Tuple *prev = NULL;         
+static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc,
+                                FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
+    Tuple *prev = NULL;
     Tuple *curr = start;
     while (curr != NULL) {
         if (curr->header.t_xmin <= xid &&
@@ -210,7 +214,8 @@ static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId,
         if (buf == NULL) return NULL;
         if (buf->universalBlock == NULL) { buf->pinCount = 0; return NULL; }
         Tuple *next = &buf->universalBlock->block->tuples[(int32_t)tupleIdx];
-        vacumingTupleIfDead(curr, prev != NULL ? prev : curr, mvcc,buf);
+        vacumingTupleIfDead(curr, prev != NULL ? prev : curr, mvcc, buf,
+                            fsmMapBtree, btreeBuffors, tableId, (int32_t)blockId);
         prev = curr;
         curr = next;
         buf->pinCount = 0;
@@ -219,7 +224,8 @@ static Tuple *sql_followChainRR(Tuple *start, Buffors *buffors, int32_t tableId,
 }
 
 /* Follow chain for Read Committed: returns the latest version with xmin <= xid */
-static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc) {
+static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId, int32_t xid, MVCC *mvcc,
+                                FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
     Tuple *prev = NULL;
     Tuple *cur = start;
     Tuple *lastVisible = NULL;
@@ -234,7 +240,8 @@ static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId,
         if (buf == NULL) break;
         if (buf->universalBlock == NULL) { buf->pinCount = 0; break; }
         Tuple *next = &buf->universalBlock->block->tuples[(int32_t)tupleIdx];
-        vacumingTupleIfDead(cur, prev != NULL ? prev : cur, mvcc, buf);
+        vacumingTupleIfDead(cur, prev != NULL ? prev : cur, mvcc, buf,
+                            fsmMapBtree, btreeBuffors, tableId, (int32_t)blockId);
         prev = cur;
         cur = next;
         buf->pinCount = 0;
@@ -323,7 +330,8 @@ void sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
         if (t->header.t_infomask & INFOMASK_CHAIN_MEMBER) continue;
 
         /* RR: idź po łańcuchu i znajdź wersję widoczną przy xid tej transakcji */
-        Tuple *visible = sql_followChainRR(t, buffors, se->tableId, se->transaction->xid, mvcc);
+        Tuple *visible = sql_followChainRR(t, buffors, se->tableId, se->transaction->xid, mvcc,
+                                                  se->fsmMapBtree, se->btreeBuffors);
         if (visible == NULL) continue;
 
         if (se->where && !sql_matchWhere(se, visible)) continue;
@@ -338,11 +346,43 @@ void sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
 }
 
 
+/* Sprawdz czy pierwszy warunek WHERE (EQ) ma indeks B-tree.
+ * Jesli tak, zwraca liste blokow z indeksu. Jesli nie, zwraca wszystkie bloki 1..endBlock. */
+static inline BtreeBlocksResult sql_resolveBlocks(SqlExecutor *se) {
+    BtreeBlocksResult res = {NULL, 0};
+
+    /* Probuj uzyc indeksu: pierwszy warunek EQ na kolumnie z indeksem */
+    if (se->where && se->condCount > 0 && se->fsmMapBtree != NULL && se->btreeBuffors != NULL) {
+        for (int c = 0; c < se->condCount; c++) {
+            SqlCondition *cond = &se->conditions[c];
+            BtreeTableEntry *table = fsm_btree_get_table(se->fsmMapBtree, se->tableId);
+            if (table != NULL && fsm_btree_get_column(table, cond->column) != NULL) {
+                res = getBlocksBtree(cond->value, se->btreeBuffors, se->tableId,
+                                     cond->column, se->fsmMapBtree, cond->op, cond->method);
+                return res;
+            }
+        }
+    }
+
+    /* Brak indeksu — sekwencyjny scan po wszystkich blokach */
+    if (se->endBlock > 0) {
+        res.blocks = (int32_t *)malloc(se->endBlock * sizeof(int32_t));
+        res.count = se->endBlock;
+        for (int i = 0; i < se->endBlock; i++) {
+            res.blocks[i] = i + 1;
+        }
+    }
+    return res;
+}
+
 void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
                   FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
+    BtreeBlocksResult blocksToScan = sql_resolveBlocks(se);
+
     if (VIEW_MODE == 2) {
-        // Read Committed — chain traversal: pomiń chain members, od roota idź do końca łańcucha
-        for (int i = 1; i <= se->endBlock; i++) {
+        // Read Committed — chain traversal
+        for (int idx = 0; idx < blocksToScan.count; idx++) {
+            int32_t i = blocksToScan.blocks[idx];
             DataBuffor *buf = getBuffor(se->tableId, i, buffors);
             if (buf == NULL) continue;
             if (buf->universalBlock == NULL) { buf->pinCount = 0; continue; }
@@ -355,7 +395,8 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
                 if (t->header.t_infomask & INFOMASK_CHAIN_MEMBER) continue;
 
                 /* RC: idź po łańcuchu do najnowszej wersji z xmin <= xid */
-                Tuple *visible = sql_followChainRC(t, buffors, se->tableId, se->transaction->xid, mvcc);
+                Tuple *visible = sql_followChainRC(t, buffors, se->tableId, se->transaction->xid, mvcc,
+                                                          se->fsmMapBtree, se->btreeBuffors);
                 if (visible == NULL) continue;
 
                 if (se->where && !sql_matchWhere(se, visible)) continue;
@@ -369,11 +410,13 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
             buf->isUsed   = 1;
             buf->pinCount = 0;
         }
+        free(blocksToScan.blocks);
         return;
     }
 
-    // Repeatable Read — skanuj wszystkie bloki
-    for (int i = 1; i <= se->endBlock; i++) {
+    // Repeatable Read — skanuj bloki
+    for (int idx = 0; idx < blocksToScan.count; idx++) {
+        int32_t i = blocksToScan.blocks[idx];
         DataBuffor *buf = getBuffor(se->tableId, i, buffors);
         if (buf == NULL) continue;
         if (buf->universalBlock == NULL) { buf->pinCount = 0; continue; }
@@ -381,6 +424,7 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
         buf->isUsed   = 1;
         buf->pinCount = 0;
     }
+    free(blocksToScan.blocks);
 }
 
 #endif //QUAKEDB3_0_SQLEXECUTOR_H

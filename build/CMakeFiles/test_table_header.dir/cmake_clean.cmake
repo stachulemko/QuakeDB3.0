@@ -25,8 +25,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_table_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
   "CMakeFiles/test_table_header.dir/core/memory-mgmt/tests/test_table_header.c.o"
   "CMakeFiles/test_table_header.dir/core/memory-mgmt/tests/test_table_header.c.o.d"
-  "CMakeFiles/test_table_header.dir/core/vacuum/vacuum/bucketQueue.c.o"
-  "CMakeFiles/test_table_header.dir/core/vacuum/vacuum/bucketQueue.c.o.d"
   "CMakeFiles/test_table_header.dir/core/vacuum/vacuum/vacuum.c.o"
   "CMakeFiles/test_table_header.dir/core/vacuum/vacuum/vacuum.c.o.d"
   "test_table_header"

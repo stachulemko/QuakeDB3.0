@@ -102,6 +102,19 @@ if(CMOCKA_LIBRARY)
     )
     target_compile_definitions(test_btree_block_count PRIVATE LOG_LEVEL=0)
 
+    add_executable(test_btree_get_blocks
+            ${CORE_SOURCES}
+            core/indexes/tests/test_btree_get_blocks.c
+    )
+    target_compile_definitions(test_btree_get_blocks PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_fullScan_index
+            ${CORE_SOURCES}
+            core/bufforing-stm/tests/test_fullScan_index.c
+    )
+    target_link_libraries(test_fullScan_index ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_fullScan_index PRIVATE LOG_LEVEL=0)
+
     add_executable(test_bq
             core/vacuum/vacuum/bq.c
             core/vacuum/tests/test_bq.c
@@ -111,8 +124,6 @@ if(CMOCKA_LIBRARY)
     foreach(TEST_FILE ${TEST_SOURCES})
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
         add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}
-                core/vacuum/vacuum/bucketQueue.h
-                core/vacuum/vacuum/bucketQueue.c
                 core/vacuum/vacuum/vacuum.h
                 core/vacuum/vacuum/vacuum.c)
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
