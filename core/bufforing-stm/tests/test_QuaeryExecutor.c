@@ -686,13 +686,13 @@ static TestScanEnv setup_scan_env(int32_t tableId) {
 
     addTuple(&env.buffors, &env.fsmCache, &env.fsmMapAll, &env.mvcc, tableId,
              (AllVar[]){all_var_from_int32(1), all_var_from_string("Alpha")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
     addTuple(&env.buffors, &env.fsmCache, &env.fsmMapAll, &env.mvcc, tableId,
              (AllVar[]){all_var_from_int32(2), all_var_from_string("Beta")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
     addTuple(&env.buffors, &env.fsmCache, &env.fsmMapAll, &env.mvcc, tableId,
              (AllVar[]){all_var_from_int32(3), all_var_from_string("Gamma")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
 
     return env;
 }

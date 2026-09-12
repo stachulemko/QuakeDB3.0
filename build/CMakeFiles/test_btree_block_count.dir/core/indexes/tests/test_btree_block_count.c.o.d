@@ -77,13 +77,14 @@ CMakeFiles/test_btree_block_count.dir/core/indexes/tests/test_btree_block_count.
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/dataBuffor.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/uthash.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/mvcc.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/../../indexes/indexes/btreeFileOperation.h \
+ /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/../../indexes/indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/../../indexes/indexes/fsmMapBtree.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/../../indexes/indexes/../../bufforing-stm/bufforing-stm/uthash.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/../../indexes/indexes/flatMap.h \
+ /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h \
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../bufforing-stm/bufforing-stm/../../indexes/indexes/../../memory-mgmt/memory-mgmt/all_var.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../memory-mgmt/memory-mgmt/all_var.h \
  /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../../memory-mgmt/memory-mgmt/tuple.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/btreeFileOperation.h \
- /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/fsmMapBtree.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/../../bufforing-stm/bufforing-stm/uthash.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/flatMap.h \
- /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h \
- /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/../../memory-mgmt/memory-mgmt/all_var.h
+ /home/stas/dev/QuakeDB3.0B/core/indexes/tests/../indexes/btreeFileOperation.h

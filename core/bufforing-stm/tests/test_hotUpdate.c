@@ -85,13 +85,9 @@ static void hot_insert(HotEnv *env, int32_t xmin, int32_t val) {
     DataBuffor *db = addTupleToOtherFunction(
         &env->buffors, env->c, &env->fsmMapAll, env->mvcc,
         HOT_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1);
+        xmin, 0, 0, 0, 0, 0, -1, &env->fsmMapBtree, &env->btreeBuffors);
 
-    /* ręcznie dodaj do indeksu (symulacja INSERT ścieżki) */
     if (db != NULL) {
-        int32_t blockId = (int32_t)db->universalBlock->block->header.block_id;
-        addToBtree(all_var_from_int32(val), blockId, &env->btreeBuffors,
-                   HOT_TABLE, 0, &env->fsmMapBtree);
         db->pinCount = 0;
     }
 }
@@ -236,7 +232,7 @@ static void test_hotUpdate_no_index_update_still_works(void **state) {
     AllVar vals[1] = {all_var_from_int32(77)};
     int8_t bm[1]  = {0};
     addTupleToOtherFunction(&env.buffors, env.c, &env.fsmMapAll, env.mvcc,
-        HOT_TABLE, vals, 1, bm, 1, 1, 0, 0, 0, 0, 0, -1);
+        HOT_TABLE, vals, 1, bm, 1, 1, 0, 0, 0, 0, 0, -1, NULL, NULL);
 
     /* UPDATE bez indeksu — nie powinno crashować */
     hot_update(&env, 5, 77, 777, 0);

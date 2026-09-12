@@ -270,16 +270,11 @@ static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,
         newTuple.dnb.data, newTuple.dnb.data_count,
         newTuple.dnb.bit_map, newTuple.dnb.bit_map_count,
         se->transaction->xid, -1, -1, newTuple.header.t_infomask,
-        newTuple.header.t_hoff, newTuple.header.null_bitmap, newTuple.header.optional_oid);
+        newTuple.header.t_hoff, newTuple.header.null_bitmap, newTuple.header.optional_oid,
+        se->fsmMapBtree, se->btreeBuffors);
 
     int32_t newIdx     = dataBuffor->universalBlock->block->tuple_count - 1;
     int32_t newBlockId = (int32_t)dataBuffor->universalBlock->block->header.block_id;
-
-    /* hotUpdateA: dodaj nowy tuple do indeksow po jego zapisaniu */
-    if (se->fsmMapBtree != NULL && se->btreeBuffors != NULL) {
-        btree_insert_tuple_indexes(se->fsmMapBtree, se->btreeBuffors, se->tableId,
-                                   &dataBuffor->universalBlock->block->tuples[newIdx], newBlockId);
-    }
 
     uint32_t pointerToNextUpdatedTuple = pack((int16_t)newBlockId, (int16_t)newIdx);
     t->header.t_cid = pointerToNextUpdatedTuple;

@@ -81,28 +81,18 @@ static int32_t tenv_endblock(TEnv *env) {
 static void tenv_insert(TEnv *env, int32_t xmin, int32_t val) {
     AllVar vals[1] = {all_var_from_int32(val)};
     int8_t bm[1]  = {0};
-    DataBuffor *db = addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
+    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
         TEST_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1);
-    if (db != NULL && db->universalBlock != NULL && db->universalBlock->block != NULL) {
-        Tuple *inserted = &db->universalBlock->block->tuples[db->universalBlock->block->tuple_count - 1];
-        btree_insert_tuple_indexes(&env->fsmBtree, &env->btreeBuffors, TEST_TABLE,
-                                   inserted, db->universalBlock->block->header.block_id);
-    }
+        xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors);
 }
 
 /* Insert tuple with 2 columns (int32, int32), also add to btree index */
 static void tenv_insert2(TEnv *env, int32_t xmin, int32_t col0, int32_t col1) {
     AllVar vals[2] = {all_var_from_int32(col0), all_var_from_int32(col1)};
     int8_t bm[2]  = {0, 0};
-    DataBuffor *db = addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
+    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
         TEST_TABLE, vals, 2, bm, 2,
-        xmin, 0, 0, 0, 0, 0, -1);
-    if (db != NULL && db->universalBlock != NULL && db->universalBlock->block != NULL) {
-        Tuple *inserted = &db->universalBlock->block->tuples[db->universalBlock->block->tuple_count - 1];
-        btree_insert_tuple_indexes(&env->fsmBtree, &env->btreeBuffors, TEST_TABLE,
-                                   inserted, db->universalBlock->block->header.block_id);
-    }
+        xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors);
 }
 
 /* Insert tuple WITHOUT adding to btree (for comparison tests) */
@@ -111,7 +101,7 @@ static void tenv_insert_no_index(TEnv *env, int32_t xmin, int32_t val) {
     int8_t bm[1]  = {0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
         TEST_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1);
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
 }
 
 /* SELECT col0 with WHERE col0 == val, using index */

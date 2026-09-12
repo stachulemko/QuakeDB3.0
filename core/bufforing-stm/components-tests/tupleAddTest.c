@@ -51,7 +51,7 @@ void test_addTuple_tuple_count_is_one(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 20,
              (AllVar[]){all_var_from_int32(1), all_var_from_string("hello")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 20);
     assert_non_null(db);
@@ -68,7 +68,7 @@ void test_addTuple_int32_value_correct(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 21,
              (AllVar[]){all_var_from_int32(42)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 21);
     assert_non_null(db);
@@ -85,7 +85,7 @@ void test_addTuple_string_value_correct(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 22,
              (AllVar[]){all_var_from_int32(7), all_var_from_string("World")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 22);
     assert_non_null(db);
@@ -103,7 +103,7 @@ void test_addTuple_int64_value_correct(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 23,
              (AllVar[]){all_var_from_int64(1234567890123LL)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 23);
     assert_non_null(db);
@@ -121,7 +121,7 @@ void test_addTuple_block_is_dirty(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 24,
              (AllVar[]){all_var_from_int32(99)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 24);
     assert_non_null(db);
@@ -138,7 +138,7 @@ void test_addTuple_tableId_correct(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 25,
              (AllVar[]){all_var_from_int32(5)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 25);
     assert_non_null(db);
@@ -156,7 +156,7 @@ void test_addTuple_null_bitmap_stored(void **state) {
     /* bitmap: col0 not-null (0), col1 null (1) */
     addTuple(&b, &c, &f, &mvcc, 26,
              (AllVar[]){all_var_from_int32(3), all_var_from_string("x")},
-             2, (int8_t[]){0, 1}, 2);
+             2, (int8_t[]){0, 1}, 2, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 26);
     assert_non_null(db);
@@ -174,13 +174,13 @@ void test_addTuple_multiple_tuples_same_block(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 27,
              (AllVar[]){all_var_from_int32(10), all_var_from_string("First")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
     addTuple(&b, &c, &f, &mvcc, 27,
              (AllVar[]){all_var_from_int32(20), all_var_from_string("Second")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
     addTuple(&b, &c, &f, &mvcc, 27,
              (AllVar[]){all_var_from_int32(30), all_var_from_string("Third")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 27);
     assert_non_null(db);
@@ -208,9 +208,9 @@ void test_addTuple_two_tables_independent(void **state) {
     addTable(&f, &b, &c, &mvcc, 29, (int8_t[]){ID_INT32}, (int8_t[]){0}, col29);
 
     addTuple(&b, &c, &f, &mvcc, 28,
-             (AllVar[]){all_var_from_int32(100)}, 1, (int8_t[]){0}, 1);
+             (AllVar[]){all_var_from_int32(100)}, 1, (int8_t[]){0}, 1, NULL, NULL);
     addTuple(&b, &c, &f, &mvcc, 29,
-             (AllVar[]){all_var_from_int32(200)}, 1, (int8_t[]){0}, 1);
+             (AllVar[]){all_var_from_int32(200)}, 1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db28 = find_data_buffor(&b, 28);
     DataBuffor *db29 = find_data_buffor(&b, 29);
@@ -235,7 +235,7 @@ void test_addTuple_used_space_grows(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 30,
              (AllVar[]){all_var_from_int32(1)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 30);
     assert_non_null(db);
@@ -252,7 +252,7 @@ void test_addTuple_negative_int32(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 31,
              (AllVar[]){all_var_from_int32(-9999)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 31);
     assert_non_null(db);
@@ -269,7 +269,7 @@ void test_addTuple_empty_string(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 32,
              (AllVar[]){all_var_from_int32(0), all_var_from_string("")},
-             2, (int8_t[]){0, 0}, 2);
+             2, (int8_t[]){0, 0}, 2, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 32);
     assert_non_null(db);
@@ -286,7 +286,7 @@ void test_addTuple_pinCount_zero_after_add(void **state) {
 
     addTuple(&b, &c, &f, &mvcc, 33,
              (AllVar[]){all_var_from_int32(77)},
-             1, (int8_t[]){0}, 1);
+             1, (int8_t[]){0}, 1, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 33);
     assert_non_null(db);
@@ -305,7 +305,7 @@ void test_addTuple_three_columns(void **state) {
              (AllVar[]){all_var_from_int32(5),
                         all_var_from_string("test"),
                         all_var_from_int64(999999999999LL)},
-             3, (int8_t[]){0, 0, 0}, 3);
+             3, (int8_t[]){0, 0, 0}, 3, NULL, NULL);
 
     DataBuffor *db = find_data_buffor(&b, 34);
     assert_non_null(db);

@@ -8,6 +8,12 @@ CMakeFiles/test_btree_operations.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
   /usr/include/stdc-predef.h
 
 CMakeFiles/test_btree_operations.dir/core/indexes/tests/test_btree_operations.c.o: /home/stas/dev/QuakeDB3.0B/core/indexes/tests/test_btree_operations.c \
+  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h \
+  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h \
+  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/file_manager_c.h \
+  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/btreeFileOperation.h \
+  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/flatMap.h \
+  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block_header.h \
@@ -26,12 +32,7 @@ CMakeFiles/test_btree_operations.dir/core/indexes/tests/test_btree_operations.c.
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h \
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h \
-  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h \
-  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h \
-  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/file_manager_c.h \
   /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/btreeFileOperation.h \
-  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/flatMap.h \
-  /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
   /usr/include/alloca.h \
@@ -616,22 +617,6 @@ CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_bloc
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
-/usr/include/assert.h:
-
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
-
-/home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.h:
-
-/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h:
-
-/usr/include/x86_64-linux-gnu/sys/types.h:
-
-/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
 
 /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h:
@@ -648,6 +633,12 @@ CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_bloc
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.h:
+
+/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/uthash.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
@@ -656,11 +647,9 @@ CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_bloc
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.h:
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block_header.c:
 
-/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.c:
-
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h:
+/usr/include/features-time64.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
 
@@ -668,9 +657,31 @@ CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_bloc
 
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/config.h:
 
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block_header.c:
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple.h:
 
-/usr/include/features-time64.h:
+/usr/include/alloca.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/time64.h:
+
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h:
+
+/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.c:
+
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/table_header.h:
+
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.h:
+
+/usr/include/assert.h:
+
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+
+/home/stas/dev/QuakeDB3.0B/core/indexes/indexes/fsmMapBtree.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
@@ -684,18 +695,6 @@ CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_bloc
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
-/home/stas/dev/QuakeDB3.0B/core/indexes/tests/test_btree_operations.c:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
-
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h:
-
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple.h:
-
-/home/stas/dev/QuakeDB3.0B/core/indexes/indexes/btreeFileOperation.h:
-
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h:
-
 /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/data_null_bitmap.h:
 
 /home/stas/dev/QuakeDB3.0B/core/indexes/indexes/flatMap.h:
@@ -704,13 +703,15 @@ CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_bloc
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
-/usr/include/alloca.h:
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+/home/stas/dev/QuakeDB3.0B/core/indexes/indexes/btreeFileOperation.h:
 
-/usr/include/x86_64-linux-gnu/bits/time64.h:
+/home/stas/dev/QuakeDB3.0B/core/indexes/tests/test_btree_operations.c:
 
-/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/table_header.h:
+/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
+
+/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h:
 
 /usr/include/stdint.h:
 

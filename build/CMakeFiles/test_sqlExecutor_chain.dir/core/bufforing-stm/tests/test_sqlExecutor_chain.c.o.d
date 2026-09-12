@@ -79,9 +79,6 @@ CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/tests/test_sqlExecutor_
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/tuple.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/uthash.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h \
- /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h \
- /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/transaction.h \
- /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/all_var.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../indexes/indexes/btreeFileOperation.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../indexes/indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
@@ -90,6 +87,9 @@ CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/tests/test_sqlExecutor_
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../indexes/indexes/flatMap.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/log.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../indexes/indexes/../../memory-mgmt/memory-mgmt/all_var.h \
+ /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/transaction.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/all_var.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/fsmMap.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/transaction.h \

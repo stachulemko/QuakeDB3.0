@@ -194,8 +194,9 @@ DataBuffor* addNewBlock(Buffors *buffors , DataBuffor *newBuffor){
 
 #include "fsmMap.h"
 #include "mvcc.h"
+#include "../../indexes/indexes/btreeFileOperation.h"
 
-void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count){
+void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors){
     Tuple tuple;
     tuple_set(&tuple, getAndIcrement(mvcc), 0, 0, 0, 0, 0, -1, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
@@ -205,12 +206,18 @@ void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32
     buffor->isUsed = 1;
     buffor->pinCount = 0;
     buffor->tableId = tableId;
+    if (fsmMapBtree != NULL && btreeBuffors != NULL) {
+        int32_t blockId = (int32_t)buffor->universalBlock->block->header.block_id;
+        int32_t tupleIdx = buffor->universalBlock->block->tuple_count - 1;
+        btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
+                                   &buffor->universalBlock->block->tuples[tupleIdx], blockId);
+    }
 }
 
 
 
 // this fuction is usefullInCase of update after we udapte we adding new tuple that why we need to return this to get block and tuple number to set pointer in updated Tuple !
-DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid) {
+DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
     Tuple tuple;
     tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
@@ -219,6 +226,12 @@ DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmM
     buffor->isDirty = 1;
     buffor->isUsed = 1;
     buffor->tableId = tableId;
+    if (fsmMapBtree != NULL && btreeBuffors != NULL) {
+        int32_t blockId = (int32_t)buffor->universalBlock->block->header.block_id;
+        int32_t tupleIdx = buffor->universalBlock->block->tuple_count - 1;
+        btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
+                                   &buffor->universalBlock->block->tuples[tupleIdx], blockId);
+    }
     return buffor;
 }
 

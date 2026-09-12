@@ -66,23 +66,23 @@ SetedUpEnv setUpTablesSimple() {
          (AllVar[]){all_var_from_int32(1), all_var_from_string("Alice")},
          2,
          (int8_t[]){0, 0},
-         2);
+         2, NULL, NULL);
     // showBuffors(&buffors);
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 20,
              (AllVar[]){all_var_from_int32(2), all_var_from_string("Patrick")},
              2,
              (int8_t[]){0, 0},
-             2);
+             2, NULL, NULL);
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 20,
              (AllVar[]){all_var_from_int32(3), all_var_from_string("alan")},
              2,
              (int8_t[]){0, 0},
-             2);
+             2, NULL, NULL);
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 20,
              (AllVar[]){all_var_from_int32(4), all_var_from_string("adssdadasd")},
              2,
              (int8_t[]){0, 0},
-             2);
+             2, NULL, NULL);
     SetedUpEnv seted_up_env;
     seted_up_env.buffors = buffors;
     seted_up_env.fsmCache = fsmCache;
@@ -117,22 +117,22 @@ SetedUpEnv setUpTablesDemanding() {
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 21,
              (AllVar[]){all_var_from_int32(101), all_var_from_string("Laptop"),
                        all_var_from_string("Electronics")},
-             3, (int8_t[]){0, 0, 0}, 3);
+             3, (int8_t[]){0, 0, 0}, 3, NULL, NULL);
 
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 21,
              (AllVar[]){all_var_from_int32(102), all_var_from_string("Phone"),
                        all_var_from_string("Electronics")},
-             3, (int8_t[]){0, 0, 0}, 3);
+             3, (int8_t[]){0, 0, 0}, 3, NULL, NULL);
 
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 21,
              (AllVar[]){all_var_from_int32(103), all_var_from_string("Desk"),
                        all_var_from_string("Furniture")},
-             3, (int8_t[]){0, 0, 0}, 3);
+             3, (int8_t[]){0, 0, 0}, 3, NULL, NULL);
 
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 21,
              (AllVar[]){all_var_from_int32(104), all_var_from_string("Chair"),
                        all_var_from_string("Furniture")},
-             3, (int8_t[]){0, 0, 0}, 3);
+             3, (int8_t[]){0, 0, 0}, 3, NULL, NULL);
     SetedUpEnv seted_up_env;
     seted_up_env.buffors = buffors;
     seted_up_env.fsmCache = fsmCache;

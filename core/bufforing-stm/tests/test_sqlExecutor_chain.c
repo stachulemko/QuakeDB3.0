@@ -78,7 +78,7 @@ static void env_insert(TestEnv *env, int32_t xmin, int32_t val) {
     int8_t bm[1]  = {0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
         CHAIN_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1);
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
 }
 
 /* INSERT with 2 columns: int32 id + int32 value */
@@ -87,7 +87,7 @@ static void env_insert2(TestEnv *env, int32_t xmin, int32_t id, int32_t val) {
     int8_t bm[2]  = {0, 0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
         CHAIN_TABLE, vals, 2, bm, 2,
-        xmin, 0, 0, 0, 0, 0, -1);
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
 }
 
 /* UPDATE col0 WHERE col0 == where_val, SET col0 = new_val, by transaction xid */

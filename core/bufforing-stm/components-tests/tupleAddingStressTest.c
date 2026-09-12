@@ -51,7 +51,7 @@ void test_add30TuplesToOneTable(void **state) {
         snprintf(name, sizeof(name), "user_%d", i);
         addTuple(&b, &c, &m, &mvcc, 20,
                  (AllVar[]){all_var_from_int32(i), all_var_from_string(name)}, 2,
-                 (int8_t[]){0, 0}, 2);
+                 (int8_t[]){0, 0}, 2, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 21);
@@ -78,7 +78,7 @@ void test_sequentialInt32ValuesPreserved(void **state) {
     for (int i = 1; i <= 20; i++) {
         addTuple(&b, &c, &m, &mvcc, 22,
                  (AllVar[]){all_var_from_int32(i)}, 1,
-                 (int8_t[]){0}, 1);
+                 (int8_t[]){0}, 1, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 23);
@@ -111,7 +111,7 @@ void test_10TablesEach3TuplesNoMixup(void **state) {
             addTuple(&b, &c, &m, &mvcc, tableId,
                      (AllVar[]){all_var_from_int32(tableId * 100 + i),
                                 all_var_from_string("data")}, 2,
-                     (int8_t[]){0, 0}, 2);
+                     (int8_t[]){0, 0}, 2, NULL, NULL);
         }
         force_eviction(&b, &c, &m, &mvcc, dummyId);
     }
@@ -146,7 +146,7 @@ void test_mixedTypesStressEviction(void **state) {
                  (AllVar[]){all_var_from_int32(i),
                             all_var_from_int64((int64_t)i * 1000000000LL),
                             all_var_from_string(s)}, 3,
-                 (int8_t[]){0, 0, 0}, 3);
+                 (int8_t[]){0, 0, 0}, 3, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 61);
@@ -179,9 +179,9 @@ void test_singleBufforManyEvictions(void **state) {
                  (int8_t[]){ID_INT32}, (int8_t[]){0},
                  (char[1][MAX_COL_NAME_LEN]){{"v"}});
         addTuple(&b, &c, &m, &mvcc, tableId,
-                 (AllVar[]){all_var_from_int32(tableId)}, 1, (int8_t[]){0}, 1);
+                 (AllVar[]){all_var_from_int32(tableId)}, 1, (int8_t[]){0}, 1, NULL, NULL);
         addTuple(&b, &c, &m, &mvcc, tableId,
-                 (AllVar[]){all_var_from_int32(tableId + 1)}, 1, (int8_t[]){0}, 1);
+                 (AllVar[]){all_var_from_int32(tableId + 1)}, 1, (int8_t[]){0}, 1, NULL, NULL);
         force_eviction(&b, &c, &m, &mvcc, dummyId);
     }
 
@@ -215,7 +215,7 @@ void test_largeStringValuesSurviveEviction(void **state) {
         big[0] = 'A' + i;  /* inny pierwszy znak dla każdego rekordu */
         addTuple(&b, &c, &m, &mvcc, 90,
                  (AllVar[]){all_var_from_int32(i), all_var_from_string(big)}, 2,
-                 (int8_t[]){0, 0}, 2);
+                 (int8_t[]){0, 0}, 2, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 91);
@@ -248,7 +248,7 @@ void test_boundaryInt32ValuesStress(void **state) {
 
     for (int i = 0; i < 5; i++) {
         addTuple(&b, &c, &m, &mvcc, 92,
-                 (AllVar[]){all_var_from_int32(vals[i])}, 1, (int8_t[]){0}, 1);
+                 (AllVar[]){all_var_from_int32(vals[i])}, 1, (int8_t[]){0}, 1, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 93);
@@ -278,9 +278,9 @@ void test_twoBufforsDataIntegrity(void **state) {
 
     for (int i = 0; i < 10; i++) {
         addTuple(&b, &c, &m, &mvcc, 94,
-                 (AllVar[]){all_var_from_int32(i)}, 1, (int8_t[]){0}, 1);
+                 (AllVar[]){all_var_from_int32(i)}, 1, (int8_t[]){0}, 1, NULL, NULL);
         addTuple(&b, &c, &m, &mvcc, 95,
-                 (AllVar[]){all_var_from_int32(i * 10)}, 1, (int8_t[]){0}, 1);
+                 (AllVar[]){all_var_from_int32(i * 10)}, 1, (int8_t[]){0}, 1, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 96);
@@ -313,7 +313,7 @@ void test_duplicateValuesAllStored(void **state) {
     for (int i = 0; i < 10; i++) {
         addTuple(&b, &c, &m, &mvcc, 98,
                  (AllVar[]){all_var_from_int32(42), all_var_from_string("dup")}, 2,
-                 (int8_t[]){0, 0}, 2);
+                 (int8_t[]){0, 0}, 2, NULL, NULL);
     }
 
     force_eviction(&b, &c, &m, &mvcc, 99);

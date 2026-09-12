@@ -38,23 +38,23 @@ int main(void) {
          (AllVar[]){all_var_from_int32(1), all_var_from_string("Alice")},
          2,
          (int8_t[]){0, 0},
-         2);
+         2, NULL, NULL);
     //showBuffors(&buffors);
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 20,
              (AllVar[]){all_var_from_int32(2), all_var_from_string("Patrick")},
              2,
              (int8_t[]){0, 0},
-             2);
+             2, NULL, NULL);
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 20,
              (AllVar[]){all_var_from_int32(3), all_var_from_string("alan")},
              2,
              (int8_t[]){0, 0},
-             2);
+             2, NULL, NULL);
     addTuple(&buffors, &fsmCache, &fsmMapAll, &mvcc, 20,
              (AllVar[]){all_var_from_int32(4), all_var_from_string("adssdadasd")},
              2,
              (int8_t[]){0, 0},
-             2);
+             2, NULL, NULL);
     //showBuffors(&buffors);
     Transaction *transaction = (Transaction *)malloc(sizeof(Transaction));
 
