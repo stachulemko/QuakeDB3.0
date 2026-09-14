@@ -83,7 +83,7 @@ static void hot_insert(HotEnv *env, int32_t xmin, int32_t val) {
     AllVar vals[1] = {all_var_from_int32(val)};
     int8_t bm[1]  = {0};
     DataBuffor *db = addTupleToOtherFunction(
-        &env->buffors, env->c, &env->fsmMapAll, env->mvcc,
+        &env->buffors, env->c, &env->fsmMapAll,
         HOT_TABLE, vals, 1, bm, 1,
         xmin, 0, 0, 0, 0, 0, -1, &env->fsmMapBtree, &env->btreeBuffors);
 
@@ -231,7 +231,7 @@ static void test_hotUpdate_no_index_update_still_works(void **state) {
     /* wstaw bez indeksu */
     AllVar vals[1] = {all_var_from_int32(77)};
     int8_t bm[1]  = {0};
-    addTupleToOtherFunction(&env.buffors, env.c, &env.fsmMapAll, env.mvcc,
+    addTupleToOtherFunction(&env.buffors, env.c, &env.fsmMapAll,
         HOT_TABLE, vals, 1, bm, 1, 1, 0, 0, 0, 0, 0, -1, NULL, NULL);
 
     /* UPDATE bez indeksu — nie powinno crashować */

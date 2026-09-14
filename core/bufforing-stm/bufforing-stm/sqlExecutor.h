@@ -266,7 +266,7 @@ static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,
         newTuple.dnb.data[se->updColumns[j]] = se->updValues[j];
     }
 
-    DataBuffor *dataBuffor = addTupleToOtherFunction(buffors, c, fsmMapAll, mvcc, se->tableId,
+    DataBuffor *dataBuffor = addTupleToOtherFunction(buffors, c, fsmMapAll, se->tableId,
         newTuple.dnb.data, newTuple.dnb.data_count,
         newTuple.dnb.bit_map, newTuple.dnb.bit_map_count,
         se->transaction->xid, -1, -1, newTuple.header.t_infomask,

@@ -1,0 +1,2 @@
+Idead was to created database similar to postgres with own componets and new functions and redirected approach it uses sql standard and use features as multiversion control sytem . I also can have universal types extended and indexing methods .
+ 

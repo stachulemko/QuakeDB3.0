@@ -9,6 +9,10 @@
 #include "../../memory-mgmt/memory-mgmt/file_manager_c.h"
 
 
+/*
+ * Databuffor uses tableId and pinCount to offer in future paraller aproach. isUsed being used to tell if block buffor is clear and there is no data.
+ * It uses universal block which can be extended to conatin diffrent structure .
+*/
 typedef struct {
     int32_t tableId;
     int32_t pinCount;
@@ -114,6 +118,12 @@ static inline DataBuffor* evict(Buffors *buffors,int32_t tableId,int32_t block_i
     }
 }
 
+/* main Function to get new block using 3 stage verification system .
+*First it checks is buffor existing already in buffors if its than it gets if not then it goes check further .
+*Than is trying to find any clear empty place if finds it loading from disk
+*evict version onyl work by at first evict any of the buffors if possible .Than do second step
+*/
+
 static inline DataBuffor* getBuffor(int32_t tableId,int32_t block_id, Buffors *buffors) {
     DataBuffor* existingBuffor = getIfExisting(tableId, block_id, buffors);
     if (existingBuffor != NULL) {
@@ -173,7 +183,9 @@ DataBuffor* getBufforAny(Buffors *buffors) {
 }
 
 
-/* adding newBlock using getBufforAny */
+/* It is used to add new block in case when block is not able to fit tuple so we need to add next
+ *
+*/
 DataBuffor* addNewBlock(Buffors *buffors , DataBuffor *newBuffor){
     if(buffors->count == 0){
         LOG_DEBUG("No buffor space available to add new block.");
@@ -196,6 +208,10 @@ DataBuffor* addNewBlock(Buffors *buffors , DataBuffor *newBuffor){
 #include "mvcc.h"
 #include "../../indexes/indexes/btreeFileOperation.h"
 
+
+// it is adding tuple cu
+
+// it was onaly create in tests reason to check mvcc process .Currenlty being stored to sustains test adn structure slowly will go out !
 void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors){
     Tuple tuple;
     tuple_set(&tuple, getAndIcrement(mvcc), 0, 0, 0, 0, 0, -1, bit_map, bit_map_count, data, data_count);
@@ -216,8 +232,28 @@ void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32
 
 
 
-// this fuction is usefullInCase of update after we udapte we adding new tuple that why we need to return this to get block and tuple number to set pointer in updated Tuple !
-DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
+// this fuction is usefull in Case of update after we udapte we adding new tuple that why we need to return this to get block and tuple number to set pointer in updated Tuple
+// not in case of test but in real cases
+DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
+    Tuple tuple;
+    tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
+    DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
+    buffor->pinCount++;
+    block8kb_add(buffor->universalBlock->block, &tuple);
+    buffor->isDirty = 1;
+    buffor->isUsed = 1;
+    buffor->tableId = tableId;
+    // checking ig endigs exist than is staring to only increment
+    if (fsmMapBtree != NULL && btreeBuffors != NULL) {
+        int32_t blockId = (int32_t)buffor->universalBlock->block->header.block_id;
+        int32_t tupleIdx = buffor->universalBlock->block->tuple_count - 1;
+        btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
+                                   &buffor->universalBlock->block->tuples[tupleIdx], blockId);
+    }
+    return buffor;
+}
+
+void addTupleToSqlExecutor(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
     Tuple tuple;
     tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
@@ -232,10 +268,7 @@ DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmM
         btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
                                    &buffor->universalBlock->block->tuples[tupleIdx], blockId);
     }
-    return buffor;
 }
-
-
 
 /* Column names — fixed-length char array instead of std::string */
 

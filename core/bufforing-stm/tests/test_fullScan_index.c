@@ -81,7 +81,7 @@ static int32_t tenv_endblock(TEnv *env) {
 static void tenv_insert(TEnv *env, int32_t xmin, int32_t val) {
     AllVar vals[1] = {all_var_from_int32(val)};
     int8_t bm[1]  = {0};
-    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
+    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         TEST_TABLE, vals, 1, bm, 1,
         xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors);
 }
@@ -90,7 +90,7 @@ static void tenv_insert(TEnv *env, int32_t xmin, int32_t val) {
 static void tenv_insert2(TEnv *env, int32_t xmin, int32_t col0, int32_t col1) {
     AllVar vals[2] = {all_var_from_int32(col0), all_var_from_int32(col1)};
     int8_t bm[2]  = {0, 0};
-    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
+    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         TEST_TABLE, vals, 2, bm, 2,
         xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors);
 }
@@ -99,7 +99,7 @@ static void tenv_insert2(TEnv *env, int32_t xmin, int32_t col0, int32_t col1) {
 static void tenv_insert_no_index(TEnv *env, int32_t xmin, int32_t val) {
     AllVar vals[1] = {all_var_from_int32(val)};
     int8_t bm[1]  = {0};
-    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll, env->mvcc,
+    addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         TEST_TABLE, vals, 1, bm, 1,
         xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
 }

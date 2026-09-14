@@ -1,0 +1,13 @@
+// curret problems
+1.delete addTuple fuction with every adding diffrent xid and replace it with normal add Tuple with xid from Transaction.
+2. .
+
+
+
+
+
+
+
+// future plans
+1 . create mvcc system to upload more realiable test !
+2 . add recyling system to int32_t xid int ther futer add int64_t transaction
