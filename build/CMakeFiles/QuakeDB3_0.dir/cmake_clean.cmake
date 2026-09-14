@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o.d"
   "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o"
   "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o.d"
-  "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.o"
-  "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.o.d"
   "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o"
   "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o.d"
   "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o"

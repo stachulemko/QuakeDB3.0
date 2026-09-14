@@ -63,6 +63,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_QuaeryExecutor.dir/DependInfo.cmake"
   "CMakeFiles/test_sqlExecutor.dir/DependInfo.cmake"
   "CMakeFiles/test_sqlExecutor_chain.dir/DependInfo.cmake"
-  "CMakeFiles/test_hotUpdate.dir/DependInfo.cmake"
   "CMakeFiles/test_QuaeryExecutor_rc.dir/DependInfo.cmake"
   )

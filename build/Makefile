@@ -416,19 +416,6 @@ test_sqlExecutor_chain/fast:
 .PHONY : test_sqlExecutor_chain/fast
 
 #=============================================================================
-# Target rules for targets named test_hotUpdate
-
-# Build rule for target.
-test_hotUpdate: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_hotUpdate
-.PHONY : test_hotUpdate
-
-# fast build rule for target.
-test_hotUpdate/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/build
-.PHONY : test_hotUpdate/fast
-
-#=============================================================================
 # Target rules for targets named test_QuaeryExecutor_rc
 
 # Build rule for target.
@@ -468,7 +455,6 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 
@@ -499,7 +485,6 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 
@@ -530,7 +515,6 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 
@@ -561,7 +545,6 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.o
 
@@ -592,7 +575,6 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.i
 
@@ -623,33 +605,8 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.s
-
-core/bufforing-stm/bufforing-stm/hotUpdate.o: core/bufforing-stm/bufforing-stm/hotUpdate.c.o
-.PHONY : core/bufforing-stm/bufforing-stm/hotUpdate.o
-
-# target to build an object file
-core/bufforing-stm/bufforing-stm/hotUpdate.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.o
-.PHONY : core/bufforing-stm/bufforing-stm/hotUpdate.c.o
-
-core/bufforing-stm/bufforing-stm/hotUpdate.i: core/bufforing-stm/bufforing-stm/hotUpdate.c.i
-.PHONY : core/bufforing-stm/bufforing-stm/hotUpdate.i
-
-# target to preprocess a source file
-core/bufforing-stm/bufforing-stm/hotUpdate.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.i
-.PHONY : core/bufforing-stm/bufforing-stm/hotUpdate.c.i
-
-core/bufforing-stm/bufforing-stm/hotUpdate.s: core/bufforing-stm/bufforing-stm/hotUpdate.c.s
-.PHONY : core/bufforing-stm/bufforing-stm/hotUpdate.s
-
-# target to generate assembly for a file
-core/bufforing-stm/bufforing-stm/hotUpdate.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/hotUpdate.c.s
-.PHONY : core/bufforing-stm/bufforing-stm/hotUpdate.c.s
 
 core/bufforing-stm/bufforing-stm/queryExecutor.o: core/bufforing-stm/bufforing-stm/queryExecutor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.o
@@ -939,30 +896,6 @@ core/bufforing-stm/tests/test_fullScan_index.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fullScan_index.dir/build.make CMakeFiles/test_fullScan_index.dir/core/bufforing-stm/tests/test_fullScan_index.c.s
 .PHONY : core/bufforing-stm/tests/test_fullScan_index.c.s
 
-core/bufforing-stm/tests/test_hotUpdate.o: core/bufforing-stm/tests/test_hotUpdate.c.o
-.PHONY : core/bufforing-stm/tests/test_hotUpdate.o
-
-# target to build an object file
-core/bufforing-stm/tests/test_hotUpdate.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/tests/test_hotUpdate.c.o
-.PHONY : core/bufforing-stm/tests/test_hotUpdate.c.o
-
-core/bufforing-stm/tests/test_hotUpdate.i: core/bufforing-stm/tests/test_hotUpdate.c.i
-.PHONY : core/bufforing-stm/tests/test_hotUpdate.i
-
-# target to preprocess a source file
-core/bufforing-stm/tests/test_hotUpdate.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/tests/test_hotUpdate.c.i
-.PHONY : core/bufforing-stm/tests/test_hotUpdate.c.i
-
-core/bufforing-stm/tests/test_hotUpdate.s: core/bufforing-stm/tests/test_hotUpdate.c.s
-.PHONY : core/bufforing-stm/tests/test_hotUpdate.s
-
-# target to generate assembly for a file
-core/bufforing-stm/tests/test_hotUpdate.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/bufforing-stm/tests/test_hotUpdate.c.s
-.PHONY : core/bufforing-stm/tests/test_hotUpdate.c.s
-
 core/bufforing-stm/tests/test_sqlExecutor.o: core/bufforing-stm/tests/test_sqlExecutor.c.o
 .PHONY : core/bufforing-stm/tests/test_sqlExecutor.o
 
@@ -1158,7 +1091,6 @@ core/memory-mgmt/memory-mgmt/all_var.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.o
 
@@ -1189,7 +1121,6 @@ core/memory-mgmt/memory-mgmt/all_var.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.i
 
@@ -1220,7 +1151,6 @@ core/memory-mgmt/memory-mgmt/all_var.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.s
 
@@ -1251,7 +1181,6 @@ core/memory-mgmt/memory-mgmt/block8kb.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.o
 
@@ -1282,7 +1211,6 @@ core/memory-mgmt/memory-mgmt/block8kb.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.i
 
@@ -1313,7 +1241,6 @@ core/memory-mgmt/memory-mgmt/block8kb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.s
 
@@ -1344,7 +1271,6 @@ core/memory-mgmt/memory-mgmt/block_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.o
 
@@ -1375,7 +1301,6 @@ core/memory-mgmt/memory-mgmt/block_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.i
 
@@ -1406,7 +1331,6 @@ core/memory-mgmt/memory-mgmt/block_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.s
 
@@ -1437,7 +1361,6 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 
@@ -1468,7 +1391,6 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 
@@ -1499,7 +1421,6 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 
@@ -1530,7 +1451,6 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 
@@ -1561,7 +1481,6 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 
@@ -1592,7 +1511,6 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 
@@ -1623,7 +1541,6 @@ core/memory-mgmt/memory-mgmt/table_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.o
 
@@ -1654,7 +1571,6 @@ core/memory-mgmt/memory-mgmt/table_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.i
 
@@ -1685,7 +1601,6 @@ core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.s
 
@@ -1716,7 +1631,6 @@ core/memory-mgmt/memory-mgmt/tuple.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.o
 
@@ -1747,7 +1661,6 @@ core/memory-mgmt/memory-mgmt/tuple.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.i
 
@@ -1778,7 +1691,6 @@ core/memory-mgmt/memory-mgmt/tuple.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.s
 
@@ -1809,7 +1721,6 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.o
 
@@ -1840,7 +1751,6 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.i
 
@@ -1871,7 +1781,6 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.s
 
@@ -1902,7 +1811,6 @@ core/memory-mgmt/memory-mgmt/types_converter.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.o
 
@@ -1933,7 +1841,6 @@ core/memory-mgmt/memory-mgmt/types_converter.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.i
 
@@ -1964,7 +1871,6 @@ core/memory-mgmt/memory-mgmt/types_converter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.s
 
@@ -1995,7 +1901,6 @@ core/memory-mgmt/memory-mgmt/universal_block.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.o
 
@@ -2026,7 +1931,6 @@ core/memory-mgmt/memory-mgmt/universal_block.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.i
 
@@ -2057,7 +1961,6 @@ core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor.dir/build.make CMakeFiles/test_QuaeryExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hotUpdate.dir/build.make CMakeFiles/test_hotUpdate.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_QuaeryExecutor_rc.dir/build.make CMakeFiles/test_QuaeryExecutor_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.s
 
@@ -2352,7 +2255,6 @@ help:
 	@echo "... test_fsmMap"
 	@echo "... test_fullScan_index"
 	@echo "... test_fullscan"
-	@echo "... test_hotUpdate"
 	@echo "... test_sqlExecutor"
 	@echo "... test_sqlExecutor_chain"
 	@echo "... test_stress"
@@ -2367,9 +2269,6 @@ help:
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.o"
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.i"
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.s"
-	@echo "... core/bufforing-stm/bufforing-stm/hotUpdate.o"
-	@echo "... core/bufforing-stm/bufforing-stm/hotUpdate.i"
-	@echo "... core/bufforing-stm/bufforing-stm/hotUpdate.s"
 	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.o"
 	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.i"
 	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.s"
@@ -2406,9 +2305,6 @@ help:
 	@echo "... core/bufforing-stm/tests/test_fullScan_index.o"
 	@echo "... core/bufforing-stm/tests/test_fullScan_index.i"
 	@echo "... core/bufforing-stm/tests/test_fullScan_index.s"
-	@echo "... core/bufforing-stm/tests/test_hotUpdate.o"
-	@echo "... core/bufforing-stm/tests/test_hotUpdate.i"
-	@echo "... core/bufforing-stm/tests/test_hotUpdate.s"
 	@echo "... core/bufforing-stm/tests/test_sqlExecutor.o"
 	@echo "... core/bufforing-stm/tests/test_sqlExecutor.i"
 	@echo "... core/bufforing-stm/tests/test_sqlExecutor.s"

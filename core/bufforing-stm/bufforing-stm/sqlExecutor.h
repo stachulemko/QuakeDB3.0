@@ -251,7 +251,6 @@ static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId,
 
 
 static void sql_doUpdate(SqlExecutor *se, Tuple *t,Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32_t blockId) {
-    /* hotUpdate: usun stary tuple z indeksow przed oznaczeniem xmax */
     if (se->fsmMapBtree != NULL && se->btreeBuffors != NULL) {
         btree_delete_tuple_indexes(se->fsmMapBtree, se->btreeBuffors, se->tableId, t, blockId);
     }

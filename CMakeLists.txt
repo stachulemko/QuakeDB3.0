@@ -35,8 +35,6 @@ add_executable(QuakeDB3_0
         core/bufforing-stm/bufforing-stm/transaction.c
         core/bufforing-stm/bufforing-stm/setUpCaches.h
         core/bufforing-stm/bufforing-stm/setUpCaches.c
-        core/bufforing-stm/bufforing-stm/hotUpdate.h
-        core/bufforing-stm/bufforing-stm/hotUpdate.c
 )
 
 # Find cmocka
@@ -143,13 +141,6 @@ if(CMOCKA_LIBRARY)
     )
     target_link_libraries(test_sqlExecutor_chain ${CMOCKA_LIBRARY})
     target_compile_definitions(test_sqlExecutor_chain PRIVATE LOG_LEVEL=0)
-
-    add_executable(test_hotUpdate
-            ${CORE_SOURCES}
-            core/bufforing-stm/tests/test_hotUpdate.c
-    )
-    target_link_libraries(test_hotUpdate ${CMOCKA_LIBRARY})
-    target_compile_definitions(test_hotUpdate PRIVATE LOG_LEVEL=0)
 
     add_executable(test_QuaeryExecutor_rc
             ${CORE_SOURCES}

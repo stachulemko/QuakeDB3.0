@@ -273,12 +273,5 @@ DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c
     }
     return NULL;
 }
-// ==============================================================================
-
-// if 1 - enough space, if 0 - not enough space
-int8_t getEstimatedFreeSpace(FSMMapAll *fsmMapAll, int32_t tableId, Tuple tuple){
-
-
-}
 
 #endif
