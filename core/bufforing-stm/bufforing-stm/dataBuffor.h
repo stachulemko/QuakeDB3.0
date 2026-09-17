@@ -253,8 +253,15 @@ DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmM
     return buffor;
 }
 
+
 void addTupleToSqlExecutor(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
     Tuple tuple;
+    size_t countNum = sizeof((AllVar[]){ all_var_from_int32(1), all_var_from_string("Alice") })
+           / sizeof(AllVar);
+    if (countNum != data_count) {
+        LOG_ERROR("data number exceed the expected one place correct one");
+        return;
+    }
     tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
     buffor->pinCount++;

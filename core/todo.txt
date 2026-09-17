@@ -2,6 +2,9 @@
 1 .refactoring allFiles Llist !
 
 // curret problems
+1. add check if null any of the structures  in tupleAdds?
+1. add null val adding ! - 1 - not tested
+1. make adding null values avaliable
 1.delete hotUpdate not used anywhere and test to it !
 2.delete addTuple fuction with every adding diffrent xid and replace it with normal add Tuple with xid from Transaction -added not tested not used anywhere
 
@@ -13,5 +16,6 @@
 
 
 // future plans
-1 . create mvcc system to upload more realiable test to be sure if it is a great ground for connection !
-2 . add recyling system to int32_t xid int ther futer add int64_t transaction
+1. add visiblity on while for query usage and else and off when begin modified //
+2 . create mvcc system to upload more realiable test to be sure if it is a great ground for connection !
+3 . add recyling system to int32_t xid int ther futer add int64_t transaction

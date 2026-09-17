@@ -29,7 +29,6 @@ set(CORE_SOURCES
 add_executable(QuakeDB3_0
         ${CORE_SOURCES}
         core/main.c
-        core/bufforing-stm/bufforing-stm/Llist.h
         core/bufforing-stm/bufforing-stm/transaction.h
         core/bufforing-stm/bufforing-stm/queryExecutor.c
         core/bufforing-stm/bufforing-stm/transaction.c

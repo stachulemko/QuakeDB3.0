@@ -19,7 +19,7 @@
  * ========================================================================= */
 
 typedef struct {
-    Tuple   *tuples[RESULT_SPACE];
+    Tuple *tuples[RESULT_SPACE];
     int32_t  tuple_count;
 } ResultTuple;
 
@@ -81,12 +81,28 @@ typedef struct {
     /* B-tree indexes (opcjonalne — NULL jesli brak indeksow) */
     FSMMapBtree  *fsmMapBtree;
     BtreeBuffors *btreeBuffors;
+
+    // inset func
+    int8_t insert;
+    AllVar *val;
+
 } SqlExecutor;
+
+/* Bit w t_infomask: tuple wstawiony przez UPDATE — pomijany w skanowaniu, dostępny tylko przez chain traversal */
+#define NORMAL_INFOMAKS ((int32_t)0x0000)
+#define INFOMASK_CHAIN_MEMBER ((int32_t)0x0001)
+#define INFOMASK_DEAD         ((int32_t)0x0002)
 
 /* =========================================================================
  * Builder helpers
  * ========================================================================= */
 
+// adding directly
+void sql_addTable(SqlExecutor *se,int32_t tableId,AllVar *val,Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,Transaction *txn,int32_t dataCount,int8_t *bit_map, int32_t bit_map_count) {
+    if (se->select!= 1 && se->where!=1 && se->update!=1) {
+        addTupleToSqlExecutor(buffors,c,fsmMapAll,tableId,val,dataCount,bit_map,bit_map_count,txn->xid,0,0,NORMAL_INFOMAKS,0,0,0,se->fsmMapBtree,se->btreeBuffors);
+    }
+}
 void sql_setSelect(SqlExecutor *se, int32_t columns[], int32_t count) {
     se->select = 1;
     se->selCount = count;
@@ -149,10 +165,6 @@ static Tuple *sql_doSelect(SqlExecutor *se, Tuple *t) {
 /* =========================================================================
  * 3. UPDATE — modyfikacja in-place
  * ========================================================================= */
-
-/* Bit w t_infomask: tuple wstawiony przez UPDATE — pomijany w skanowaniu, dostępny tylko przez chain traversal */
-#define INFOMASK_CHAIN_MEMBER ((int32_t)0x0001)
-#define INFOMASK_DEAD         ((int32_t)0x0002)
 
 uint32_t pack(int16_t a, int16_t b) {
     return ((uint32_t)(uint16_t)a << 16) | (uint16_t)b;
@@ -327,7 +339,6 @@ void sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
         Tuple *visible = sql_followChainRR(t, buffors, se->tableId, se->transaction->xid, mvcc,
                                                   se->fsmMapBtree, se->btreeBuffors);
         if (visible == NULL) continue;
-
         if (se->where && !sql_matchWhere(se, visible)) continue;
         if (se->update) sql_doUpdate(se, visible, buffors, c, fsmMapAll, mvcc, block->header.block_id);
 
@@ -340,12 +351,13 @@ void sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
 }
 
 
-/* Sprawdz czy pierwszy warunek WHERE (EQ) ma indeks B-tree.
- * Jesli tak, zwraca liste blokow z indeksu. Jesli nie, zwraca wszystkie bloki 1..endBlock. */
+/* resolve block deciding on whetever to use indexes block or use full scan blocks
+ * it returns structure with block numbers .
+*/
 static inline BtreeBlocksResult sql_resolveBlocks(SqlExecutor *se) {
     BtreeBlocksResult res = {NULL, 0};
 
-    /* Probuj uzyc indeksu: pierwszy warunek EQ na kolumnie z indeksem */
+    // we are checking if there any where coindtion and number of tem and also of index structure was created .
     if (se->where && se->condCount > 0 && se->fsmMapBtree != NULL && se->btreeBuffors != NULL) {
         for (int c = 0; c < se->condCount; c++) {
             SqlCondition *cond = &se->conditions[c];
