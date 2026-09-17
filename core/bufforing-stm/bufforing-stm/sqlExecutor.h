@@ -98,7 +98,8 @@ typedef struct {
  * ========================================================================= */
 
 // adding directly
-void sql_addTable(SqlExecutor *se,int32_t tableId,AllVar *val,Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,Transaction *txn,int32_t dataCount,int8_t *bit_map, int32_t bit_map_count) {
+
+void sql_addTuple(SqlExecutor *se,int32_t tableId,AllVar *val,Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,Transaction *txn,int32_t dataCount,int8_t *bit_map, int32_t bit_map_count) {
     if (se->select!= 1 && se->where!=1 && se->update!=1) {
         addTupleToSqlExecutor(buffors,c,fsmMapAll,tableId,val,dataCount,bit_map,bit_map_count,txn->xid,0,0,NORMAL_INFOMAKS,0,0,0,se->fsmMapBtree,se->btreeBuffors);
     }

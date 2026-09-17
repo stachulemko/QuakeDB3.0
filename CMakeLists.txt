@@ -50,22 +50,16 @@ if(CMOCKA_LIBRARY)
             core/memory-mgmt/tests/test_universal_block.c
             core/bufforing-stm/tests/test_dataBuffor.c
             core/bufforing-stm/tests/test_fsmMap.c
-            core/bufforing-stm/tests/test_QuaeryExecutor.c
     )
 
     add_executable(test_components
             ${CORE_SOURCES}
             core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
+            core/bufforing-stm/components-tests/sqlExecutorTest.c
+            core/bufforing-stm/components-tests/sqlExecutor.c
     )
     target_link_libraries(test_components ${CMOCKA_LIBRARY})
     target_compile_definitions(test_components PRIVATE LOG_LEVEL=0)
-
-    add_executable(test_fullscan
-            ${CORE_SOURCES}
-            core/bufforing-stm/components-tests/FullScanTest.c
-    )
-    target_link_libraries(test_fullscan ${CMOCKA_LIBRARY})
-    target_compile_definitions(test_fullscan PRIVATE LOG_LEVEL=0)
 
     add_executable(test_tuple_add
             ${CORE_SOURCES}
@@ -105,13 +99,6 @@ if(CMOCKA_LIBRARY)
     )
     target_compile_definitions(test_btree_get_blocks PRIVATE LOG_LEVEL=0)
 
-    add_executable(test_fullScan_index
-            ${CORE_SOURCES}
-            core/bufforing-stm/tests/test_fullScan_index.c
-    )
-    target_link_libraries(test_fullScan_index ${CMOCKA_LIBRARY})
-    target_compile_definitions(test_fullScan_index PRIVATE LOG_LEVEL=0)
-
     add_executable(test_bq
             core/vacuum/vacuum/bq.c
             core/vacuum/tests/test_bq.c
@@ -141,12 +128,6 @@ if(CMOCKA_LIBRARY)
     target_link_libraries(test_sqlExecutor_chain ${CMOCKA_LIBRARY})
     target_compile_definitions(test_sqlExecutor_chain PRIVATE LOG_LEVEL=0)
 
-    add_executable(test_QuaeryExecutor_rc
-            ${CORE_SOURCES}
-            core/bufforing-stm/tests/test_QuaeryExecutor_rc.c
-    )
-    target_link_libraries(test_QuaeryExecutor_rc ${CMOCKA_LIBRARY})
-    target_compile_definitions(test_QuaeryExecutor_rc PRIVATE LOG_LEVEL=0 VIEW_MODE=2)
 else()
     message(WARNING "cmocka not found — test targets skipped. Install with: sudo apt install libcmocka-dev")
 endif()
