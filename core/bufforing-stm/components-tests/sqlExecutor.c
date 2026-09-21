@@ -17,6 +17,11 @@ typedef struct {
 } SetedUpEnv;
 
 
+
+/*
+ *  we will be checking all anomalies which can occur in mvcc sytem at first we will be testing lost update .
+*/
+
 static void initWithoutBtree(SetedUpEnv *env, int32_t bufforCount, int32_t tableId, int32_t xid) {
     initializeBuffors(&env->buffors, bufforCount);
     fsm_cache_init(&env->fsmCache);

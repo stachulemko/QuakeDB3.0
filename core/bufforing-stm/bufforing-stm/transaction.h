@@ -12,13 +12,24 @@
 #define TXN_ABORTED 2
 
 
+#define ISOLATION_REPEATABLE_READ 1
+#define ISOLATION_READ_COMMITTED  2
+
 typedef struct {
     int32_t xid;
+    int8_t  isolation_level;
 }Transaction;
 
 
 void beginTransaction(MVCC *mvcc,Transaction *transaction) {
     transaction->xid = getTxnId(mvcc);
+    transaction->isolation_level = VIEW_MODE;
+    mvcc->txn_status[transaction->xid] = TXN_ACTIVE;
+}
+
+void beginTransactionWithIsolation(MVCC *mvcc, Transaction *transaction, int8_t isolation_level) {
+    transaction->xid = getTxnId(mvcc);
+    transaction->isolation_level = isolation_level;
     mvcc->txn_status[transaction->xid] = TXN_ACTIVE;
 }
 

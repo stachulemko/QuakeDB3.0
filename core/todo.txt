@@ -2,16 +2,14 @@
 1 .refactoring allFiles Llist !
 
 // curret problems
+1. make trnsaction stay and wait and not slow down main loop (lost update , one trnsaction waiting on another)
+    first idea is to create make int16_t infomaks  which would conatin information if tuple is chainMeber and if its locked for example . It will contain two information .
+
 1. add check if null any of the structures  in tupleAdds?
 1. add null val adding ! - 1 - not tested
 1. make adding null values avaliable
 1.delete hotUpdate not used anywhere and test to it !
 2.delete addTuple fuction with every adding diffrent xid and replace it with normal add Tuple with xid from Transaction -added not tested not used anywhere
-
-
-
-
-
 
 
 

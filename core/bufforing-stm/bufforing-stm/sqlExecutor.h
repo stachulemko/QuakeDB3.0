@@ -260,6 +260,7 @@ static Tuple *sql_followChainRC(Tuple *start, Buffors *buffors, int32_t tableId,
         buf->pinCount = 0;
     }
     return lastVisible;
+    return lastVisible;
 }
 
 
