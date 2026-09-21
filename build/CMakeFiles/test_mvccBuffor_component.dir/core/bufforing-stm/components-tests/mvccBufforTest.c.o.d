@@ -62,6 +62,7 @@ CMakeFiles/test_mvccBuffor_component.dir/core/bufforing-stm/components-tests/mvc
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/mvcc.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/config.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/transaction.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/mvccBuffor.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/timeFunction.h \

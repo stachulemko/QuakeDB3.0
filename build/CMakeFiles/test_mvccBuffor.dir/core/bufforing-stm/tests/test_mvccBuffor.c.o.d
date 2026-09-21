@@ -66,4 +66,5 @@ CMakeFiles/test_mvccBuffor.dir/core/bufforing-stm/tests/test_mvccBuffor.c.o: \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/config.h

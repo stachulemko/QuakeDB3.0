@@ -80,6 +80,7 @@ CMakeFiles/test_tuple_add.dir/core/bufforing-stm/components-tests/tupleAddTest.c
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/dataBuffor.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/uthash.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/mvcc.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/config.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../indexes/indexes/btreeFileOperation.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../indexes/indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \

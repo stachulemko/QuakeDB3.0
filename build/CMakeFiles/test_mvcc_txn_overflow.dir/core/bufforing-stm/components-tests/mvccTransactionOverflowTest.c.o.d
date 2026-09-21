@@ -63,6 +63,7 @@ CMakeFiles/test_mvcc_txn_overflow.dir/core/bufforing-stm/components-tests/mvccTr
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/mvcc.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/config.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/timeFunction.h \
  /usr/include/time.h /usr/include/x86_64-linux-gnu/bits/time.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \

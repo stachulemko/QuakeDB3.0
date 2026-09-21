@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include "../../memory-mgmt/memory-mgmt/config.h"
 
-#define MAX_TRANSACTIONS 256
+#define MAX_TRANSACTIONS mvccBufforSize
 
 
 typedef struct {

@@ -79,6 +79,7 @@ CMakeFiles/test_fsmMap.dir/core/bufforing-stm/tests/test_fsmMap.c.o: \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/dataBuffor.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/uthash.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/mvcc.h \
+ /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../memory-mgmt/memory-mgmt/config.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../indexes/indexes/btreeFileOperation.h \
  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.h \
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/../bufforing-stm/../../indexes/indexes/../../memory-mgmt/memory-mgmt/file_manager_c.h \
