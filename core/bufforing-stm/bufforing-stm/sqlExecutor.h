@@ -44,6 +44,9 @@ typedef struct {
  * Warunek WHERE: kolumna OP wartość
  * ========================================================================= */
 
+
+
+
 typedef struct {
     int32_t column;   /* indeks kolumny w tuple */
     AllVar  value;    /* wartość do porównania  */
@@ -86,7 +89,32 @@ typedef struct {
     int8_t insert;
     AllVar *val;
 
+    // locked on transaction - in case of lost update or other anomalies
+    int32_t xidOfBlockingTransaction;
+
 } SqlExecutor;
+
+
+/*
+ * created in case of lost update
+*/
+
+typedef struct {
+    SqlExecutor* operation[MAX_TRANSACTIONS];
+
+}TabOfBlockedTransaction;
+
+void addToTabOfBlockedTransaction(SqlExecutor* se,TabOfBlockedTransaction *tab) {
+    for (int i = 0; i < MAX_TRANSACTIONS; i++) {
+        if (tab->operation[i] == NULL) {
+            tab->operation[i] = se;
+            return;
+        }
+    }
+}
+/*
+ * end
+*/
 
 /* Bit w t_infomask: tuple wstawiony przez UPDATE — pomijany w skanowaniu, dostępny tylko przez chain traversal */
 #define NORMAL_INFOMAKS ((int32_t)0x0000)
@@ -405,6 +433,7 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
                 /* RC: idź po łańcuchu do najnowszej wersji z xmin <= xid */
                 Tuple *visible = sql_followChainRC(t, buffors, se->tableId, se->transaction->xid, mvcc,
                                                           se->fsmMapBtree, se->btreeBuffors);
+
                 if (visible == NULL) continue;
 
                 if (se->where && !sql_matchWhere(se, visible)) continue;

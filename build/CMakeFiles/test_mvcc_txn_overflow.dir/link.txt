@@ -1,0 +1,1 @@
+/usr/bin/gcc -DLOG_LEVEL=0 -g "CMakeFiles/test_mvcc_txn_overflow.dir/core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.o" -o test_mvcc_txn_overflow  /usr/lib/x86_64-linux-gnu/libcmocka.so 

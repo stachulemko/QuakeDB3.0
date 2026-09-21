@@ -7,10 +7,11 @@
 #define MAX_TRANSACTIONS 256
 
 
-
 typedef struct {
     int32_t txn_counter;
+    int32_t base_txn;
     int8_t  txn_status[MAX_TRANSACTIONS];
+    const char *filepath;
 } MVCC;
 
 void create_MVCC(MVCC **mvcc) {
@@ -19,9 +20,16 @@ void create_MVCC(MVCC **mvcc) {
 
 static inline void mvcc_init(MVCC *mvcc) {
     mvcc->txn_counter = 0;
+    mvcc->base_txn = 0;
+    mvcc->filepath = NULL;
     for (int i = 0; i < MAX_TRANSACTIONS; i++) {
         mvcc->txn_status[i] = 0; // 0 = active, 1 = committed, 2 = aborted
     }
+}
+
+static inline void mvcc_init_with_file(MVCC *mvcc, const char *filepath) {
+    mvcc_init(mvcc);
+    mvcc->filepath = filepath;
 }
 
 static inline int32_t getTxnId(MVCC *mvcc) {

@@ -60,4 +60,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_fsmMap.dir/DependInfo.cmake"
   "CMakeFiles/test_sqlExecutor.dir/DependInfo.cmake"
   "CMakeFiles/test_sqlExecutor_chain.dir/DependInfo.cmake"
+  "CMakeFiles/test_mvccBuffor.dir/DependInfo.cmake"
+  "CMakeFiles/test_mvccBuffor_component.dir/DependInfo.cmake"
+  "CMakeFiles/test_mvcc_txn_overflow.dir/DependInfo.cmake"
   )

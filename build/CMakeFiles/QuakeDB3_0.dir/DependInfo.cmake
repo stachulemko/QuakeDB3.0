@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o.d"
+  "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mainLoop.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/queryExecutor.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/setUpCaches.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/transaction.c" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o.d"
@@ -20,6 +21,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/data_null_bitmap.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/file_manager_c.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/table_header.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/table_header.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/table_header.c.o.d"
+  "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/timeFunction.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple_header.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.c" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" "gcc" "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"

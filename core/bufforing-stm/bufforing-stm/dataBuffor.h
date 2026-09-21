@@ -262,6 +262,7 @@ void addTupleToSqlExecutor(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int
         LOG_ERROR("data number exceed the expected one place correct one");
         return;
     }
+
     tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
     buffor->pinCount++;

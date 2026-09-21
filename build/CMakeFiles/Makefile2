@@ -83,6 +83,9 @@ all: CMakeFiles/test_dataBuffor.dir/all
 all: CMakeFiles/test_fsmMap.dir/all
 all: CMakeFiles/test_sqlExecutor.dir/all
 all: CMakeFiles/test_sqlExecutor_chain.dir/all
+all: CMakeFiles/test_mvccBuffor.dir/all
+all: CMakeFiles/test_mvccBuffor_component.dir/all
+all: CMakeFiles/test_mvcc_txn_overflow.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -110,6 +113,9 @@ clean: CMakeFiles/test_dataBuffor.dir/clean
 clean: CMakeFiles/test_fsmMap.dir/clean
 clean: CMakeFiles/test_sqlExecutor.dir/clean
 clean: CMakeFiles/test_sqlExecutor_chain.dir/clean
+clean: CMakeFiles/test_mvccBuffor.dir/clean
+clean: CMakeFiles/test_mvccBuffor_component.dir/clean
+clean: CMakeFiles/test_mvcc_txn_overflow.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -145,12 +151,12 @@ CMakeFiles/QuakeDB3_0.dir/clean:
 CMakeFiles/test_components.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=43,44,45,46,47,48 "Built target test_components"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=43,44,45,46,47 "Built target test_components"
 .PHONY : CMakeFiles/test_components.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_components.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_components.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_components.dir/rule
@@ -197,7 +203,7 @@ CMakeFiles/test_tuple_add.dir/clean:
 CMakeFiles/test_stress.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=69,70,71,72,73 "Built target test_stress"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=70,71,72,73,74 "Built target test_stress"
 .PHONY : CMakeFiles/test_stress.dir/all
 
 # Build rule for subdir invocation for target.
@@ -275,12 +281,12 @@ CMakeFiles/test_btree_update_indexes.dir/clean:
 CMakeFiles/test_btree_block_count.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=24,25,26,27,28 "Built target test_btree_block_count"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=24,25,26,27 "Built target test_btree_block_count"
 .PHONY : CMakeFiles/test_btree_block_count.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_btree_block_count.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_btree_block_count.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_btree_block_count.dir/rule
@@ -301,12 +307,12 @@ CMakeFiles/test_btree_block_count.dir/clean:
 CMakeFiles/test_btree_get_blocks.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=29,30,31,32 "Built target test_btree_get_blocks"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=28,29,30,31,32 "Built target test_btree_get_blocks"
 .PHONY : CMakeFiles/test_btree_get_blocks.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_btree_get_blocks.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_btree_get_blocks.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_btree_get_blocks.dir/rule
@@ -431,12 +437,12 @@ CMakeFiles/test_block_header.dir/clean:
 CMakeFiles/test_table_header.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=74,75,76,77,78,79 "Built target test_table_header"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=75,76,77,78,79 "Built target test_table_header"
 .PHONY : CMakeFiles/test_table_header.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_table_header.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_table_header.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_table_header.dir/rule
@@ -535,7 +541,7 @@ CMakeFiles/test_universal_block.dir/clean:
 CMakeFiles/test_dataBuffor.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=49,50,51,52,53 "Built target test_dataBuffor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=48,49,50,51,52 "Built target test_dataBuffor"
 .PHONY : CMakeFiles/test_dataBuffor.dir/all
 
 # Build rule for subdir invocation for target.
@@ -561,12 +567,12 @@ CMakeFiles/test_dataBuffor.dir/clean:
 CMakeFiles/test_fsmMap.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=54,55,56,57,58 "Built target test_fsmMap"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=53,54,55,56,57,58 "Built target test_fsmMap"
 .PHONY : CMakeFiles/test_fsmMap.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_fsmMap.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_fsmMap.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_fsmMap.dir/rule
@@ -587,12 +593,12 @@ CMakeFiles/test_fsmMap.dir/clean:
 CMakeFiles/test_sqlExecutor.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=59,60,61,62,63 "Built target test_sqlExecutor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=61,62,63,64 "Built target test_sqlExecutor"
 .PHONY : CMakeFiles/test_sqlExecutor.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_sqlExecutor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_sqlExecutor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_sqlExecutor.dir/rule
@@ -613,7 +619,7 @@ CMakeFiles/test_sqlExecutor.dir/clean:
 CMakeFiles/test_sqlExecutor_chain.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=64,65,66,67,68 "Built target test_sqlExecutor_chain"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=65,66,67,68,69 "Built target test_sqlExecutor_chain"
 .PHONY : CMakeFiles/test_sqlExecutor_chain.dir/all
 
 # Build rule for subdir invocation for target.
@@ -631,6 +637,84 @@ test_sqlExecutor_chain: CMakeFiles/test_sqlExecutor_chain.dir/rule
 CMakeFiles/test_sqlExecutor_chain.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/clean
 .PHONY : CMakeFiles/test_sqlExecutor_chain.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_mvccBuffor.dir
+
+# All Build rule for target.
+CMakeFiles/test_mvccBuffor.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num= "Built target test_mvccBuffor"
+.PHONY : CMakeFiles/test_mvccBuffor.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_mvccBuffor.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_mvccBuffor.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_mvccBuffor.dir/rule
+
+# Convenience name for target.
+test_mvccBuffor: CMakeFiles/test_mvccBuffor.dir/rule
+.PHONY : test_mvccBuffor
+
+# clean rule for target.
+CMakeFiles/test_mvccBuffor.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/clean
+.PHONY : CMakeFiles/test_mvccBuffor.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_mvccBuffor_component.dir
+
+# All Build rule for target.
+CMakeFiles/test_mvccBuffor_component.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=59 "Built target test_mvccBuffor_component"
+.PHONY : CMakeFiles/test_mvccBuffor_component.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_mvccBuffor_component.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_mvccBuffor_component.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_mvccBuffor_component.dir/rule
+
+# Convenience name for target.
+test_mvccBuffor_component: CMakeFiles/test_mvccBuffor_component.dir/rule
+.PHONY : test_mvccBuffor_component
+
+# clean rule for target.
+CMakeFiles/test_mvccBuffor_component.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/clean
+.PHONY : CMakeFiles/test_mvccBuffor_component.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_mvcc_txn_overflow.dir
+
+# All Build rule for target.
+CMakeFiles/test_mvcc_txn_overflow.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=60 "Built target test_mvcc_txn_overflow"
+.PHONY : CMakeFiles/test_mvcc_txn_overflow.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_mvcc_txn_overflow.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_mvcc_txn_overflow.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/stas/dev/QuakeDB3.0B/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_mvcc_txn_overflow.dir/rule
+
+# Convenience name for target.
+test_mvcc_txn_overflow: CMakeFiles/test_mvcc_txn_overflow.dir/rule
+.PHONY : test_mvcc_txn_overflow
+
+# clean rule for target.
+CMakeFiles/test_mvcc_txn_overflow.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/clean
+.PHONY : CMakeFiles/test_mvcc_txn_overflow.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

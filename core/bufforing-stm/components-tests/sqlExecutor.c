@@ -17,6 +17,22 @@ typedef struct {
 } SetedUpEnv;
 
 
+typedef struct {
+    int32_t step;
+}Task;
+
+int8_t checkingLostUpdateTask(Task *task,) {
+    if (task->step == 0) {
+        // perform first operation
+        task->step++;
+        return 1; // continue
+    } else if (task->step == 1) {
+        // perform second operation
+        task->step++;
+        return 0; // stop
+    }
+    return 0; // stop
+}
 
 /*
  *  we will be checking all anomalies which can occur in mvcc sytem at first we will be testing lost update .
@@ -46,7 +62,13 @@ static void initWithBtree(SetedUpEnv *env, int32_t bufforCount, int32_t tableId,
     env->se.btreeBuffors = &env->btreeBuffors;
 }
 //
-void test(void **state) {
+void testLostUpdate(void **state) {
+
+
+    int8_t still = true;
+    while (still) {
+
+    }
 
 }
 

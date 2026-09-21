@@ -6,5 +6,5 @@ C_DEFINES = -DLOG_LEVEL=0
 
 C_INCLUDES = -I/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm -I/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt
 
-C_FLAGS = -g -O0 -g -std=gnu11
+C_FLAGS = -DLOG_LEVEL=0 -g -std=gnu11
 

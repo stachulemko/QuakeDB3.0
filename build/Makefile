@@ -376,6 +376,45 @@ test_sqlExecutor_chain/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/build
 .PHONY : test_sqlExecutor_chain/fast
 
+#=============================================================================
+# Target rules for targets named test_mvccBuffor
+
+# Build rule for target.
+test_mvccBuffor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_mvccBuffor
+.PHONY : test_mvccBuffor
+
+# fast build rule for target.
+test_mvccBuffor/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/build
+.PHONY : test_mvccBuffor/fast
+
+#=============================================================================
+# Target rules for targets named test_mvccBuffor_component
+
+# Build rule for target.
+test_mvccBuffor_component: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_mvccBuffor_component
+.PHONY : test_mvccBuffor_component
+
+# fast build rule for target.
+test_mvccBuffor_component/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/build
+.PHONY : test_mvccBuffor_component/fast
+
+#=============================================================================
+# Target rules for targets named test_mvcc_txn_overflow
+
+# Build rule for target.
+test_mvcc_txn_overflow: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_mvcc_txn_overflow
+.PHONY : test_mvcc_txn_overflow
+
+# fast build rule for target.
+test_mvcc_txn_overflow/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/build
+.PHONY : test_mvcc_txn_overflow/fast
+
 core/bufforing-stm/bufforing-stm/dataBuffor.o: core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.o
 
@@ -532,6 +571,30 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.s
 
+core/bufforing-stm/bufforing-stm/mainLoop.o: core/bufforing-stm/bufforing-stm/mainLoop.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/mainLoop.o
+
+# target to build an object file
+core/bufforing-stm/bufforing-stm/mainLoop.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o
+.PHONY : core/bufforing-stm/bufforing-stm/mainLoop.c.o
+
+core/bufforing-stm/bufforing-stm/mainLoop.i: core/bufforing-stm/bufforing-stm/mainLoop.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/mainLoop.i
+
+# target to preprocess a source file
+core/bufforing-stm/bufforing-stm/mainLoop.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.i
+.PHONY : core/bufforing-stm/bufforing-stm/mainLoop.c.i
+
+core/bufforing-stm/bufforing-stm/mainLoop.s: core/bufforing-stm/bufforing-stm/mainLoop.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/mainLoop.s
+
+# target to generate assembly for a file
+core/bufforing-stm/bufforing-stm/mainLoop.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.s
+.PHONY : core/bufforing-stm/bufforing-stm/mainLoop.c.s
+
 core/bufforing-stm/bufforing-stm/queryExecutor.o: core/bufforing-stm/bufforing-stm/queryExecutor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/queryExecutor.o
 
@@ -627,6 +690,78 @@ core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.
 core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.s
 .PHONY : core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.s
+
+core/bufforing-stm/components-tests/mvccBufforTest.o: core/bufforing-stm/components-tests/mvccBufforTest.c.o
+.PHONY : core/bufforing-stm/components-tests/mvccBufforTest.o
+
+# target to build an object file
+core/bufforing-stm/components-tests/mvccBufforTest.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/core/bufforing-stm/components-tests/mvccBufforTest.c.o
+.PHONY : core/bufforing-stm/components-tests/mvccBufforTest.c.o
+
+core/bufforing-stm/components-tests/mvccBufforTest.i: core/bufforing-stm/components-tests/mvccBufforTest.c.i
+.PHONY : core/bufforing-stm/components-tests/mvccBufforTest.i
+
+# target to preprocess a source file
+core/bufforing-stm/components-tests/mvccBufforTest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/core/bufforing-stm/components-tests/mvccBufforTest.c.i
+.PHONY : core/bufforing-stm/components-tests/mvccBufforTest.c.i
+
+core/bufforing-stm/components-tests/mvccBufforTest.s: core/bufforing-stm/components-tests/mvccBufforTest.c.s
+.PHONY : core/bufforing-stm/components-tests/mvccBufforTest.s
+
+# target to generate assembly for a file
+core/bufforing-stm/components-tests/mvccBufforTest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor_component.dir/build.make CMakeFiles/test_mvccBuffor_component.dir/core/bufforing-stm/components-tests/mvccBufforTest.c.s
+.PHONY : core/bufforing-stm/components-tests/mvccBufforTest.c.s
+
+core/bufforing-stm/components-tests/mvccTransactionOverflowTest.o: core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.o
+.PHONY : core/bufforing-stm/components-tests/mvccTransactionOverflowTest.o
+
+# target to build an object file
+core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.o
+.PHONY : core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.o
+
+core/bufforing-stm/components-tests/mvccTransactionOverflowTest.i: core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.i
+.PHONY : core/bufforing-stm/components-tests/mvccTransactionOverflowTest.i
+
+# target to preprocess a source file
+core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.i
+.PHONY : core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.i
+
+core/bufforing-stm/components-tests/mvccTransactionOverflowTest.s: core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.s
+.PHONY : core/bufforing-stm/components-tests/mvccTransactionOverflowTest.s
+
+# target to generate assembly for a file
+core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvcc_txn_overflow.dir/build.make CMakeFiles/test_mvcc_txn_overflow.dir/core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.s
+.PHONY : core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.s
+
+core/bufforing-stm/components-tests/sqlExecutor.o: core/bufforing-stm/components-tests/sqlExecutor.c.o
+.PHONY : core/bufforing-stm/components-tests/sqlExecutor.o
+
+# target to build an object file
+core/bufforing-stm/components-tests/sqlExecutor.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o
+.PHONY : core/bufforing-stm/components-tests/sqlExecutor.c.o
+
+core/bufforing-stm/components-tests/sqlExecutor.i: core/bufforing-stm/components-tests/sqlExecutor.c.i
+.PHONY : core/bufforing-stm/components-tests/sqlExecutor.i
+
+# target to preprocess a source file
+core/bufforing-stm/components-tests/sqlExecutor.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i
+.PHONY : core/bufforing-stm/components-tests/sqlExecutor.c.i
+
+core/bufforing-stm/components-tests/sqlExecutor.s: core/bufforing-stm/components-tests/sqlExecutor.c.s
+.PHONY : core/bufforing-stm/components-tests/sqlExecutor.s
+
+# target to generate assembly for a file
+core/bufforing-stm/components-tests/sqlExecutor.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s
+.PHONY : core/bufforing-stm/components-tests/sqlExecutor.c.s
 
 core/bufforing-stm/components-tests/sqlExecutorTest.o: core/bufforing-stm/components-tests/sqlExecutorTest.c.o
 .PHONY : core/bufforing-stm/components-tests/sqlExecutorTest.o
@@ -747,6 +882,30 @@ core/bufforing-stm/tests/test_fsmMap.s: core/bufforing-stm/tests/test_fsmMap.c.s
 core/bufforing-stm/tests/test_fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/tests/test_fsmMap.c.s
 .PHONY : core/bufforing-stm/tests/test_fsmMap.c.s
+
+core/bufforing-stm/tests/test_mvccBuffor.o: core/bufforing-stm/tests/test_mvccBuffor.c.o
+.PHONY : core/bufforing-stm/tests/test_mvccBuffor.o
+
+# target to build an object file
+core/bufforing-stm/tests/test_mvccBuffor.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/core/bufforing-stm/tests/test_mvccBuffor.c.o
+.PHONY : core/bufforing-stm/tests/test_mvccBuffor.c.o
+
+core/bufforing-stm/tests/test_mvccBuffor.i: core/bufforing-stm/tests/test_mvccBuffor.c.i
+.PHONY : core/bufforing-stm/tests/test_mvccBuffor.i
+
+# target to preprocess a source file
+core/bufforing-stm/tests/test_mvccBuffor.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/core/bufforing-stm/tests/test_mvccBuffor.c.i
+.PHONY : core/bufforing-stm/tests/test_mvccBuffor.c.i
+
+core/bufforing-stm/tests/test_mvccBuffor.s: core/bufforing-stm/tests/test_mvccBuffor.c.s
+.PHONY : core/bufforing-stm/tests/test_mvccBuffor.s
+
+# target to generate assembly for a file
+core/bufforing-stm/tests/test_mvccBuffor.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mvccBuffor.dir/build.make CMakeFiles/test_mvccBuffor.dir/core/bufforing-stm/tests/test_mvccBuffor.c.s
+.PHONY : core/bufforing-stm/tests/test_mvccBuffor.c.s
 
 core/bufforing-stm/tests/test_sqlExecutor.o: core/bufforing-stm/tests/test_sqlExecutor.c.o
 .PHONY : core/bufforing-stm/tests/test_sqlExecutor.o
@@ -1384,6 +1543,30 @@ core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.s
 
+core/memory-mgmt/memory-mgmt/timeFunction.o: core/memory-mgmt/memory-mgmt/timeFunction.c.o
+.PHONY : core/memory-mgmt/memory-mgmt/timeFunction.o
+
+# target to build an object file
+core/memory-mgmt/memory-mgmt/timeFunction.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o
+.PHONY : core/memory-mgmt/memory-mgmt/timeFunction.c.o
+
+core/memory-mgmt/memory-mgmt/timeFunction.i: core/memory-mgmt/memory-mgmt/timeFunction.c.i
+.PHONY : core/memory-mgmt/memory-mgmt/timeFunction.i
+
+# target to preprocess a source file
+core/memory-mgmt/memory-mgmt/timeFunction.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.i
+.PHONY : core/memory-mgmt/memory-mgmt/timeFunction.c.i
+
+core/memory-mgmt/memory-mgmt/timeFunction.s: core/memory-mgmt/memory-mgmt/timeFunction.c.s
+.PHONY : core/memory-mgmt/memory-mgmt/timeFunction.s
+
+# target to generate assembly for a file
+core/memory-mgmt/memory-mgmt/timeFunction.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.s
+.PHONY : core/memory-mgmt/memory-mgmt/timeFunction.c.s
+
 core/memory-mgmt/memory-mgmt/tuple.o: core/memory-mgmt/memory-mgmt/tuple.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.o
 
@@ -1980,6 +2163,9 @@ help:
 	@echo "... test_components"
 	@echo "... test_dataBuffor"
 	@echo "... test_fsmMap"
+	@echo "... test_mvccBuffor"
+	@echo "... test_mvccBuffor_component"
+	@echo "... test_mvcc_txn_overflow"
 	@echo "... test_sqlExecutor"
 	@echo "... test_sqlExecutor_chain"
 	@echo "... test_stress"
@@ -1994,6 +2180,9 @@ help:
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.o"
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.i"
 	@echo "... core/bufforing-stm/bufforing-stm/fsmMap.s"
+	@echo "... core/bufforing-stm/bufforing-stm/mainLoop.o"
+	@echo "... core/bufforing-stm/bufforing-stm/mainLoop.i"
+	@echo "... core/bufforing-stm/bufforing-stm/mainLoop.s"
 	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.o"
 	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.i"
 	@echo "... core/bufforing-stm/bufforing-stm/queryExecutor.s"
@@ -2006,6 +2195,15 @@ help:
 	@echo "... core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.o"
 	@echo "... core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.i"
 	@echo "... core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.s"
+	@echo "... core/bufforing-stm/components-tests/mvccBufforTest.o"
+	@echo "... core/bufforing-stm/components-tests/mvccBufforTest.i"
+	@echo "... core/bufforing-stm/components-tests/mvccBufforTest.s"
+	@echo "... core/bufforing-stm/components-tests/mvccTransactionOverflowTest.o"
+	@echo "... core/bufforing-stm/components-tests/mvccTransactionOverflowTest.i"
+	@echo "... core/bufforing-stm/components-tests/mvccTransactionOverflowTest.s"
+	@echo "... core/bufforing-stm/components-tests/sqlExecutor.o"
+	@echo "... core/bufforing-stm/components-tests/sqlExecutor.i"
+	@echo "... core/bufforing-stm/components-tests/sqlExecutor.s"
 	@echo "... core/bufforing-stm/components-tests/sqlExecutorTest.o"
 	@echo "... core/bufforing-stm/components-tests/sqlExecutorTest.i"
 	@echo "... core/bufforing-stm/components-tests/sqlExecutorTest.s"
@@ -2021,6 +2219,9 @@ help:
 	@echo "... core/bufforing-stm/tests/test_fsmMap.o"
 	@echo "... core/bufforing-stm/tests/test_fsmMap.i"
 	@echo "... core/bufforing-stm/tests/test_fsmMap.s"
+	@echo "... core/bufforing-stm/tests/test_mvccBuffor.o"
+	@echo "... core/bufforing-stm/tests/test_mvccBuffor.i"
+	@echo "... core/bufforing-stm/tests/test_mvccBuffor.s"
 	@echo "... core/bufforing-stm/tests/test_sqlExecutor.o"
 	@echo "... core/bufforing-stm/tests/test_sqlExecutor.i"
 	@echo "... core/bufforing-stm/tests/test_sqlExecutor.s"
@@ -2060,6 +2261,9 @@ help:
 	@echo "... core/memory-mgmt/memory-mgmt/table_header.o"
 	@echo "... core/memory-mgmt/memory-mgmt/table_header.i"
 	@echo "... core/memory-mgmt/memory-mgmt/table_header.s"
+	@echo "... core/memory-mgmt/memory-mgmt/timeFunction.o"
+	@echo "... core/memory-mgmt/memory-mgmt/timeFunction.i"
+	@echo "... core/memory-mgmt/memory-mgmt/timeFunction.s"
 	@echo "... core/memory-mgmt/memory-mgmt/tuple.o"
 	@echo "... core/memory-mgmt/memory-mgmt/tuple.i"
 	@echo "... core/memory-mgmt/memory-mgmt/tuple.s"

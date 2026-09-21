@@ -2,6 +2,7 @@
 1 .refactoring allFiles Llist !
 
 // curret problems
+1 . we need to add second thread to bypass commiting creating new transaction
 1. make trnsaction stay and wait and not slow down main loop (lost update , one trnsaction waiting on another)
     first idea is to create make int16_t infomaks  which would conatin information if tuple is chainMeber and if its locked for example . It will contain two information .
 

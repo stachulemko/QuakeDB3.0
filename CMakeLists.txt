@@ -34,6 +34,10 @@ add_executable(QuakeDB3_0
         core/bufforing-stm/bufforing-stm/transaction.c
         core/bufforing-stm/bufforing-stm/setUpCaches.h
         core/bufforing-stm/bufforing-stm/setUpCaches.c
+        core/bufforing-stm/bufforing-stm/mainLoop.h
+        core/bufforing-stm/bufforing-stm/mainLoop.c
+        core/memory-mgmt/memory-mgmt/timeFunction.h
+        core/memory-mgmt/memory-mgmt/timeFunction.c
 )
 
 # Find cmocka
@@ -127,6 +131,24 @@ if(CMOCKA_LIBRARY)
     )
     target_link_libraries(test_sqlExecutor_chain ${CMOCKA_LIBRARY})
     target_compile_definitions(test_sqlExecutor_chain PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_mvccBuffor
+            core/bufforing-stm/tests/test_mvccBuffor.c
+    )
+    target_link_libraries(test_mvccBuffor ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_mvccBuffor PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_mvccBuffor_component
+            core/bufforing-stm/components-tests/mvccBufforTest.c
+    )
+    target_link_libraries(test_mvccBuffor_component ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_mvccBuffor_component PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_mvcc_txn_overflow
+            core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c
+    )
+    target_link_libraries(test_mvcc_txn_overflow ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_mvcc_txn_overflow PRIVATE LOG_LEVEL=0)
 
 else()
     message(WARNING "cmocka not found — test targets skipped. Install with: sudo apt install libcmocka-dev")

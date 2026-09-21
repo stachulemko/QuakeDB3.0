@@ -35,4 +35,6 @@
 #define btreeFreeSpace 2000
 
 #define btreeBufforSize 4
+
+#define timeExceedTransaction 100 // in seconds
 #endif

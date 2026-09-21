@@ -293,6 +293,34 @@ CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.s: cmak
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/setUpCaches.c -o CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.s
 
+CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o: CMakeFiles/QuakeDB3_0.dir/flags.make
+CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mainLoop.c
+CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o: CMakeFiles/QuakeDB3_0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o -MF CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o.d -o CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o -c /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mainLoop.c
+
+CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mainLoop.c > CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.i
+
+CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mainLoop.c -o CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.s
+
+CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o: CMakeFiles/QuakeDB3_0.dir/flags.make
+CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o: /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/timeFunction.c
+CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o: CMakeFiles/QuakeDB3_0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o -MF CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o.d -o CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o -c /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/timeFunction.c
+
+CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/timeFunction.c > CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.i
+
+CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/timeFunction.c -o CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.s
+
 # Object files for target QuakeDB3_0
 QuakeDB3_0_OBJECTS = \
 "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o" \
@@ -310,7 +338,9 @@ QuakeDB3_0_OBJECTS = \
 "CMakeFiles/QuakeDB3_0.dir/core/main.c.o" \
 "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o" \
 "CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o" \
-"CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o"
+"CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o" \
+"CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o" \
+"CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o"
 
 # External object files for target QuakeDB3_0
 QuakeDB3_0_EXTERNAL_OBJECTS =
@@ -331,9 +361,11 @@ QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/core/main.c.o
 QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/queryExecutor.c.o
 QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/transaction.c.o
 QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/setUpCaches.c.o
+QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/core/bufforing-stm/bufforing-stm/mainLoop.c.o
+QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/timeFunction.c.o
 QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/build.make
 QuakeDB3_0: CMakeFiles/QuakeDB3_0.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking C executable QuakeDB3_0"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking C executable QuakeDB3_0"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/QuakeDB3_0.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

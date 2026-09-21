@@ -1,0 +1,1 @@
+/usr/bin/gcc -DLOG_LEVEL=0 -g "CMakeFiles/test_mvccBuffor_component.dir/core/bufforing-stm/components-tests/mvccBufforTest.c.o" -o test_mvccBuffor_component  /usr/lib/x86_64-linux-gnu/libcmocka.so 

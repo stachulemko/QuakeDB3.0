@@ -18,5 +18,8 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fsmMap.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_sqlExecutor.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_sqlExecutor_chain.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_mvccBuffor.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_mvccBuffor_component.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_mvcc_txn_overflow.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/edit_cache.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/rebuild_cache.dir
