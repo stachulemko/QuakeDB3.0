@@ -202,6 +202,95 @@ void addToFSMMapAll(FSMMapAll *fsmMapAll, int32_t tableId, int32_t block_id) {
     }
 }
 
+/* ============================================================================
+ * Updating a block's FSM entry after space was freed (vacuum / scan pruning)
+ * ========================================================================== */
+
+/* bytes per FSM entry — the same step as addDataToFSMMapAllAndReturnBufforToAdd uses */
+static inline int32_t fsm_entry_step(void) {
+    return BLOCK_USABLE_SIZE / MAX_FSM;
+}
+
+static inline FSMMap *fsm_get_map(FSMMapAll *fsmMapAll, int32_t tableId) {
+    if (fsmMapAll == NULL) return NULL;
+    for (int i = 0; i < fsmMapAll->count; i++) {
+        if (fsmMapAll->maps[i].tableId == tableId && fsmMapAll->maps[i].isUsed == 1) {
+            return &fsmMapAll->maps[i];
+        }
+    }
+    return NULL;
+}
+
+/* entry index that holds block_id, or -1; *pos = its position inside that entry */
+static inline int32_t fsm_find_block_entry(FSMMap *map, int32_t block_id, int32_t *pos) {
+    for (int32_t e = 0; e < FSM_MAX_SPACE; e++) {
+        for (int32_t k = 0; k < map->entries[e].count; k++) {
+            if (map->entries[e].block_ids[k] == block_id) {
+                if (pos != NULL) *pos = k;
+                return e;
+            }
+        }
+    }
+    return -1;
+}
+
+/* used-space entry of a block: bytes taken by tuples / step (0 = empty block) */
+static inline int32_t fsm_entry_for_block(const Block8kb *block) {
+    int32_t used = block8kb_used(block) - (2 + BLOCK_HEADER_SIZE);
+    if (used < 0) used = 0;
+    int32_t entry = used / fsm_entry_step();
+    return entry > MAX_FSM ? MAX_FSM : entry;
+}
+
+/*
+ * Moves block_id to the entry that matches its real used space, so freed space
+ * becomes visible to inserts. The FSM has no block -> entry map, so this scans the
+ * table's entries once. Returns the new entry index, or -1 if the table has no FSM.
+ */
+static inline int32_t fsm_update_block(FSMMapAll *fsmMapAll, int32_t tableId, int32_t block_id,
+                                       const Block8kb *block) {
+    FSMMap *map = fsm_get_map(fsmMapAll, tableId);
+    if (map == NULL || block == NULL) return -1;
+    int32_t newEntry = fsm_entry_for_block(block);
+    int32_t pos = -1;
+    int32_t current = fsm_find_block_entry(map, block_id, &pos);
+    if (current == newEntry) return newEntry;
+    if (current >= 0) fsm_space_entry_remove(&map->entries[current], pos);
+    fsm_space_entry_add(&map->entries[newEntry], block_id);
+    return newEntry;
+}
+
+/* Blocks where space was freed — their FSM entries are updated once, in a batch */
+#define FSM_TOUCHED_MAX 64
+
+typedef struct {
+    int32_t ids[FSM_TOUCHED_MAX];
+    int32_t count;
+} FSMTouchedBlocks;
+
+static inline void fsm_touched_add(FSMTouchedBlocks *touched, int32_t block_id) {
+    if (touched == NULL) return;
+    for (int32_t i = 0; i < touched->count; i++) {
+        if (touched->ids[i] == block_id) return;
+    }
+    /* when full the block is skipped — the FSM is only a hint, a later pass updates it */
+    if (touched->count < FSM_TOUCHED_MAX) touched->ids[touched->count++] = block_id;
+}
+
+static inline void fsm_update_touched(FSMMapAll *fsmMapAll, int32_t tableId, Buffors *buffors,
+                                      FSMTouchedBlocks *touched) {
+    if (fsmMapAll == NULL || touched == NULL) return;
+    for (int32_t i = 0; i < touched->count; i++) {
+        DataBuffor *buf = getBuffor(tableId, touched->ids[i], buffors);
+        if (buf == NULL) continue;
+        if (buf->universalBlock != NULL && buf->universalBlock->block != NULL) {
+            fsm_update_block(fsmMapAll, tableId, touched->ids[i], buf->universalBlock->block);
+        }
+        buf->pinCount = 0;
+    }
+    touched->count = 0;
+}
+
 DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c, FSMMapAll *fsmMapAll, int32_t tableId, Tuple *tuple, int32_t usable_size) {
     int32_t f = usable_size / MAX_FSM;
     int32_t space = usable_size - tuple_size(tuple);

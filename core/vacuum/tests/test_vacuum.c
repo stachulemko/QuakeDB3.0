@@ -124,6 +124,37 @@ static Tuple *env_follow(TestEnv *env, Tuple *t, int32_t *blockId, int32_t *idx)
     return env_tuple(env, b, i);
 }
 
+/* FSM entry that currently holds blockId, or -1 */
+static int32_t env_fsm_entry(TestEnv *env, int32_t blockId) {
+    FSMMap *map = fsm_get_map(&env->fsmMapAll, VAC_TABLE);
+    assert_non_null(map);
+    return fsm_find_block_entry(map, blockId, NULL);
+}
+
+/* Put blockId into the "full" FSM entry, as if many inserts had filled it */
+static void env_fsm_mark_full(TestEnv *env, int32_t blockId) {
+    FSMMap *map = fsm_get_map(&env->fsmMapAll, VAC_TABLE);
+    int32_t pos = -1;
+    int32_t e = fsm_find_block_entry(map, blockId, &pos);
+    assert_true(e >= 0);
+    fsm_space_entry_remove(&map->entries[e], pos);
+    fsm_space_entry_add(&map->entries[MAX_FSM], blockId);
+}
+
+/* INSERT a larger row (int + 120-char string) — too big for a block stuck in a "full" entry */
+static void env_insert_big(TestEnv *env, int32_t xmin, int32_t val) {
+    char big[121];
+    memset(big, 'x', 120);
+    big[120] = '\0';
+    AllVar vals[2] = {all_var_from_int32(val), all_var_from_string(big)};
+    int8_t bm[2]   = {0, 0};
+    DataBuffor *b = addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
+        VAC_TABLE, vals, 2, bm, 2,
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL, NULL);
+    assert_non_null(b);
+    b->pinCount = 0;
+}
+
 static Vacuum make_vacuum(void) {
     Vacuum v = {0};
     v.densityDeadTuplesPerBlockMax = 0;   /* do not stop early */
@@ -149,7 +180,7 @@ static void test_vacuum_relinks_chain_same_block(void **state) {
 
     Vacuum vac = make_vacuum();
     vac.sumOfAllDeadTupleInsideTable = 2;
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
 
     Tuple *root = env_tuple(&env, 1, 0);
     /* root: redirect — data freed, the chain stays */
@@ -192,7 +223,7 @@ static void test_insert_reuses_slot_after_vacuum(void **state) {
     env_update(&env, 3, 20, 30, 0);
 
     Vacuum vac = make_vacuum();
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
 
     env_insert(&env, 4, 99);
     Block8kb *blk = env_block(&env, 1);
@@ -234,7 +265,7 @@ static void test_vacuum_relinks_chain_across_blocks(void **state) {
     assert_int_equal(0, env_block(&env, 2)->header.dead_count);
 
     Vacuum vac = make_vacuum();
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
 
     /* root (block 1) points directly to v3 (block 2) */
     int32_t b, i;
@@ -274,7 +305,7 @@ static void test_vacuum_keeps_versions_for_active_txn(void **state) {
     env.mvcc->txn_status[1] = TXN_ACTIVE;
 
     Vacuum vac = make_vacuum();
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
 
     Block8kb *blk = env_block(&env, 1);
     for (int32_t k = 0; k < 3; k++) {
@@ -285,7 +316,7 @@ static void test_vacuum_keeps_versions_for_active_txn(void **state) {
 
     /* after transaction 1 ends, vacuum cleans up */
     env.mvcc->txn_status[1] = TXN_COMMITED;
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
     blk = env_block(&env, 1);
     assert_true(blk->tuples[1].header.t_infomask & INFOMASK_UNUSED);
     assert_int_equal(0, blk->header.dead_count);
@@ -313,7 +344,7 @@ static void test_vacuum_bq_path(void **state) {
     assert_int_equal(BQ_ENOTFOUND, bq_get(q, 2, &cnt));
 
     Vacuum vac = make_vacuum();
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc, &env.fsmMapAll);
 
     assert_int_equal(0, bq_size(q));
     assert_int_equal(0, vac.sumOfAllDeadTupleInsideTable);
@@ -342,7 +373,7 @@ static void test_vacuum_bq_keeps_remaining(void **state) {
     env.mvcc->txn_status[2] = TXN_ACTIVE;
 
     Vacuum vac = make_vacuum();
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc, &env.fsmMapAll);
 
     bq_t *q = bq_mgr_get(&env.bq, VAC_TABLE);
     int32_t cnt = -1;
@@ -350,7 +381,7 @@ static void test_vacuum_bq_keeps_remaining(void **state) {
     assert_int_equal(2, cnt);        /* root (xmax 2) and v1 (xmax 3) wait for transaction 2 to end */
 
     env.mvcc->txn_status[2] = TXN_COMMITED;
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc, &env.fsmMapAll);
     assert_int_equal(0, bq_size(q));
 
     env_teardown(&env);
@@ -388,7 +419,7 @@ static void test_scan_prune_then_vacuum(void **state) {
     assert_int_equal(3, blk->header.dead_count);    /* the counter is a hint — vacuum will recompute it */
 
     Vacuum vac = make_vacuum();
-    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc);
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
 
     blk = env_block(&env, 1);
     assert_true(blk->tuples[0].header.t_infomask & INFOMASK_DEAD);   /* root → redirect */
@@ -418,7 +449,7 @@ static void test_many_rows_update_vacuum_cycles(void **state) {
         for (int32_t r = 0; r < 20; r++) {
             env_update(&env, xid++, r * 100 + round - 1, r * 100 + round, 1);
         }
-        autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc);
+        autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, &env.bq, env.mvcc, &env.fsmMapAll);
     }
 
     for (int32_t r = 0; r < 20; r++) {
@@ -434,6 +465,86 @@ static void test_many_rows_update_vacuum_cycles(void **state) {
     env_teardown(&env);
 }
 
+/* =========================================================================
+ * 9. Vacuum updates the FSM: freed space is visible to the next insert
+ * ========================================================================= */
+
+static void test_vacuum_updates_fsm(void **state) {
+    (void)state;
+    TestEnv env;
+    env_setup(&env);
+
+    for (int32_t r = 0; r < 10; r++) env_insert(&env, 1, r * 100);
+    for (int32_t r = 0; r < 10; r++) env_update(&env, 2 + r, r * 100, r * 100 + 1, 0);
+    assert_int_equal(1, env_endblock(&env));
+
+    env_fsm_mark_full(&env, 1);
+    assert_int_equal(MAX_FSM, env_fsm_entry(&env, 1));
+
+    Vacuum vac = make_vacuum();
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
+
+    /* the block is back in the entry matching its real used space */
+    assert_int_equal(fsm_entry_for_block(env_block(&env, 1)), env_fsm_entry(&env, 1));
+    assert_true(env_fsm_entry(&env, 1) < MAX_FSM);
+
+    /* a larger tuple goes into block 1 instead of creating block 2 */
+    env_insert_big(&env, 20, 7777);
+    assert_int_equal(1, env_endblock(&env));
+    assert_int_equal(1, env_count(&env, 30, 7777));
+
+    env_teardown(&env);
+}
+
+/* without the FSM update the same insert would have needed a new block */
+static void test_without_fsm_update_insert_needs_new_block(void **state) {
+    (void)state;
+    TestEnv env;
+    env_setup(&env);
+
+    for (int32_t r = 0; r < 10; r++) env_insert(&env, 1, r * 100);
+    for (int32_t r = 0; r < 10; r++) env_update(&env, 2 + r, r * 100, r * 100 + 1, 0);
+    env_fsm_mark_full(&env, 1);
+
+    Vacuum vac = make_vacuum();
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, NULL);
+    assert_int_equal(MAX_FSM, env_fsm_entry(&env, 1));
+
+    env_insert_big(&env, 20, 7777);
+    assert_int_equal(2, env_endblock(&env));
+
+    env_teardown(&env);
+}
+
+/* =========================================================================
+ * 10. Scan-time pruning updates the FSM once, at the end of sql_fullScan
+ * ========================================================================= */
+
+static void test_scan_prune_updates_fsm(void **state) {
+    (void)state;
+    TestEnv env;
+    env_setup(&env);
+
+    env_insert(&env, 1, 10);
+    env_update(&env, 2, 10, 20, 0);
+    env_update(&env, 3, 20, 30, 0);
+    env_update(&env, 4, 30, 40, 0);
+    env_fsm_mark_full(&env, 1);
+
+    /* the SELECT removes a dead version in block 1 */
+    assert_int_equal(1, env_count(&env, 10, 40));
+    int32_t unused = 0;
+    Block8kb *blk = env_block(&env, 1);
+    for (int32_t k = 0; k < blk->tuple_count; k++)
+        if (blk->tuples[k].header.t_infomask & INFOMASK_UNUSED) unused++;
+    assert_true(unused > 0);
+
+    assert_int_equal(fsm_entry_for_block(blk), env_fsm_entry(&env, 1));
+    assert_true(env_fsm_entry(&env, 1) < MAX_FSM);
+
+    env_teardown(&env);
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_vacuum_relinks_chain_same_block),
@@ -444,6 +555,9 @@ int main(void) {
         cmocka_unit_test(test_vacuum_bq_keeps_remaining),
         cmocka_unit_test(test_scan_prune_then_vacuum),
         cmocka_unit_test(test_many_rows_update_vacuum_cycles),
+        cmocka_unit_test(test_vacuum_updates_fsm),
+        cmocka_unit_test(test_without_fsm_update_insert_needs_new_block),
+        cmocka_unit_test(test_scan_prune_updates_fsm),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

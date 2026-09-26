@@ -299,6 +299,93 @@ static void test_fsm_large_tuples_share_one_block(void **state) {
     free(c);
 }
 
+/* ---- fsm_update_block ---- */
+
+static void fsm_test_block(Block8kb *blk, int32_t tuples) {
+    block8kb_init(blk, BLOCK_FREE_SPACE, -1, 7, 0, 0, 0, 0);
+    for (int32_t i = 0; i < tuples; i++) {
+        Tuple t;
+        AllVar v[1] = {all_var_from_int32(i)};
+        int8_t bm[1] = {0};
+        tuple_set(&t, 1, 0, 0, 0, 0, 0, -1, bm, 1, v, 1);
+        block8kb_add(blk, &t);
+    }
+}
+
+static void test_fsm_update_block_moves_block_to_used_entry(void **state) {
+    (void)state;
+    FSMMap map;
+    memset(&map, 0, sizeof(map));
+    map.tableId = 1;
+    map.isUsed  = 1;
+    FSMMapAll all = {.maps = &map, .count = 1};
+    static Block8kb blk;
+    fsm_test_block(&blk, 3);
+
+    fsm_space_entry_add(&map.entries[200], 7);          /* stale: looks almost full */
+    int32_t e = fsm_update_block(&all, 1, 7, &blk);
+
+    assert_int_equal(fsm_entry_for_block(&blk), e);
+    assert_true(e < 200);
+    assert_int_equal(0, map.entries[200].count);
+    int32_t pos = -1;
+    assert_int_equal(e, fsm_find_block_entry(&map, 7, &pos));
+    assert_int_equal(7, map.entries[e].block_ids[pos]);
+
+    free(map.entries[200].block_ids);
+    free(map.entries[e].block_ids);
+}
+
+static void test_fsm_update_block_empty_block_goes_to_entry_0(void **state) {
+    (void)state;
+    FSMMap map;
+    memset(&map, 0, sizeof(map));
+    map.tableId = 1;
+    map.isUsed  = 1;
+    FSMMapAll all = {.maps = &map, .count = 1};
+    static Block8kb blk;
+    fsm_test_block(&blk, 0);
+
+    fsm_space_entry_add(&map.entries[MAX_FSM], 7);
+    assert_int_equal(FSM_EMPTY_BLOCK_ENTRY, fsm_update_block(&all, 1, 7, &blk));
+    assert_int_equal(0, map.entries[MAX_FSM].count);
+    assert_int_equal(1, map.entries[FSM_EMPTY_BLOCK_ENTRY].count);
+
+    free(map.entries[MAX_FSM].block_ids);
+    free(map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids);
+}
+
+static void test_fsm_update_block_adds_unregistered_block_once(void **state) {
+    (void)state;
+    FSMMap map;
+    memset(&map, 0, sizeof(map));
+    map.tableId = 1;
+    map.isUsed  = 1;
+    FSMMapAll all = {.maps = &map, .count = 1};
+    static Block8kb blk;
+    fsm_test_block(&blk, 2);
+
+    int32_t e = fsm_update_block(&all, 1, 7, &blk);
+    assert_int_equal(e, fsm_update_block(&all, 1, 7, &blk));   /* second call: no duplicate */
+    assert_int_equal(1, map.entries[e].count);
+
+    free(map.entries[e].block_ids);
+}
+
+static void test_fsm_update_block_unknown_table(void **state) {
+    (void)state;
+    FSMMap map;
+    memset(&map, 0, sizeof(map));
+    map.tableId = 1;
+    map.isUsed  = 1;
+    FSMMapAll all = {.maps = &map, .count = 1};
+    static Block8kb blk;
+    fsm_test_block(&blk, 1);
+
+    assert_int_equal(-1, fsm_update_block(&all, 99, 7, &blk));
+    assert_int_equal(-1, fsm_update_block(NULL, 1, 7, &blk));
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
         /* FSMCache */
@@ -325,6 +412,10 @@ int main(void) {
         cmocka_unit_test(test_create_FSMMapC_allocates),
         cmocka_unit_test(test_createDataBufforM_allocates),
         cmocka_unit_test(test_fsm_large_tuples_share_one_block),
+        cmocka_unit_test(test_fsm_update_block_moves_block_to_used_entry),
+        cmocka_unit_test(test_fsm_update_block_empty_block_goes_to_entry_0),
+        cmocka_unit_test(test_fsm_update_block_adds_unregistered_block_once),
+        cmocka_unit_test(test_fsm_update_block_unknown_table),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

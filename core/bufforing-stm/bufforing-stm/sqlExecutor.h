@@ -96,6 +96,9 @@ typedef struct {
     /* vacuum queue (optional — NULL if none): UPDATE increments the root block's counter */
     BqManager *bqMgr;
 
+    /* blocks where the scan pruned dead versions — sql_fullScan updates their FSM entries */
+    FSMTouchedBlocks *fsmTouched;
+
 } SqlExecutor;
 
 
@@ -290,7 +293,7 @@ static inline int8_t vacumingTupleIfDead(Tuple *currTuple, Tuple *prevTuple, MVC
  */
 static inline int8_t sql_chainStep(Tuple **curr, DataBuffor **currBuf, int32_t *currBlockId, int32_t *currIdx,
                                    int32_t *prevIdx, int32_t rootBlockId, Buffors *buffors, int32_t tableId,
-                                   MVCC *mvcc) {
+                                   MVCC *mvcc, FSMTouchedBlocks *touched) {
     int16_t nextBlockId, nextIdx;
     unpack((uint32_t)(*curr)->header.t_cid, &nextBlockId, &nextIdx);
 
@@ -298,6 +301,7 @@ static inline int8_t sql_chainStep(Tuple **curr, DataBuffor **currBuf, int32_t *
     if (*currBuf != NULL && *prevIdx >= 0) {
         removed = vacumingTupleIfDead(*curr, &(*currBuf)->universalBlock->block->tuples[*prevIdx], mvcc,
                                       *currBuf);
+        if (removed) fsm_touched_add(touched, *currBlockId);
     }
     /* after removing curr, the current prev stays the predecessor of the next version */
     int32_t newPrevIdx  = removed ? *prevIdx : *currIdx;
@@ -330,7 +334,7 @@ static inline void sql_chainRelease(DataBuffor *currBuf, int32_t currBlockId, in
  * outBlockId/outIdx (may be NULL) — position of the returned version. */
 static Tuple *sql_followChainRR(Tuple *start, int32_t rootBlockId, int32_t rootIdx, Buffors *buffors,
                                 int32_t tableId, int32_t xid, MVCC *mvcc,
-                                int32_t *outBlockId, int32_t *outIdx) {
+                                int32_t *outBlockId, int32_t *outIdx, FSMTouchedBlocks *touched) {
     Tuple      *curr        = start;
     DataBuffor *currBuf     = NULL;   /* the caller holds the root's buffer */
     int32_t     currBlockId = rootBlockId;
@@ -346,7 +350,7 @@ static Tuple *sql_followChainRR(Tuple *start, int32_t rootBlockId, int32_t rootI
         }
         if (curr->header.t_cid == 0) break;
         sql_chainStep(&curr, &currBuf, &currBlockId, &currIdx, &prevIdx, rootBlockId,
-                      buffors, tableId, mvcc);
+                      buffors, tableId, mvcc, touched);
     }
     sql_chainRelease(currBuf, currBlockId, rootBlockId);
     return NULL;
@@ -355,7 +359,7 @@ static Tuple *sql_followChainRR(Tuple *start, int32_t rootBlockId, int32_t rootI
 /* Follow chain for Read Committed: returns the latest version with xmin <= xid */
 static Tuple *sql_followChainRC(Tuple *start, int32_t rootBlockId, int32_t rootIdx, Buffors *buffors,
                                 int32_t tableId, int32_t xid, MVCC *mvcc,
-                                int32_t *outBlockId, int32_t *outIdx) {
+                                int32_t *outBlockId, int32_t *outIdx, FSMTouchedBlocks *touched) {
     Tuple      *cur         = start;
     DataBuffor *currBuf     = NULL;   /* the caller holds the root's buffer */
     int32_t     currBlockId = rootBlockId;
@@ -373,7 +377,7 @@ static Tuple *sql_followChainRC(Tuple *start, int32_t rootBlockId, int32_t rootI
         if (cur->header.t_cid == 0) break;
         Tuple *before = cur;
         if (sql_chainStep(&cur, &currBuf, &currBlockId, &currIdx, &prevIdx, rootBlockId,
-                          buffors, tableId, mvcc) && lastVisible == before) {
+                          buffors, tableId, mvcc, touched) && lastVisible == before) {
             /* a removed version cannot be a result — a newer version will overwrite lastVisible */
             lastVisible = NULL;
         }
@@ -515,7 +519,7 @@ int32_t sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
         /* RR: walk the chain and find the version visible at this transaction's xid */
         int32_t visBlockId = -1, visIdx = -1;
         Tuple *visible = sql_followChainRR(t, (int32_t)block->header.block_id, i, buffors, se->tableId,
-                                           se->transaction->xid, mvcc, &visBlockId, &visIdx);
+                                           se->transaction->xid, mvcc, &visBlockId, &visIdx, se->fsmTouched);
         if (visible == NULL) continue;
         if (se->where && !sql_matchWhere(se, visible)) continue;
         if (se->update) {
@@ -567,6 +571,11 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
                   FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
     BtreeBlocksResult blocksToScan = sql_resolveBlocks(se);
 
+    /* collect blocks where the scan freed slots; their FSM entries are updated once at the end */
+    FSMTouchedBlocks  touched = {0};
+    FSMTouchedBlocks *outerTouched = se->fsmTouched;
+    se->fsmTouched = &touched;
+
     if (VIEW_MODE == 2) {
         // Read Committed — chain traversal
         for (int idx = 0; idx < blocksToScan.count; idx++) {
@@ -585,7 +594,7 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
                 /* RC: walk the chain to the newest version with xmin <= xid */
                 int32_t visBlockId = -1, visIdx = -1;
                 Tuple *visible = sql_followChainRC(t, i, j, buffors, se->tableId, se->transaction->xid, mvcc,
-                                                   &visBlockId, &visIdx);
+                                                   &visBlockId, &visIdx, se->fsmTouched);
 
                 if (visible == NULL) continue;
 
@@ -604,6 +613,8 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
             buf->pinCount = 0;
         }
         free(blocksToScan.blocks);
+        fsm_update_touched(fsmMapAll, se->tableId, buffors, &touched);
+        se->fsmTouched = outerTouched;
         return;
     }
 
@@ -620,6 +631,8 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
         buf->pinCount = 0;
     }
     free(blocksToScan.blocks);
+    fsm_update_touched(fsmMapAll, se->tableId, buffors, &touched);
+    se->fsmTouched = outerTouched;
 }
 
 #endif //QUAKEDB3_0_SQLEXECUTOR_H

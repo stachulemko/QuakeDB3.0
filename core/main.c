@@ -176,7 +176,7 @@ int main(void) {
 
     /* 5. VACUUM — t5 is still active, so the versions it sees are kept */
     Vacuum vacuum = {0};
-    autoVacuumScan(&vacuum, TABLE_ID, &db.fsmCache, &db.buffors, &db.bq, &db.mvcc);
+    autoVacuumScan(&vacuum, TABLE_ID, &db.fsmCache, &db.buffors, &db.bq, &db.mvcc, &db.fsmMapAll);
     printf("\n");
     db_show_block(&db, 1, "[4] VACUUM przy aktywnej t5");
 
@@ -191,7 +191,7 @@ int main(void) {
     db_update_name(&db, &t9, 4, "Ewelina");
     commitTransaction(&db.mvcc, &t9);
 
-    autoVacuumScan(&vacuum, TABLE_ID, &db.fsmCache, &db.buffors, &db.bq, &db.mvcc);
+    autoVacuumScan(&vacuum, TABLE_ID, &db.fsmCache, &db.buffors, &db.bq, &db.mvcc, &db.fsmMapAll);
     printf("\n");
     db_show_block(&db, 1, "[5] VACUUM po zakończeniu t5 — root id=4 -> \"Ewelina\", \"Ewa\" usunięta");
 

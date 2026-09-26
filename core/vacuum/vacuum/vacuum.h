@@ -30,7 +30,8 @@ typedef struct{
  * removed yet (some active transaction still sees them).
  */
 static int32_t vacuumChain(int32_t tableId, int32_t rootBlockId, int32_t rootIdx,
-                           Buffors *buffors, MVCC *mvcc, int32_t *remaining) {
+                           Buffors *buffors, MVCC *mvcc, int32_t *remaining,
+                           FSMTouchedBlocks *touched) {
     int32_t removed   = 0;
     int32_t prevBlock = rootBlockId;
     int32_t prevIdx   = rootIdx;
@@ -69,6 +70,7 @@ static int32_t vacuumChain(int32_t tableId, int32_t rootBlockId, int32_t rootIdx
             prev->header.t_cid = curr->header.t_cid;
             prevBuf->isDirty = 1;
             sql_makeTombstone(curr, currBuf, 0);
+            fsm_touched_add(touched, currBlock);
             removed++;
             /* prev does not move — its successor is now curr's successor */
         } else {
@@ -89,9 +91,10 @@ static int32_t vacuumChain(int32_t tableId, int32_t rootBlockId, int32_t rootIdx
  *   - t_cid == 0 → row deleted (DELETE) with no newer version → slot freed.
  * At the end the block's dead_count = versions that cannot be removed yet.
  * Returns the number of removed versions; *remainingOut (may be NULL) = the remaining ones.
+ * Blocks where space was freed are added to `touched` (may be NULL).
  */
 static int32_t vacuumBlock(int32_t tableId, int32_t blockId, Buffors *buffors, MVCC *mvcc,
-                           int32_t *remainingOut) {
+                           int32_t *remainingOut, FSMTouchedBlocks *touched) {
     int32_t removed   = 0;
     int32_t remaining = 0;
 
@@ -114,9 +117,11 @@ static int32_t vacuumBlock(int32_t tableId, int32_t blockId, Buffors *buffors, M
         if (canVacuum(root, mvcc)) {
             if (root->header.t_cid == 0) {
                 sql_makeTombstone(root, buf, 0);
+                fsm_touched_add(touched, blockId);
                 removed++;
             } else if (!(root->header.t_infomask & INFOMASK_DEAD)) {
                 sql_makeTombstone(root, buf, 1);
+                fsm_touched_add(touched, blockId);
             }
         } else if (!xmax_is_none(root->header.t_xmax)) {
             remaining++;   /* root with a newer version — its data is freed once nobody sees it */
@@ -124,7 +129,7 @@ static int32_t vacuumBlock(int32_t tableId, int32_t blockId, Buffors *buffors, M
         int8_t hasChain = root->header.t_cid != 0;
         buf->pinCount = 0;
 
-        if (hasChain) removed += vacuumChain(tableId, blockId, i, buffors, mvcc, &remaining);
+        if (hasChain) removed += vacuumChain(tableId, blockId, i, buffors, mvcc, &remaining, touched);
     }
 
     buf = getBuffor(tableId, blockId, buffors);
@@ -161,8 +166,10 @@ autoVacuumScan checks if exitst bq for this table then if yes it starting from t
 if not existing then it will fullscan by block also using each block if have existirng any dead tuples to fasten process
 bq and dead_count are keyed by the ROOT's block — vacuumBlock walks the chains from that block's roots.
  */
+/* fsmMapAll (may be NULL) — FSM entries of blocks with freed space are updated after every block */
 void autoVacuumScan(Vacuum *vacuum, int32_t tableId, FSMCache *fsmCache,
-                    Buffors *buffors, BqManager *bq_mgr, MVCC *mvcc) {
+                    Buffors *buffors, BqManager *bq_mgr, MVCC *mvcc, FSMMapAll *fsmMapAll) {
+    FSMTouchedBlocks touched = {0};
     BlockCounterEntry *counter = fsm_cache_get(fsmCache, tableId);
     if (counter == NULL || counter->maxBlock <= 0) return;
 
@@ -206,7 +213,8 @@ void autoVacuumScan(Vacuum *vacuum, int32_t tableId, FSMCache *fsmCache,
             }
 
             int32_t remaining = 0;
-            vacuumBlock(tableId, keys[k], buffors, mvcc, &remaining);
+            vacuumBlock(tableId, keys[k], buffors, mvcc, &remaining, &touched);
+            fsm_update_touched(fsmMapAll, tableId, buffors, &touched);
 
             /* the bq counter = what could not be removed yet */
             vacuum->sumOfAllDeadTupleInsideTable -= vals[k] - remaining;
@@ -232,7 +240,8 @@ void autoVacuumScan(Vacuum *vacuum, int32_t tableId, FSMCache *fsmCache,
         if (deadCount <= 0) continue;
 
         int32_t remaining = 0;
-        vacuumBlock(tableId, i, buffors, mvcc, &remaining);
+        vacuumBlock(tableId, i, buffors, mvcc, &remaining, &touched);
+        fsm_update_touched(fsmMapAll, tableId, buffors, &touched);
         vacuum->sumOfAllDeadTupleInsideTable -= deadCount - remaining;
         if (vacuum->sumOfAllDeadTupleInsideTable < 0) vacuum->sumOfAllDeadTupleInsideTable = 0;
     }
