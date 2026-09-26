@@ -155,10 +155,10 @@ static void test_addToFSMMapAll_adds_block(void **state) {
     FSMMapAll all = {.maps = &map, .count = 1};
 
     addToFSMMapAll(&all, 1, 77);
-    assert_int_equal(1, map.entries[MAX_FSM].count);
-    assert_int_equal(77, map.entries[MAX_FSM].block_ids[0]);
+    assert_int_equal(1, map.entries[FSM_EMPTY_BLOCK_ENTRY].count);
+    assert_int_equal(77, map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids[0]);
 
-    free(map.entries[MAX_FSM].block_ids);
+    free(map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids);
 }
 
 static void test_addToFSMMapAll_ignores_wrong_table(void **state) {
@@ -171,7 +171,7 @@ static void test_addToFSMMapAll_ignores_wrong_table(void **state) {
     FSMMapAll all = {.maps = &map, .count = 1};
 
     addToFSMMapAll(&all, 999, 77);
-    assert_int_equal(0, map.entries[MAX_FSM].count);
+    assert_int_equal(0, map.entries[FSM_EMPTY_BLOCK_ENTRY].count);
 }
 
 static void test_addToFSMMapAll_ignores_unused_map(void **state) {
@@ -184,7 +184,7 @@ static void test_addToFSMMapAll_ignores_unused_map(void **state) {
     FSMMapAll all = {.maps = &map, .count = 1};
 
     addToFSMMapAll(&all, 1, 99);
-    assert_int_equal(0, map.entries[MAX_FSM].count);
+    assert_int_equal(0, map.entries[FSM_EMPTY_BLOCK_ENTRY].count);
 }
 
 /* ---- addTableToFSMMapAll ---- */
@@ -249,12 +249,54 @@ static void test_addToFSMMapAll_multiple_blocks(void **state) {
     addToFSMMapAll(&all, 3, 10);
     addToFSMMapAll(&all, 3, 20);
     addToFSMMapAll(&all, 3, 30);
-    assert_int_equal(3, map.entries[MAX_FSM].count);
-    assert_int_equal(10, map.entries[MAX_FSM].block_ids[0]);
-    assert_int_equal(20, map.entries[MAX_FSM].block_ids[1]);
-    assert_int_equal(30, map.entries[MAX_FSM].block_ids[2]);
+    assert_int_equal(3, map.entries[FSM_EMPTY_BLOCK_ENTRY].count);
+    assert_int_equal(10, map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids[0]);
+    assert_int_equal(20, map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids[1]);
+    assert_int_equal(30, map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids[2]);
 
-    free(map.entries[MAX_FSM].block_ids);
+    free(map.entries[FSM_EMPTY_BLOCK_ENTRY].block_ids);
+}
+
+/* ---- tuples larger than one FSM step still reuse the existing block ---- */
+static void test_fsm_large_tuples_share_one_block(void **state) {
+    (void)state;
+    Buffors   b;
+    FSMCache *c = NULL;
+    FSMMapAll all;
+    initializeBuffors(&b, 4);
+    FSMCacheCreateC(&c);
+    fsm_cache_set(c, 5);
+    init_FSMMapAll(&all);
+    addTableToFSMMapAll(&all, 5);
+
+    char big[121];
+    memset(big, 'x', 120);
+    big[120] = '\0';
+    for (int i = 0; i < 5; i++) {
+        AllVar vals[2] = {all_var_from_int32(i), all_var_from_string(big)};
+        int8_t bm[2]   = {0, 0};
+        DataBuffor *d = addTupleToOtherFunction(&b, c, &all, 5, vals, 2, bm, 2,
+                                                1, 0, 0, 0, 0, 0, -1, NULL, NULL, NULL);
+        assert_non_null(d);
+        d->pinCount = 0;
+    }
+
+    assert_int_equal(1, fsm_cache_get(c, 5)->maxBlock);
+    DataBuffor *d = getBuffor(5, 1, &b);
+    assert_int_equal(5, d->universalBlock->block->tuple_count);
+    d->pinCount = 0;
+
+    for (int i = 0; i < b.count; i++) {
+        if (b.buffors[i].isUsed && b.buffors[i].universalBlock) {
+            free(b.buffors[i].universalBlock->block);
+            free(b.buffors[i].universalBlock->header);
+            free(b.buffors[i].universalBlock);
+        }
+    }
+    free(b.buffors);
+    free_FSMMapAll(&all);
+    fsm_cache_free(c);
+    free(c);
 }
 
 int main(void) {
@@ -282,6 +324,7 @@ int main(void) {
         /* create helpers */
         cmocka_unit_test(test_create_FSMMapC_allocates),
         cmocka_unit_test(test_createDataBufforM_allocates),
+        cmocka_unit_test(test_fsm_large_tuples_share_one_block),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

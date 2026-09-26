@@ -11,6 +11,8 @@
 #define FSM_MAX_SPACE        256    // max number of spaces per table in FSMMap
 #define FSM_MAX_BLOCKS_PER_SPACE 64 // max number of block IDs per space entry it is automaticly increased if more blocks are added to space entry
 #define MAX_FSM 255
+/* entry index = used-space level (0 = empty block); a new block starts here */
+#define FSM_EMPTY_BLOCK_ENTRY 0
 #define MAX_TABLES 10
 
 // ==============================================================================
@@ -194,7 +196,7 @@ void addToFSMMapAll(FSMMapAll *fsmMapAll, int32_t tableId, int32_t block_id) {
     for (int i = 0; i < fsmMapAll->count; i++) {
         // is used have two values 0 - if clear  , 1 - if is used | working with calloc
         if (fsmMapAll->maps[i].tableId == tableId && fsmMapAll->maps[i].isUsed == 1) {
-            fsm_space_entry_add(&fsmMapAll->maps[i].entries[MAX_FSM], block_id);
+            fsm_space_entry_add(&fsmMapAll->maps[i].entries[FSM_EMPTY_BLOCK_ENTRY], block_id);
             return;
         }
     }
