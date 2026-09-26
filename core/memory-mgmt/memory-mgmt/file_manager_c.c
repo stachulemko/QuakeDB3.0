@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-/* Buduje pełną ścieżkę path/name.bin */
+/* Builds the full path path/name.bin */
 static void make_path(char *out, int out_size,
                       const char *path, const char *name) {
     snprintf(out, (size_t)out_size, "%s/%s.bin", path, name);

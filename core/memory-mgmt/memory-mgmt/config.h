@@ -36,7 +36,7 @@
 
 #define btreeBufforSize 4
 
-#define mvccBufforSize 256  // number of txn statuses in one MVCC buffer window
+#define mvccBufforSize 10  // number of txn statuses in one MVCC buffer window
 
 #define timeExceedTransaction 100 // in seconds
 #endif

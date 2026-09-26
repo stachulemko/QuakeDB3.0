@@ -1,6 +1,8 @@
 //
 // Created by stas on 21.09.2026.
 //
+#include <time.h>
+
 static long long teraz_ms(void) {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);

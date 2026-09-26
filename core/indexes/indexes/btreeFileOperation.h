@@ -325,7 +325,7 @@ static inline int32_t allocateBlocksEntry(int32_t blockIdVal, BtreeBuffors *btre
                                          int32_t tableId, int32_t columnIndex, FSMMapBtree *fsmMap) {
     int32_t size = sizeof(int32_t) * 3;
 
-    /* Znajdz wolne miejsce w bloku 3 lub nastepnym jesli 3 jest pelny */
+    /* Find free space in block 3, or the next one if 3 is full */
     int32_t curBlock = 3;
     int32_t newBlocksOffset = -1;
     while (1) {
@@ -2040,8 +2040,8 @@ void deleteVal(FSMMapBtree *fsm, BtreeBuffors *btreeBuffors,
 /* ═══════════════════════════════════════════════════════════════════════════
  *  btree_delete_tuple_indexes
  *
- *  Usuwa wartosci tuple z wszystkich indeksow B-tree dla danej tabeli.
- *  Kolumny bez indeksu sa pomijane.
+ *  Removes the tuple's values from all B-tree indexes of the table.
+ *  Columns without an index are skipped.
  * ═══════════════════════════════════════════════════════════════════════════ */
 
 static inline void btree_delete_tuple_indexes(
@@ -2064,8 +2064,8 @@ static inline void btree_delete_tuple_indexes(
 /* ═══════════════════════════════════════════════════════════════════════════
  *  btree_insert_tuple_indexes
  *
- *  Wstawia wartosci tuple do wszystkich indeksow B-tree dla danej tabeli.
- *  Kolumny bez indeksu sa pomijane.
+ *  Inserts the tuple's values into all B-tree indexes of the table.
+ *  Columns without an index are skipped.
  * ═══════════════════════════════════════════════════════════════════════════ */
 
 static inline void btree_insert_tuple_indexes(
@@ -2088,8 +2088,8 @@ static inline void btree_insert_tuple_indexes(
 /* ═══════════════════════════════════════════════════════════════════════════
  *  btree_update_tuple_indexes
  *
- *  Atomowy update indeksow: usuwa stary tuple, wstawia nowy.
- *  Zlozony z btree_delete_tuple_indexes + btree_insert_tuple_indexes.
+ *  Atomic index update: removes the old tuple, inserts the new one.
+ *  Composed of btree_delete_tuple_indexes + btree_insert_tuple_indexes.
  * ═══════════════════════════════════════════════════════════════════════════ */
 
 static inline void btree_update_tuple_indexes(

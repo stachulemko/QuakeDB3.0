@@ -5,14 +5,14 @@
 #include <string.h>
 #include "../memory-mgmt/universal_block.h"
 
-/* helper — tworzy zserializowany blok danych */
+/* helper — builds a serialized data block */
 static void make_block_buf(uint8_t buf[BLOCK_SIZE]) {
     Block8kb b;
     block8kb_init(&b, 0, 1, 2, 0, 0, 0, 0);
     block8kb_marshal(buf, &b);
 }
 
-/* helper — tworzy zserializowany nagłówek tabeli */
+/* helper — builds a serialized table header */
 static void make_header_buf(uint8_t buf[BLOCK_SIZE]) {
     TableHeader h;
     table_header_init(&h);
@@ -52,7 +52,7 @@ static void test_create_from_header_buf(void **state) {
 static void test_create_from_unknown_tag_returns_null(void **state) {
     (void)state;
     uint8_t buf[BLOCK_SIZE];
-    memset(buf, 0, BLOCK_SIZE); /* tag = 0, nieznany */
+    memset(buf, 0, BLOCK_SIZE); /* tag = 0, unknown */
 
     UniversalBlock *ub = createUniversalBlock(buf);
     assert_null(ub);

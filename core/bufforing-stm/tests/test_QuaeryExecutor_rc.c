@@ -44,7 +44,7 @@ static void test_passIsolation_rc_always_skips(void **state) {
     int32_t xidMax = 0;
     int32_t blockTupleIndex = -1;
 
-    // VIEW_MODE==2: passIsolation always returns 1 (skip) i deleguje do readCommited
+    // VIEW_MODE==2: passIsolation always returns 1 (skip) and delegates to readCommited
     Tuple t = make_tuple_2col(3, 0, -1, 1, "test");
     int8_t result = passIsolation(t, &qe, 0, &xidMax, &blockTupleIndex);
     assert_int_equal(result, 1);
@@ -58,7 +58,7 @@ static void test_passIsolation_rc_updates_xidMax(void **state) {
     int32_t xidMax = 0;
     int32_t blockTupleIndex = -1;
 
-    // passIsolation wywoluje readCommited -> xidMax powinien byc zaktualizowany
+    // passIsolation calls readCommited -> xidMax should be updated
     Tuple t = make_tuple_2col(10, 0, -1, 42, "val");
     passIsolation(t, &qe, 3, &xidMax, &blockTupleIndex);
     assert_int_equal(xidMax, 10);
@@ -85,7 +85,7 @@ static void test_passIsolation_rc_tracks_best_index(void **state) {
     assert_int_equal(xidMax, 8);
     assert_int_equal(blockTupleIndex, 1);
 
-    // tuple 2: xmin=3 -> brak aktualizacji, idx zostaje 1
+    // tuple 2: xmin=3 -> no update, idx stays 1
     Tuple t2 = make_tuple_2col(3, 0, -1, 30, "v3");
     passIsolation(t2, &qe, 2, &xidMax, &blockTupleIndex);
     assert_int_equal(xidMax, 8);
@@ -107,8 +107,8 @@ static void test_parserCommands_rc_select_returns_best(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
 
-    // Trzy wersje tego samego wiersza: xmin=3, xmin=5, xmin=7
-    // readCommited powinien wybrac xmin=7 (index=2)
+    // Three versions of the same row: xmin=3, xmin=5, xmin=7
+    // readCommited should pick xmin=7 (index=2)
     Tuple t0 = make_tuple_2col(3, 0, -1, 10, "v1");
     Tuple t1 = make_tuple_2col(5, 0, -1, 10, "v2");
     Tuple t2 = make_tuple_2col(7, 0, -1, 10, "v3");
@@ -120,7 +120,7 @@ static void test_parserCommands_rc_select_returns_best(void **state) {
     ResultTuple result = {0};
     parserCommands(block, &qe, &result, NULL, 1, 1, 1, 0);
 
-    // Powinien zwrocic dokladnie 1 tuple — najnowsza wersje
+    // Should return exactly 1 tuple — the newest version
     assert_int_equal(result.tuple_count, 1);
     assert_string_equal(result.tuples[0].dnb.data[1].val.str, "v3");
 
@@ -139,7 +139,7 @@ static void test_parserCommands_rc_where_returns_best(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
 
-    // xmin=4 i xmin=9 — powinien zostac zwrocony tylko jeden (xmin=9, najnowszy)
+    // xmin=4 and xmin=9 — only one should be returned (xmin=9, the newest)
     Tuple t0 = make_tuple_2col(4, 0, -1, 10, "old");
     Tuple t1 = make_tuple_2col(9, 0, -1, 10, "new");
 

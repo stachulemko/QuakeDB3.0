@@ -15,23 +15,42 @@ void block8kb_init(Block8kb *b, int32_t free_space,
 
 int32_t block8kb_used(const Block8kb *b) {
     int32_t i;
-    /* 2 (ID_ALL_BLOCK) + BLOCK_HEADER_SIZE + suma rozmiarów krotek */
+    /* 2 (ID_ALL_BLOCK) + BLOCK_HEADER_SIZE + sum of tuple sizes */
     int32_t total = 2 + BLOCK_HEADER_SIZE;
     for (i = 0; i < b->tuple_count; i++)
         total += tuple_size(&b->tuples[i]);
     return total;
 }
 
+/* First slot marked INFOMASK_UNUSED, or -1 if there is none */
+static int32_t block8kb_free_slot(const Block8kb *b) {
+    int32_t i;
+    for (i = 0; i < b->tuple_count; i++)
+        if (b->tuples[i].header.t_infomask & INFOMASK_UNUSED) return i;
+    return -1;
+}
+
 int block8kb_full(const Block8kb *b, const Tuple *t) {
+    int32_t slot = block8kb_free_slot(b);
+    int32_t used = block8kb_used(b);
+    /* free slot: the new tuple replaces the tombstone, so its size is subtracted */
+    if (slot >= 0)
+        return (used - tuple_size(&b->tuples[slot]) + tuple_size(t)) > b->usable_size;
     if (b->tuple_count >= MAX_TUPLES_PER_BLOCK) return 1;
-    return (block8kb_used(b) + tuple_size(t)) > b->usable_size;
+    return (used + tuple_size(t)) > b->usable_size;
 }
 
 int block8kb_add(Block8kb *b, const Tuple *t) {
+    int32_t slot;
     if (block8kb_full(b, t)) return -1;
+    /* first free slot first — indices (TIDs) of the other tuples do not change */
+    slot = block8kb_free_slot(b);
+    if (slot >= 0) {
+        b->tuples[slot] = *t;
+        return slot;
+    }
     b->tuples[b->tuple_count] = *t;
-    b->tuple_count++;
-    return 0;
+    return b->tuple_count++;
 }
 
 int block8kb_marshal(uint8_t buf[BLOCK_SIZE], const Block8kb *b) {
@@ -44,11 +63,11 @@ int block8kb_marshal(uint8_t buf[BLOCK_SIZE], const Block8kb *b) {
 
     for (i = 0; i < b->tuple_count; i++) {
         int written = tuple_marshal(buf + off, &b->tuples[i]);
-        if (off + written > BLOCK_SIZE) break; /* zabezpieczenie */
+        if (off + written > BLOCK_SIZE) break; /* safety guard */
         off += written;
     }
 
-    /* dopełnienie zerami (już zrobione przez memset) */
+    /* zero padding (already done by memset) */
     zero_count = BLOCK_SIZE - off;
     (void)zero_count;
 

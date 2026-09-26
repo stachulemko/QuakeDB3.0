@@ -1,15 +1,15 @@
 /*
- * test_bq.c - testy bucket queue (bq_t) i BqManager
+ * test_bq.c - tests for the bucket queue (bq_t) and BqManager
  *
- * Testuje:
- *   1. Podstawowe operacje: insert, get, remove
- *   2. Incr / decr z przesuwaniem miedzy kubelkami
+ * Tests:
+ *   1. Basic operations: insert, get, remove
+ *   2. Incr / decr moving between buckets
  *   3. Min / max
- *   4. Iteracja po kubelkach
- *   5. Konfigurowalny rozmiar (nbuckets)
- *   6. Limit buffora (max_entries)
+ *   4. Bucket iteration
+ *   5. Configurable size (nbuckets)
+ *   6. Buffer limit (max_entries)
  *   7. BqManager - per-table queues
- *   8. Edge cases i guard clauses
+ *   8. Edge cases and guard clauses
  */
 
 #include <stdio.h>
@@ -497,7 +497,7 @@ void test_mgr_remove_table(void) {
     TEST_ASSERT(bq_mgr_remove_table(&mgr, 1) == BQ_OK, "remove ok");
     TEST_ASSERT(bq_mgr_get(&mgr, 1) == NULL, "table gone");
 
-    /* mozna dodac ponownie */
+    /* can be added again */
     TEST_ASSERT(bq_mgr_add_table(&mgr, 1) == BQ_OK, "re-add ok");
 
     bq_mgr_free(&mgr);
@@ -609,7 +609,7 @@ void test_negative_val_rejected(void) {
 }
 
 /* ============================================================================
- *  9. SAVE / LOAD (persistencja)
+ *  9. SAVE / LOAD (persistence)
  * ============================================================================ */
 
 #include <unistd.h>
@@ -830,7 +830,7 @@ int main(void) {
     test_value_zero();
     test_negative_val_rejected();
 
-    SECTION("9. SAVE / LOAD (persistencja)");
+    SECTION("9. SAVE / LOAD (persistence)");
     test_save_and_load_basic();
     test_save_and_load_preserves_config();
     test_save_and_load_empty();

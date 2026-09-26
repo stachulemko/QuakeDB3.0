@@ -2,9 +2,9 @@
  * test_btree_update_indexes.c
  *
  * Component tests for btree_update_tuple_indexes():
- *   - usuwa stare wartosci starego tuple z indeksow
- *   - wstawia nowe wartosci nowego tuple do indeksow
- *   - pomija kolumny bez indeksu
+ *   - removes the old tuple's old values from the indexes
+ *   - inserts the new tuple's new values into the indexes
+ *   - skips columns without an index
  */
 
 #include <stdio.h>
@@ -51,7 +51,7 @@ typedef struct {
     int32_t      tableId;
 } Env;
 
-/* Inicjalizacja srodowiska z indeksem na kolumnie col */
+/* Environment setup with an index on column col */
 static void env_init1(Env *e, int32_t tableId, int32_t col) {
     memset(e, 0, sizeof(Env));
     fsm_btree_init(&e->fsm);
@@ -60,7 +60,7 @@ static void env_init1(Env *e, int32_t tableId, int32_t col) {
     createBtree(&e->fsm, tableId, col);
 }
 
-/* Inicjalizacja z indeksami na dwoch kolumnach */
+/* Setup with indexes on two columns */
 static void env_init2(Env *e, int32_t tableId) {
     memset(e, 0, sizeof(Env));
     fsm_btree_init(&e->fsm);
@@ -74,7 +74,7 @@ static int32_t env_find(Env *e, int32_t col, int32_t val) {
     return getBlockBtree(all_var_from_int32(val), &e->bufs, e->tableId, col, &e->fsm, 0, 0);
 }
 
-/* Buduje jednokolumnowy Tuple z wartoscia int32 */
+/* Builds a single-column Tuple with an int32 value */
 static Tuple make_tuple1(int32_t v0) {
     Tuple t = {0};
     t.dnb.data_count = 1;
@@ -82,7 +82,7 @@ static Tuple make_tuple1(int32_t v0) {
     return t;
 }
 
-/* Buduje dwukolumnowy Tuple z wartosciami int32 */
+/* Builds a two-column Tuple with int32 values */
 static Tuple make_tuple2(int32_t v0, int32_t v1) {
     Tuple t = {0};
     t.dnb.data_count = 2;
@@ -114,17 +114,17 @@ void test_delete_removes_all_indexed_columns(void) {
 void test_delete_skips_non_indexed_column(void) {
     TEST_START("delete_tuple_indexes: pomija kolumne bez indeksu");
     Env e;
-    /* tylko col=0 ma indeks */
+    /* only col=0 has an index */
     env_init1(&e, 301, 0);
 
     addToBtree(all_var_from_int32(77), 3, &e.bufs, e.tableId, 0, &e.fsm);
 
-    /* tuple 2-kolumnowy, col=1 bez indeksu */
+    /* 2-column tuple, col=1 without an index */
     Tuple t = make_tuple2(77, 88);
     btree_delete_tuple_indexes(&e.fsm, &e.bufs, e.tableId, &t, 3);
 
     TEST_ASSERT(env_find(&e, 0, 77) == -1, "col0: val=77 usunieta");
-    /* col=1 — brak indeksu, zadnego crasha */
+    /* col=1 — no index, no crash */
     TEST_PASS();
 }
 
@@ -160,14 +160,14 @@ void test_insert_adds_all_indexed_columns(void) {
 void test_insert_skips_non_indexed_column(void) {
     TEST_START("insert_tuple_indexes: pomija kolumne bez indeksu");
     Env e;
-    /* tylko col=0 ma indeks */
+    /* only col=0 has an index */
     env_init1(&e, 311, 0);
 
     Tuple t = make_tuple2(33, 44);
     btree_insert_tuple_indexes(&e.fsm, &e.bufs, e.tableId, &t, 2);
 
     TEST_ASSERT(env_find(&e, 0, 33) == 2, "col0: val=33 wstawiona");
-    /* col=1 bez indeksu — brak crasha */
+    /* col=1 without an index — no crash */
     TEST_PASS();
 }
 
@@ -184,7 +184,7 @@ void test_insert_null_guards(void) {
 }
 
 /* ============================================================================
- *  Test 1 — zmiana wartosci: stara wartosc usunieta, nowa dostepna
+ *  Test 1 — value change: old value removed, new one available
  * ============================================================================ */
 
 void test_update_value_old_removed_new_found(void) {
@@ -192,7 +192,7 @@ void test_update_value_old_removed_new_found(void) {
     Env e;
     env_init1(&e, 200, 0);
 
-    /* wstaw val=10 w bloku 5 */
+    /* insert val=10 in block 5 */
     addToBtree(all_var_from_int32(10), 5, &e.bufs, e.tableId, 0, &e.fsm);
     TEST_ASSERT(env_find(&e, 0, 10) == 5, "przed update: val=10 powinno byc w bloku 5");
 
@@ -206,7 +206,7 @@ void test_update_value_old_removed_new_found(void) {
 }
 
 /* ============================================================================
- *  Test 2 — zmiana bloku: ta sama wartosc, inny blok
+ *  Test 2 — block change: same value, different block
  * ============================================================================ */
 
 void test_update_block_same_value_new_block(void) {
@@ -226,21 +226,21 @@ void test_update_block_same_value_new_block(void) {
 }
 
 /* ============================================================================
- *  Test 3 — kolumna bez indeksu: nie crashuje, indeksowana kolumna dziala
+ *  Test 3 — column without an index: no crash, the indexed column works
  * ============================================================================ */
 
 void test_update_column_without_index_no_crash(void) {
     TEST_START("update tuple with non-indexed column: no crash, indexed col works");
     Env e;
-    /* tylko kolumna 0 ma indeks, kolumna 1 nie ma */
+    /* only column 0 has an index, column 1 does not */
     env_init1(&e, 202, 0);
 
-    /* wstaw old tuple (col0=10, col1=20) recznie tylko do indeksu col0 */
+    /* insert the old tuple (col0=10, col1=20) manually into the col0 index only */
     addToBtree(all_var_from_int32(10), 5, &e.bufs, e.tableId, 0, &e.fsm);
 
     Tuple oldT = make_tuple2(10, 20);
     Tuple newT = make_tuple2(55, 88);
-    /* nie powinno crashowac mimo braku indeksu na col=1 */
+    /* should not crash despite the missing index on col=1 */
     btree_update_tuple_indexes(&e.fsm, &e.bufs, e.tableId, &oldT, 5, &newT, 5);
 
     TEST_ASSERT(env_find(&e, 0, 10) == -1, "col0: stara wartosc usunieta");
@@ -249,7 +249,7 @@ void test_update_column_without_index_no_crash(void) {
 }
 
 /* ============================================================================
- *  Test 4 — dwie indeksowane kolumny: obie zaktualizowane poprawnie
+ *  Test 4 — two indexed columns: both updated correctly
  * ============================================================================ */
 
 void test_update_two_indexed_columns(void) {
@@ -257,7 +257,7 @@ void test_update_two_indexed_columns(void) {
     Env e;
     env_init2(&e, 203);
 
-    /* wstaw old wartosci do obu indeksow */
+    /* insert the old values into both indexes */
     addToBtree(all_var_from_int32(10), 5, &e.bufs, e.tableId, 0, &e.fsm);
     addToBtree(all_var_from_int32(20), 5, &e.bufs, e.tableId, 1, &e.fsm);
 
@@ -273,7 +273,7 @@ void test_update_two_indexed_columns(void) {
 }
 
 /* ============================================================================
- *  Test 5 — wielokrotne update na tym samym tuple (lancuch zmian)
+ *  Test 5 — repeated updates of the same tuple (chain of changes)
  * ============================================================================ */
 
 void test_update_chain_of_updates(void) {
@@ -305,7 +305,7 @@ void test_update_chain_of_updates(void) {
 }
 
 /* ============================================================================
- *  Test 6 — NULL guard: zadnych crashy przy NULL wskaznikach
+ *  Test 6 — NULL guard: no crashes with NULL pointers
  * ============================================================================ */
 
 void test_update_null_guards(void) {
@@ -315,7 +315,7 @@ void test_update_null_guards(void) {
 
     Tuple t = make_tuple1(10);
 
-    /* wszystkie kombinacje NULL — zadna nie powinna crashowac */
+    /* all NULL combinations — none should crash */
     btree_update_tuple_indexes(NULL,     &e.bufs, e.tableId, &t, 1, &t, 2);
     btree_update_tuple_indexes(&e.fsm,   NULL,    e.tableId, &t, 1, &t, 2);
     btree_update_tuple_indexes(&e.fsm,   &e.bufs, e.tableId, NULL, 1, &t, 2);
@@ -325,7 +325,7 @@ void test_update_null_guards(void) {
 }
 
 /* ============================================================================
- *  Test 7 — brak tabeli w FSM: nie crashuje
+ *  Test 7 — table missing in FSM: no crash
  * ============================================================================ */
 
 void test_update_table_not_in_fsm(void) {
@@ -336,7 +336,7 @@ void test_update_table_not_in_fsm(void) {
     Tuple oldT = make_tuple1(5);
     Tuple newT = make_tuple1(50);
 
-    /* tableId=999 nie ma indeksu — powinno po cichu wyjsc */
+    /* tableId=999 has no index — should return silently */
     btree_update_tuple_indexes(&e.fsm, &e.bufs, 999, &oldT, 1, &newT, 2);
 
     TEST_PASS();

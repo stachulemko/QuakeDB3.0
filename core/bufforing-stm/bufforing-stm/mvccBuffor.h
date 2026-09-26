@@ -164,4 +164,20 @@ static inline int8_t mvcc_get_txn_status(MVCC       *mvcc,
     return mvcc_buffor_get_status(buffor, xid);
 }
 
+/*
+ * Check whether transaction `xid` is still running (not committed):
+ *   • 1  — transaction is active (status 0, still in progress)
+ *   • 0  — transaction is finished (committed = 1 or aborted/rollback = 2)
+ *   • -1 — status could not be read (bad xid, missing file, etc.)
+ */
+static inline int mvcc_is_txn_active(MVCC       *mvcc,
+                                     MVCCBuffor *buffor,
+                                     const char *filepath,
+                                     int32_t     xid)
+{
+    int8_t status = mvcc_get_txn_status(mvcc, buffor, filepath, xid);
+    if (status < 0) return -1;
+    return (status == 0) ? 1 : 0;
+}
+
 #endif /* MVCC_BUFFOR_H */

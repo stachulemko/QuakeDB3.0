@@ -3,11 +3,11 @@
 #include <stdio.h>
 
 /*
- * Poziomy logowania — ustaw przed includowaniem lub przez -DLOG_LEVEL=N
+ * Log levels — set before including or via -DLOG_LEVEL=N
  *
- *   0 — cisza (nic nie jest wypisywane)
- *   1 — tylko ERROR
- *   2 — ERROR + DEBUG  (domyślnie)
+ *   0 — silent (nothing is printed)
+ *   1 — ERROR only
+ *   2 — ERROR + DEBUG  (default)
  */
 #ifndef LOG_LEVEL
 #define LOG_LEVEL 2

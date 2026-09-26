@@ -3,11 +3,16 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+
 #include "../../memory-mgmt/memory-mgmt/config.h"
 
-#define MAX_TRANSACTIONS mvccBufforSize
+#define MAX_TRANSACTIONS 256
 
-
+/*
+ * this structure contain txn counter icremented always when new transaction is started(begin transaction) - txn_counter
+ * base_txn conatin min val of xid to know what transaction are in txn_status which is are buffor for transaction .
+ * txn_status conatin state of transaction from wanted range .
+*/
 typedef struct {
     int32_t txn_counter;
     int32_t base_txn;
@@ -44,6 +49,8 @@ static inline int32_t getAndIcrement(MVCC *mvcc) {
 static inline void incrementTxnCounter(MVCC *mvcc) {
     mvcc->txn_counter++;
 }
+
+
 
 
 

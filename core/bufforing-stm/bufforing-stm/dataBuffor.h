@@ -216,66 +216,91 @@ void addTuple(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,MVCC *mvcc,int32
     Tuple tuple;
     tuple_set(&tuple, getAndIcrement(mvcc), 0, 0, 0, 0, 0, -1, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
+    if (buffor == NULL) {
+        LOG_ERROR("addTuple: no buffor available for tableId %d", tableId);
+        return;
+    }
     buffor->pinCount++;
-    block8kb_add(buffor->universalBlock->block, &tuple);
+    int32_t tupleIdx = block8kb_add(buffor->universalBlock->block, &tuple);
+    if (tupleIdx < 0) {
+        LOG_ERROR("addTuple: tuple does not fit into block");
+        buffor->pinCount = 0;
+        return;
+    }
     buffor->isDirty = 1;
     buffor->isUsed = 1;
-    buffor->pinCount = 0;
     buffor->tableId = tableId;
     if (fsmMapBtree != NULL && btreeBuffors != NULL) {
         int32_t blockId = (int32_t)buffor->universalBlock->block->header.block_id;
-        int32_t tupleIdx = buffor->universalBlock->block->tuple_count - 1;
         btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
                                    &buffor->universalBlock->block->tuples[tupleIdx], blockId);
     }
+    buffor->pinCount = 0;
 }
 
 
 
 // this fuction is usefull in Case of update after we udapte we adding new tuple that why we need to return this to get block and tuple number to set pointer in updated Tuple
 // not in case of test but in real cases
-DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
+// outTupleIdx (may be NULL) receives slot index of the new tuple. Returned buffor stays pinned — caller sets pinCount = 0.
+DataBuffor* addTupleToOtherFunction(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors, int32_t *outTupleIdx) {
     Tuple tuple;
     tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
+    if (buffor == NULL) {
+        LOG_ERROR("addTupleToOtherFunction: no buffor available for tableId %d", tableId);
+        return NULL;
+    }
     buffor->pinCount++;
-    block8kb_add(buffor->universalBlock->block, &tuple);
+    int32_t tupleIdx = block8kb_add(buffor->universalBlock->block, &tuple);
+    if (tupleIdx < 0) {
+        LOG_ERROR("addTupleToOtherFunction: tuple does not fit into block");
+        buffor->pinCount = 0;
+        return NULL;
+    }
     buffor->isDirty = 1;
     buffor->isUsed = 1;
     buffor->tableId = tableId;
     // checking ig endigs exist than is staring to only increment
     if (fsmMapBtree != NULL && btreeBuffors != NULL) {
         int32_t blockId = (int32_t)buffor->universalBlock->block->header.block_id;
-        int32_t tupleIdx = buffor->universalBlock->block->tuple_count - 1;
         btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
                                    &buffor->universalBlock->block->tuples[tupleIdx], blockId);
     }
+    if (outTupleIdx != NULL) *outTupleIdx = tupleIdx;
     return buffor;
 }
 
 
 void addTupleToSqlExecutor(Buffors *buffors,FSMCache *c,FSMMapAll *fsmMapAll,int32_t tableId , AllVar *data, int32_t data_count, int8_t *bit_map, int32_t bit_map_count,int32_t xmin,int32_t xmax,int32_t cid,int16_t infomaks,int16_t hoff,int8_t bitmap,int64_t oid, FSMMapBtree *fsmMapBtree, BtreeBuffors *btreeBuffors) {
     Tuple tuple;
-    size_t countNum = sizeof((AllVar[]){ all_var_from_int32(1), all_var_from_string("Alice") })
-           / sizeof(AllVar);
-    if (countNum != data_count) {
-        LOG_ERROR("data number exceed the expected one place correct one");
+    if (data_count <= 0 || data_count > MAX_COLUMNS) {
+        LOG_ERROR("addTupleToSqlExecutor: invalid data_count %d (allowed 1..%d)", data_count, MAX_COLUMNS);
         return;
     }
 
     tuple_set(&tuple, xmin, xmax, cid, infomaks, hoff, bitmap, oid, bit_map, bit_map_count, data, data_count);
     DataBuffor* buffor = addDataToFSMMapAllAndReturnBufforToAdd(buffors, c, fsmMapAll, tableId, &tuple, BLOCK_USABLE_SIZE);
+    if (buffor == NULL) {
+        LOG_ERROR("addTupleToSqlExecutor: no buffor available for tableId %d", tableId);
+        return;
+    }
     buffor->pinCount++;
-    block8kb_add(buffor->universalBlock->block, &tuple);
+    int32_t tupleIdx = block8kb_add(buffor->universalBlock->block, &tuple);
+    if (tupleIdx < 0) {
+        LOG_ERROR("addTupleToSqlExecutor: tuple does not fit into block");
+        buffor->pinCount = 0;
+        return;
+    }
     buffor->isDirty = 1;
     buffor->isUsed = 1;
     buffor->tableId = tableId;
     if (fsmMapBtree != NULL && btreeBuffors != NULL) {
         int32_t blockId = (int32_t)buffor->universalBlock->block->header.block_id;
-        int32_t tupleIdx = buffor->universalBlock->block->tuple_count - 1;
         btree_insert_tuple_indexes(fsmMapBtree, btreeBuffors, tableId,
                                    &buffor->universalBlock->block->tuples[tupleIdx], blockId);
     }
+    buffor->pinCount = 0;
 }
 
 /* Column names — fixed-length char array instead of std::string */

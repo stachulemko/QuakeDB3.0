@@ -36,7 +36,7 @@ static void force_eviction(Buffors *b, FSMCache *c, FSMMapAll *m, MVCC *mvcc, in
 
 // ── stress tests ──────────────────────────────────────────────────────────────
 
-/* 30 tupli w jednej tabeli — wszystkie muszą przeżyć eviction */
+/* 30 tuples in one table — all must survive eviction */
 void test_add30TuplesToOneTable(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -65,7 +65,7 @@ void test_add30TuplesToOneTable(void **state) {
     freeUniversalBlock(ub);
 }
 
-/* kolejność wartości int32 1..20 musi być zachowana po eviction */
+/* the order of int32 values 1..20 must be preserved after eviction */
 void test_sequentialInt32ValuesPreserved(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -93,7 +93,7 @@ void test_sequentialInt32ValuesPreserved(void **state) {
     freeUniversalBlock(ub);
 }
 
-/* 10 różnych tabel, każda z 3 tuplami — dane się nie mieszają */
+/* 10 different tables, 3 tuples each — data does not get mixed up */
 void test_10TablesEach3TuplesNoMixup(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -129,7 +129,7 @@ void test_10TablesEach3TuplesNoMixup(void **state) {
     }
 }
 
-/* stress: int32 + int64 + string w jednej tabeli */
+/* stress: int32 + int64 + string in one table */
 void test_mixedTypesStressEviction(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -165,7 +165,7 @@ void test_mixedTypesStressEviction(void **state) {
     freeUniversalBlock(ub);
 }
 
-/* 1 buffor, 8 tabel z ciągłymi eviction — ostatnie dane zawsze poprawne */
+/* 1 buffer, 8 tables with constant eviction — the latest data is always correct */
 void test_singleBufforManyEvictions(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -197,7 +197,7 @@ void test_singleBufforManyEvictions(void **state) {
     }
 }
 
-/* stringi bliskie MAX_STR_LEN (120 znaków) przeżywają eviction */
+/* strings close to MAX_STR_LEN (120 chars) survive eviction */
 void test_largeStringValuesSurviveEviction(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -212,7 +212,7 @@ void test_largeStringValuesSurviveEviction(void **state) {
              (char[2][MAX_COL_NAME_LEN]){{"id"}, {"payload"}});
 
     for (int i = 0; i < 5; i++) {
-        big[0] = 'A' + i;  /* inny pierwszy znak dla każdego rekordu */
+        big[0] = 'A' + i;  /* a different first char for every record */
         addTuple(&b, &c, &m, &mvcc, 90,
                  (AllVar[]){all_var_from_int32(i), all_var_from_string(big)}, 2,
                  (int8_t[]){0, 0}, 2, NULL, NULL);
@@ -234,7 +234,7 @@ void test_largeStringValuesSurviveEviction(void **state) {
     freeUniversalBlock(ub);
 }
 
-/* wartości graniczne int32: INT32_MIN, -1, 0, 1, INT32_MAX */
+/* int32 boundary values: INT32_MIN, -1, 0, 1, INT32_MAX */
 void test_boundaryInt32ValuesStress(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -263,7 +263,7 @@ void test_boundaryInt32ValuesStress(void **state) {
     freeUniversalBlock(ub);
 }
 
-/* 2 buffory — przeplatane tuple do dwóch tabel jednocześnie */
+/* 2 buffers — tuples interleaved between two tables */
 void test_twoBufforsDataIntegrity(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;
@@ -300,7 +300,7 @@ void test_twoBufforsDataIntegrity(void **state) {
     freeUniversalBlock(ub95);
 }
 
-/* ta sama wartość dodana 10 razy — wszystkie kopie zachowane */
+/* the same value added 10 times — all copies kept */
 void test_duplicateValuesAllStored(void **state) {
     (void)state;
     Buffors b; FSMCache c; FSMMapAll m; MVCC mvcc;

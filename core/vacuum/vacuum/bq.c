@@ -19,12 +19,12 @@ static inline uint32_t bq__clz64(uint64_t x) {
 }
 #endif
 
-/* wartosc -> indeks kubelka (wartosci sa >= 0, wiec mapowanie 1:1) */
+/* value -> bucket index (values are >= 0, so the mapping is 1:1) */
 #define IDX(v)   ((uint32_t)(v))
 #define UNIDX(i) ((int32_t)(i))
 
 /* ------------------------------------------------------------------ */
-/* bitmapa niepustych kubelkow                                         */
+/* bitmap of non-empty buckets                                        */
 /* ------------------------------------------------------------------ */
 static void bq__bm_set(bq_t *q, uint32_t b) {
     uint32_t w0 = b >> 6, w1 = w0 >> 6;
@@ -42,7 +42,7 @@ static void bq__bm_clear(bq_t *q, uint32_t b) {
     q->l2 &= ~(1ULL << w1);
 }
 
-/* pierwsze zapalone slowo l0 o indeksie >= from */
+/* first set l0 word with index >= from */
 static uint32_t bq__next_word(const bq_t *q, uint32_t from) {
     uint32_t w, off, i2;
     uint64_t x;
@@ -66,7 +66,7 @@ static uint32_t bq__next_word(const bq_t *q, uint32_t from) {
     return (i2 << 6) | bq__ctz64(q->l1[i2]);
 }
 
-/* pierwszy niepusty kubelek o indeksie >= from */
+/* first non-empty bucket with index >= from */
 static uint32_t bq__next_set(const bq_t *q, uint32_t from) {
     uint32_t w, off, nw;
     uint64_t x;
@@ -81,9 +81,9 @@ static uint32_t bq__next_set(const bq_t *q, uint32_t from) {
     return (nw << 6) | bq__ctz64(q->l0[nw]);
 }
 
-/* ostatni niepusty kubelek o indeksie <= from */
+/* last non-empty bucket with index <= from */
 static uint32_t bq__prev_set(const bq_t *q, uint32_t from) {
-    /* szukaj od from w dol */
+    /* search downwards from `from` */
     uint32_t w = from >> 6;
     uint64_t x;
     if (w < q->l0_words) {
@@ -91,7 +91,7 @@ static uint32_t bq__prev_set(const bq_t *q, uint32_t from) {
         x = q->l0[w] & (~0ULL >> (63 - off));
         if (x) return (w << 6) | (63 - bq__clz64(x));
     }
-    /* szukaj w nizszych slowach */
+    /* search in lower words */
     if (w == 0) return q->nbuckets;
     for (uint32_t i = w; i > 0; i--) {
         if (i - 1 < q->l0_words && q->l0[i - 1]) {
@@ -102,7 +102,7 @@ static uint32_t bq__prev_set(const bq_t *q, uint32_t from) {
 }
 
 /* ------------------------------------------------------------------ */
-/* hash mapa: int32_t -> indeks wezla                                  */
+/* hash map: int32_t -> node index                                     */
 /* ------------------------------------------------------------------ */
 static inline uint32_t bq__hash(int32_t k) {
     uint32_t x = (uint32_t)k;
@@ -170,7 +170,7 @@ static int bq__arena_grow(bq_t *q) {
     int32_t  *v;
     uint32_t *nx, *pv;
 
-    /* jesli max_entries > 0, nie rosniemy ponad limit */
+    /* if max_entries > 0, do not grow beyond the limit */
     if (q->max_entries > 0 && nc > q->max_entries) nc = q->max_entries;
     if (nc <= q->cap) return BQ_ENOMEM;
 
@@ -207,7 +207,7 @@ static uint32_t bq__node_alloc(bq_t *q) {
 }
 
 /* ------------------------------------------------------------------ */
-/* wpinanie / wypinanie wezla z kubelka                                */
+/* linking / unlinking a node in a bucket                             */
 /* ------------------------------------------------------------------ */
 static void bq__link(bq_t *q, uint32_t n, int32_t val) {
     uint32_t b = IDX(val), h = q->head[b];
@@ -235,7 +235,7 @@ int bq_init(bq_t *q, uint32_t nbuckets, uint32_t init_cap, uint32_t max_entries)
     uint32_t sz = 16;
     if (nbuckets == 0) return BQ_ERANGE;
 
-    /* clamp init_cap do max_entries jesli ustawiony */
+    /* clamp init_cap to max_entries if set */
     if (max_entries > 0 && init_cap > max_entries) init_cap = max_entries;
 
     memset(q, 0, sizeof(*q));
@@ -243,16 +243,16 @@ int bq_init(bq_t *q, uint32_t nbuckets, uint32_t init_cap, uint32_t max_entries)
     q->max_entries = max_entries;
     q->free_head   = BQ_NIL;
 
-    /* oblicz rozmiar bitmap */
+    /* compute bitmap sizes */
     q->l0_words = (nbuckets + 63) / 64;
     q->l1_words = (q->l0_words + 63) / 64;
 
-    /* alokuj kubelki */
+    /* allocate buckets */
     q->head = (uint32_t *)malloc((size_t)nbuckets * sizeof(uint32_t));
     if (!q->head) return BQ_ENOMEM;
     memset(q->head, 0xFF, (size_t)nbuckets * sizeof(uint32_t));
 
-    /* alokuj bitmapy */
+    /* allocate bitmaps */
     q->l0 = (uint64_t *)calloc(q->l0_words, sizeof(uint64_t));
     if (!q->l0) { free(q->head); return BQ_ENOMEM; }
 
@@ -261,7 +261,7 @@ int bq_init(bq_t *q, uint32_t nbuckets, uint32_t init_cap, uint32_t max_entries)
 
     q->l2 = 0;
 
-    /* hash mapa */
+    /* hash map */
     while (sz < init_cap * 2) sz <<= 1;
     q->slot = (uint32_t *)malloc((size_t)sz * sizeof(uint32_t));
     if (!q->slot) { free(q->head); free(q->l0); free(q->l1); return BQ_ENOMEM; }
@@ -314,7 +314,7 @@ int bq_get(const bq_t *q, int32_t key, int32_t *out) {
     return BQ_OK;
 }
 
-/* rdzen: przeniesienie wezla do sasiedniego kubelka */
+/* core: move a node to the neighbouring bucket */
 static int bq__move(bq_t *q, int32_t key, int delta, int32_t *out) {
     uint32_t i = bq__find_slot(q, key), n;
     int64_t nv;
@@ -340,7 +340,7 @@ int bq_min(const bq_t *q, int32_t *out) {
 
 int bq_max(const bq_t *q, int32_t *out) {
     if (!q->l2) return BQ_ENOTFOUND;
-    /* znajdz ostatni niepusty kubelek */
+    /* find the last non-empty bucket */
     uint32_t i2 = 63 - bq__clz64(q->l2);
     if (i2 >= q->l1_words) return BQ_ENOTFOUND;
     uint32_t i1 = (i2 << 6) | (63 - bq__clz64(q->l1[i2]));
@@ -382,7 +382,7 @@ uint32_t bq_node_next(const bq_t *q, uint32_t node)  { return q->next[node]; }
 int32_t  bq_node_key(const bq_t *q, uint32_t node)   { return q->key[node]; }
 
 /* ================================================================== */
-/* Persistencja — bq_save / bq_load                                    */
+/* Persistence — bq_save / bq_load                                     */
 /* ================================================================== */
 
 #include <stdio.h>
@@ -407,7 +407,7 @@ int bq_save(const bq_t *q, const char *path) {
     if (bq__write32(f, q->max_entries) != BQ_OK) goto fail;
     if (bq__write32(f, q->used)        != BQ_OK) goto fail;
 
-    /* wpisy: iteruj przez arene — sloty z haszmapa wskazuja na wezly areny */
+    /* entries: iterate the arena — hash map slots point to arena nodes */
     for (uint32_t i = 0; i <= q->smask; i++) {
         uint32_t n = q->slot[i];
         if (n == BQ_NIL || n == BQ_TOMB) continue;
@@ -487,10 +487,10 @@ bq_t* bq_mgr_get(BqManager *mgr, int32_t tableId) {
 }
 
 int bq_mgr_add_table(BqManager *mgr, int32_t tableId) {
-    /* sprawdz duplikat */
+    /* check for a duplicate */
     if (bq_mgr_get(mgr, tableId) != NULL) return BQ_EEXISTS;
 
-    /* znajdz wolny slot */
+    /* find a free slot */
     for (int i = 0; i < BQ_MGR_MAX_TABLES; i++) {
         if (!mgr->tables[i].active) {
             mgr->tables[i].tableId = tableId;
@@ -501,7 +501,7 @@ int bq_mgr_add_table(BqManager *mgr, int32_t tableId) {
                            mgr->default_max_entries);
         }
     }
-    return BQ_ENOMEM; /* brak wolnych slotow */
+    return BQ_ENOMEM; /* no free slots */
 }
 
 int bq_mgr_remove_table(BqManager *mgr, int32_t tableId) {

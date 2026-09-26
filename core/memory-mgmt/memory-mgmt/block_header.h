@@ -11,7 +11,7 @@
  *   pd_checksum     int16_t  2 B
  *   pd_flags        int16_t  2 B
  *   contain_toast   int8_t   1 B
- *   dead_count      int16_t  2 B  — ilosc martwych tupli w bloku
+ *   dead_count      int16_t  2 B  — number of dead tuples in the block
  */
 
 #include <stdint.h>

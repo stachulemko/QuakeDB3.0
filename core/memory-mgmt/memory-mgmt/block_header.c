@@ -32,7 +32,7 @@ int block_header_marshal(uint8_t *buf, const BlockHeader *h) {
     off += marshal_int16(buf + off, h->pd_flags);
     off += marshal_int8 (buf + off, h->contain_toast);
     off += marshal_int16(buf + off, h->dead_count);
-    return off; /* zawsze BLOCK_HEADER_SIZE = 19 */
+    return off; /* always BLOCK_HEADER_SIZE = 19 */
 }
 
 void block_header_unmarshal(BlockHeader *h, const uint8_t *buf) {

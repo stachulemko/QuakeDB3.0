@@ -48,7 +48,8 @@ int32_t block8kb_used(const Block8kb *b);
 /* Returns 1 if tuple t does not fit, 0 if there is space */
 int     block8kb_full(const Block8kb *b, const Tuple *t);
 
-/* Add a tuple — returns 0 on success, -1 if no space */
+/* Add a tuple into the first INFOMASK_UNUSED slot, or at the end if there is none.
+ * Returns the slot index (>= 0) on success, -1 if no space */
 int     block8kb_add(Block8kb *b, const Tuple *t);
 
 /* Serialization — writes exactly BLOCK_SIZE bytes to buf */

@@ -83,7 +83,7 @@ static void tenv_insert(TEnv *env, int32_t xmin, int32_t val) {
     int8_t bm[1]  = {0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         TEST_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors);
+        xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors, NULL);
 }
 
 /* Insert tuple with 2 columns (int32, int32), also add to btree index */
@@ -92,7 +92,7 @@ static void tenv_insert2(TEnv *env, int32_t xmin, int32_t col0, int32_t col1) {
     int8_t bm[2]  = {0, 0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         TEST_TABLE, vals, 2, bm, 2,
-        xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors);
+        xmin, 0, 0, 0, 0, 0, -1, &env->fsmBtree, &env->btreeBuffors, NULL);
 }
 
 /* Insert tuple WITHOUT adding to btree (for comparison tests) */
@@ -101,7 +101,7 @@ static void tenv_insert_no_index(TEnv *env, int32_t xmin, int32_t val) {
     int8_t bm[1]  = {0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         TEST_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL, NULL);
 }
 
 /* SELECT col0 with WHERE col0 == val, using index */

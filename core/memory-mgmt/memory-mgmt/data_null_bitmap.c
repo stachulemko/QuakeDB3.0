@@ -59,7 +59,7 @@ int dnb_marshal(uint8_t *buf, const DataNullBitmap *d) {
     /* --- data section --- */
     off += marshal_int16(buf + off, ID_DATA);
 
-    /* oblicz total bajtów danych (type+size+bytes per value) */
+    /* compute total data bytes (type+size+bytes per value) */
     data_total = 0;
     for (i = 0; i < d->data_count; i++)
         data_total += 2 + 4 + all_var_size(&d->data[i]);
@@ -99,7 +99,7 @@ void dnb_unmarshal(DataNullBitmap *d, const uint8_t *buf, int32_t len) {
         if (off >= len) return;
         unmarshal_bool(&d->bit_map[i], buf + off); off += 1;
     }
-    if (bm_count > d->bit_map_count)  /* pomiń nadmiar */
+    if (bm_count > d->bit_map_count)  /* skip the excess */
         off += bm_count - d->bit_map_count;
 
     /* ID_DATA */

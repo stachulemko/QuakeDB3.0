@@ -19,6 +19,10 @@
 
 #define TUPLE_HEADER_SIZE 27
 
+/* t_infomask bit: free slot — tuple removed by vacuum, nothing points to it
+ * (neither an index nor t_cid), data cleared. block8kb_add may overwrite it with a new tuple. */
+#define INFOMASK_UNUSED ((int32_t)0x0004)
+
 typedef struct {
     int32_t t_xmin;
     int32_t t_xmax;

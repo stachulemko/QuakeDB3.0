@@ -45,7 +45,7 @@ int table_header_marshal(uint8_t buf[BLOCK_SIZE], const TableHeader *h) {
 
     memset(buf, 0, BLOCK_SIZE);
 
-    /* --- stałe pola --- */
+    /* --- fixed fields --- */
     off += marshal_int16(buf + off, ID_TABLE_HEADER);
     off += marshal_int32(buf + off, h->oid);
     off += marshal_int32(buf + off, h->block_id);
@@ -59,19 +59,19 @@ int table_header_marshal(uint8_t buf[BLOCK_SIZE], const TableHeader *h) {
     off += marshal_int8 (buf + off, h->rights);
     off += marshal_int32(buf + off, h->free_space);
 
-    /* --- sekcja typów --- */
+    /* --- types section --- */
     off += marshal_int16(buf + off, ID_TYPE_TABLE);
     off += marshal_int32(buf + off, h->num_columns);
     for (i = 0; i < h->num_columns; i++)
         off += marshal_int8(buf + off, h->types[i]);
 
-    /* --- sekcja allow_null --- */
+    /* --- allow_null section --- */
     off += marshal_int16(buf + off, ID_DATA_NULL);
     off += marshal_int32(buf + off, h->num_columns);
     for (i = 0; i < h->num_columns; i++)
         off += marshal_int8(buf + off, h->types_allow_null[i]);
 
-    /* --- sekcja nazw kolumn --- */
+    /* --- column names section --- */
     off += marshal_int16(buf + off, ID_COL_NAMES);
     off += marshal_int32(buf + off, h->num_columns);
     for (i = 0; i < h->num_columns; i++) {
@@ -82,7 +82,7 @@ int table_header_marshal(uint8_t buf[BLOCK_SIZE], const TableHeader *h) {
     }
 
     filled = off;
-    /* reszta bufora to zera (memset na początku) */
+    /* the rest of the buffer is zeros (memset at the start) */
     return filled;
 }
 
@@ -113,7 +113,7 @@ void table_header_unmarshal(TableHeader *h, const uint8_t buf[BLOCK_SIZE]) {
     /* typy */
     unmarshal_int16(&tag, buf + off); off += 2;
     if (tag != ID_TYPE_TABLE) return;
-    unmarshal_int32(&i, buf + off); off += 4; /* count (ignorujemy, mamy nc) */
+    unmarshal_int32(&i, buf + off); off += 4; /* count (ignored, we already have nc) */
     for (i = 0; i < nc; i++) {
         unmarshal_int8(&h->types[i], buf + off); off += 1;
     }
@@ -126,7 +126,7 @@ void table_header_unmarshal(TableHeader *h, const uint8_t buf[BLOCK_SIZE]) {
         unmarshal_int8(&h->types_allow_null[i], buf + off); off += 1;
     }
 
-    /* nazwy kolumn */
+    /* column names */
     unmarshal_int16(&tag, buf + off); off += 2;
     if (tag != ID_COL_NAMES) return;
     unmarshal_int32(&i, buf + off); off += 4;

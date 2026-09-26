@@ -8,6 +8,7 @@ TEST_BIN   = test_bin
 MEM_DIR    = ../memory-mgmt
 MEM_SRC    = $(MEM_DIR)/memory-mgmt
 MEM_LIB    = $(MEM_DIR)/libmemory_mgmt.a
+BQ_SRC     = ../vacuum/vacuum/bq.c
 
 INCLUDES   = -I$(SRC_DIR) -I$(MEM_SRC)
 CMOCKA     = $(shell pkg-config --cflags --libs cmocka)
@@ -31,8 +32,8 @@ $(MEM_LIB): lib
 $(TEST_BIN):
 	mkdir -p $(TEST_BIN)
 
-$(TEST_BIN)/%: $(TEST_DIR)/%.c $(SRC_DIR)/dataBuffor.c $(SRC_DIR)/fsmMap.c $(MEM_LIB) | $(TEST_BIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $< $(SRC_DIR)/dataBuffor.c $(SRC_DIR)/fsmMap.c -L$(MEM_DIR) -lmemory_mgmt $(CMOCKA) -o $@
+$(TEST_BIN)/%: $(TEST_DIR)/%.c $(SRC_DIR)/dataBuffor.c $(SRC_DIR)/fsmMap.c $(BQ_SRC) $(MEM_LIB) | $(TEST_BIN)
+	$(CC) $(CFLAGS) $(INCLUDES) $< $(SRC_DIR)/dataBuffor.c $(SRC_DIR)/fsmMap.c $(BQ_SRC) -L$(MEM_DIR) -lmemory_mgmt $(CMOCKA) -o $@
 
 test: $(TEST_BINS)
 	@echo "=== Running bufforing-stm tests ==="

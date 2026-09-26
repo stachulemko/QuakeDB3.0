@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <setjmp.h>
 #include <cmocka.h>
+#include <string.h>
 #include "../../bufforing-stm/bufforing-stm/sqlExecutor.h"
 
 
@@ -21,7 +22,7 @@ typedef struct {
     int32_t step;
 }Task;
 
-int8_t checkingLostUpdateTask(Task *task,) {
+int8_t checkingLostUpdateTask(Task *task) {
     if (task->step == 0) {
         // perform first operation
         task->step++;
@@ -65,9 +66,11 @@ static void initWithBtree(SetedUpEnv *env, int32_t bufforCount, int32_t tableId,
 void testLostUpdate(void **state) {
 
 
-    int8_t still = true;
+    (void)state;
+    int8_t still = 1;
     while (still) {
-
+        // TODO: lost update scenario — until then stop immediately
+        still = 0;
     }
 
 }

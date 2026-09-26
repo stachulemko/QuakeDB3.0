@@ -23,6 +23,7 @@ set(CORE_SOURCES
         core/memory-mgmt/memory-mgmt/tuple_header.c
         core/memory-mgmt/memory-mgmt/types_converter.c
         core/memory-mgmt/memory-mgmt/universal_block.c
+        core/vacuum/vacuum/bq.c
 )
 
 # Main executable
@@ -60,7 +61,8 @@ if(CMOCKA_LIBRARY)
             ${CORE_SOURCES}
             core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
             core/bufforing-stm/components-tests/sqlExecutorTest.c
-            core/bufforing-stm/components-tests/sqlExecutor.c
+            # components-tests/sqlExecutor.c (lost update, WIP) — separate target once it has main():
+            # a second TU including the project headers causes multiple-definition link errors
     )
     target_link_libraries(test_components ${CMOCKA_LIBRARY})
     target_compile_definitions(test_components PRIVATE LOG_LEVEL=0)
@@ -131,6 +133,20 @@ if(CMOCKA_LIBRARY)
     )
     target_link_libraries(test_sqlExecutor_chain ${CMOCKA_LIBRARY})
     target_compile_definitions(test_sqlExecutor_chain PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_vacuum
+            ${CORE_SOURCES}
+            core/vacuum/tests/test_vacuum.c
+    )
+    target_link_libraries(test_vacuum ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_vacuum PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_vacuum_rc
+            ${CORE_SOURCES}
+            core/vacuum/tests/test_vacuum.c
+    )
+    target_link_libraries(test_vacuum_rc ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_vacuum_rc PRIVATE LOG_LEVEL=0 VIEW_MODE=2)
 
     add_executable(test_mvccBuffor
             core/bufforing-stm/tests/test_mvccBuffor.c

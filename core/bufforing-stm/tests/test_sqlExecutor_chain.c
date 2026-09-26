@@ -34,7 +34,7 @@ static void env_setup(TestEnv *env) {
     init_FSMMapAll(&env->fsmMapAll);
     addTableToFSMMapAll(&env->fsmMapAll, CHAIN_TABLE);
     create_MVCC(&env->mvcc);
-    /* domyślnie wszystkie sloty = TXN_COMMITED — brak aktywnych transakcji */
+    /* by default all slots = TXN_COMMITED — no active transactions */
     for (int i = 0; i < MAX_TRANSACTIONS; i++) {
         env->mvcc->txn_status[i] = TXN_COMMITED;
     }
@@ -55,13 +55,13 @@ static void env_teardown(TestEnv *env) {
     free(env->mvcc);
 }
 
-/* Oznacz snapshot jako aktywny (przed updateami) — vacuum go nie tknie */
+/* Mark a snapshot as active (before the updates) — vacuum will not touch it */
 static void env_hold_snapshot(TestEnv *env, int32_t xid) {
     if (xid >= 0 && xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[xid] = TXN_ACTIVE;
 }
 
-/* Zwolnij snapshot (po odczycie) */
+/* Release a snapshot (after reading) */
 static void env_release_snapshot(TestEnv *env, int32_t xid) {
     if (xid >= 0 && xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[xid] = TXN_COMMITED;
@@ -78,7 +78,7 @@ static void env_insert(TestEnv *env, int32_t xmin, int32_t val) {
     int8_t bm[1]  = {0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         CHAIN_TABLE, vals, 1, bm, 1,
-        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL, NULL);
 }
 
 /* INSERT with 2 columns: int32 id + int32 value */
@@ -87,7 +87,7 @@ static void env_insert2(TestEnv *env, int32_t xmin, int32_t id, int32_t val) {
     int8_t bm[2]  = {0, 0};
     addTupleToOtherFunction(&env->buffors, env->c, &env->fsmMapAll,
         CHAIN_TABLE, vals, 2, bm, 2,
-        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL);
+        xmin, 0, 0, 0, 0, 0, -1, NULL, NULL, NULL);
 }
 
 /* UPDATE col0 WHERE col0 == where_val, SET col0 = new_val, by transaction xid */
@@ -158,11 +158,11 @@ static ResultTuple env_select_by_id(TestEnv *env, int32_t txn_xid, int32_t id_va
 }
 
 /* =========================================================================
- * Test 1 — Pojedynczy UPDATE, dwa snapshoty RR
+ * Test 1 — Single UPDATE, two RR snapshots
  *   INSERT (xmin=1, val=100)
  *   txn 5: UPDATE val=100 → 200
- *   txn 2 (xid=2, RR):  widzi val=100  (stara wersja)
- *   txn 7 (xid=7, RR):  widzi val=200  (nowa wersja)
+ *   txn 2 (xid=2, RR):  sees val=100  (old version)
+ *   txn 7 (xid=7, RR):  sees val=200  (new version)
  * ========================================================================= */
 
 static void test_chain_single_update_rr_two_snapshots(void **state) {
@@ -170,19 +170,19 @@ static void test_chain_single_update_rr_two_snapshots(void **state) {
     TestEnv env;
     env_setup(&env);
 
-    env_hold_snapshot(&env, 2);    /* txn 2 startuje przed updateem */
-    env_hold_snapshot(&env, 7);    /* txn 7 startuje przed updateem */
+    env_hold_snapshot(&env, 2);    /* txn 2 starts before the update */
+    env_hold_snapshot(&env, 7);    /* txn 7 starts before the update */
 
     env_insert(&env, 1, 100);      /* v1: xmin=1, val=100 */
     env_update(&env, 5, 100, 200); /* txn 5: 100 → 200 */
 
-    /* txn 2 started before update — widzi starą wersję */
+    /* txn 2 started before update — sees the old version */
     ResultTuple r2 = env_select(&env, 2);
     assert_int_equal(r2.tuple_count, 1);
     assert_int_equal(r2.tuples[0]->dnb.data[0].val.i32, 100);
     free(r2.tuples[0]);
 
-    /* txn 7 started after update — widzi nową wersję */
+    /* txn 7 started after update — sees the new version */
     ResultTuple r7 = env_select(&env, 7);
     assert_int_equal(r7.tuple_count, 1);
     assert_int_equal(r7.tuples[0]->dnb.data[0].val.i32, 200);
@@ -192,17 +192,17 @@ static void test_chain_single_update_rr_two_snapshots(void **state) {
 }
 
 /* =========================================================================
- * Test 2 — Trzy UPDATE, cztery wersje, cztery snapshoty RR
+ * Test 2 — Three UPDATEs, four versions, four RR snapshots
  *   INSERT (xmin=1, val=10)
  *   txn 5:  10 → 20
  *   txn 10: 20 → 30
  *   txn 15: 30 → 40
- *   Łańcuch: v1 → v2 → v3 → v4
+ *   Chain: v1 → v2 → v3 → v4
  *
- *   txn 3:  widzi val=10
- *   txn 7:  widzi val=20
- *   txn 12: widzi val=30
- *   txn 20: widzi val=40
+ *   txn 3:  sees val=10
+ *   txn 7:  sees val=20
+ *   txn 12: sees val=30
+ *   txn 20: sees val=40
  * ========================================================================= */
 
 static void test_chain_triple_update_rr_versioning(void **state) {
@@ -244,11 +244,11 @@ static void test_chain_triple_update_rr_versioning(void **state) {
 }
 
 /* =========================================================================
- * Test 3 — Wiele tuple, częściowy UPDATE, RR
- *   Wstaw 8 tuple (val=10..80 co 10)
+ * Test 3 — Many tuples, partial UPDATE, RR
+ *   Insert 8 tuples (val=10..80 step 10)
  *   txn 5: update val=20 → 200,  val=40 → 400,  val=60 → 600
- *   txn 2 (przed update): widzi oryginalne wartości dla wszystkich
- *   txn 7 (po  update): widzi 200,400,600 dla zmienionych; 10,30,50,70,80 niezmienione
+ *   txn 2 (before update): sees the original values for all
+ *   txn 7 (after update): sees 200,400,600 for the changed ones; 10,30,50,70,80 unchanged
  * ========================================================================= */
 
 static void test_chain_many_tuples_partial_update_rr(void **state) {
@@ -256,20 +256,20 @@ static void test_chain_many_tuples_partial_update_rr(void **state) {
     TestEnv env;
     env_setup(&env);
 
-    env_hold_snapshot(&env, 2);   /* widzi oryginały */
-    env_hold_snapshot(&env, 7);   /* widzi po updateach */
+    env_hold_snapshot(&env, 2);   /* sees the originals */
+    env_hold_snapshot(&env, 7);   /* sees the updated values */
 
     /* INSERT 8 tuple (val = 10,20,30,40,50,60,70,80), xmin=1 */
     for (int v = 10; v <= 80; v += 10) {
         env_insert(&env, 1, v);
     }
 
-    /* txn 5: zaktualizuj trzy z nich */
+    /* txn 5: update three of them */
     env_update(&env, 5, 20, 200);
     env_update(&env, 5, 40, 400);
     env_update(&env, 5, 60, 600);
 
-    /* txn 2: widzi oryginalne 8 wartości */
+    /* txn 2: sees the original 8 values */
     ResultTuple r2 = env_select(&env, 2);
     assert_int_equal(r2.tuple_count, 8);
     int sum2 = 0;
@@ -280,7 +280,7 @@ static void test_chain_many_tuples_partial_update_rr(void **state) {
     /* suma 10+20+30+40+50+60+70+80 = 360 */
     assert_int_equal(sum2, 360);
 
-    /* txn 7: 5 oryginalnych (10,30,50,70,80) + 3 zaktualizowane (200,400,600) */
+    /* txn 7: 5 original (10,30,50,70,80) + 3 updated (200,400,600) */
     ResultTuple r7 = env_select(&env, 7);
     assert_int_equal(r7.tuple_count, 8);
     int sum7 = 0;
@@ -295,16 +295,16 @@ static void test_chain_many_tuples_partial_update_rr(void **state) {
 }
 
 /* =========================================================================
- * Test 4 — Wiele niezależnych łańcuchów, różne transakcje widzą różne wersje
- *   3 różne tuple (id=1,2,3), każda updatowana przez inną transakcję
+ * Test 4 — Many independent chains, different transactions see different versions
+ *   3 different tuples (id=1,2,3), each updated by a different transaction
  *   txn 5  → id=1: val 100→500
  *   txn 10 → id=2: val 200→2000
  *   txn 20 → id=3: val 300→3000
  *
- *   txn 3:  widzi 100,200,300
- *   txn 7:  widzi 500,200,300
- *   txn 15: widzi 500,2000,300
- *   txn 25: widzi 500,2000,3000
+ *   txn 3:  sees 100,200,300
+ *   txn 7:  sees 500,200,300
+ *   txn 15: sees 500,2000,300
+ *   txn 25: sees 500,2000,3000
  * ========================================================================= */
 
 static void test_chain_independent_chains_snapshot_isolation(void **state) {
@@ -325,7 +325,7 @@ static void test_chain_independent_chains_snapshot_isolation(void **state) {
     env_update_by_id(&env, 10, 2, 2000);
     env_update_by_id(&env, 20, 3, 3000);
 
-    /* txn 3: przed wszystkimi updates */
+    /* txn 3: before all updates */
     ResultTuple r3_1 = env_select_by_id(&env, 3, 1);
     assert_int_equal(r3_1.tuple_count, 1);
     assert_int_equal(r3_1.tuples[0]->dnb.data[0].val.i32, 100);
@@ -373,7 +373,7 @@ static void test_chain_independent_chains_snapshot_isolation(void **state) {
     assert_int_equal(r15_3.tuples[0]->dnb.data[0].val.i32, 300);
     free(r15_3.tuples[0]);
 
-    /* txn 25: po wszystkich updates */
+    /* txn 25: after all updates */
     ResultTuple r25_1 = env_select_by_id(&env, 25, 1);
     assert_int_equal(r25_1.tuple_count, 1);
     assert_int_equal(r25_1.tuples[0]->dnb.data[0].val.i32, 500);
@@ -393,13 +393,13 @@ static void test_chain_independent_chains_snapshot_isolation(void **state) {
 }
 
 /* =========================================================================
- * Test 5 — Duże dane: 9 tuple, każda 4x updatowana, weryfikacja dla 5 transakcji
+ * Test 5 — Larger data: 9 tuples, each updated 4x, verified for 5 transactions
  *   INSERT 9 tuple: val = 1..9, xmin=1
- *   txn 5:  każda val → val*10     (1→10, 2→20, ..., 9→90)
- *   txn 10: każda val → val+1000   (10→1010, 20→1020, ..., 90→1090)
- *   txn 15: każda val → val*2      (1010→2020, ..., 1090→2180)
+ *   txn 5:  each val → val*10     (1→10, 2→20, ..., 9→90)
+ *   txn 10: each val → val+1000   (10→1010, 20→1020, ..., 90→1090)
+ *   txn 15: each val → val*2      (1010→2020, ..., 1090→2180)
  *
- *   xid=2:  suma = 1+2+...+9 = 45
+ *   xid=2:  sum = 1+2+...+9 = 45
  *   xid=7:  suma = 10+20+...+90 = 450
  *   xid=12: suma = 1010+1020+...+1090 = 9450
  *   xid=20: suma = 2020+2040+...+2180 = 18900
@@ -425,17 +425,17 @@ static void test_chain_large_multi_update_sum_check(void **state) {
         env_update(&env, 5, v, v * 10);
     }
 
-    /* txn 10: val → val+1000 (po txn 5 wartości to 10..90) */
+    /* txn 10: val → val+1000 (after txn 5 the values are 10..90) */
     for (int v = 1; v <= 9; v++) {
         env_update(&env, 10, v * 10, v * 10 + 1000);
     }
 
-    /* txn 15: val → val*2 (po txn 10 wartości to 1010..1090) */
+    /* txn 15: val → val*2 (after txn 10 the values are 1010..1090) */
     for (int v = 1; v <= 9; v++) {
         env_update(&env, 15, v * 10 + 1000, (v * 10 + 1000) * 2);
     }
 
-    /* xid=2: oryginały 1..9, suma=45 */
+    /* xid=2: originals 1..9, sum=45 */
     ResultTuple r2 = env_select(&env, 2);
     assert_int_equal(r2.tuple_count, 9);
     int sum2 = 0;
@@ -479,17 +479,17 @@ static void test_chain_large_multi_update_sum_check(void **state) {
 }
 
 /* =========================================================================
- * Test 6 — Równoczesne transakcje: stara transakcja trzyma stary snapshot
- *   txn A (xid=1) insertuje tuple val=999
- *   txn B (xid=5) robi UPDATE → val=1000
- *   txn C (xid=10) robi UPDATE → val=9999
+ * Test 6 — Concurrent transactions: an old transaction keeps an old snapshot
+ *   txn A (xid=1) inserts tuple val=999
+ *   txn B (xid=5) does UPDATE → val=1000
+ *   txn C (xid=10) does UPDATE → val=9999
  *
- *   txn A snapshot (xid=1): widzi val=999
- *   txn B snapshot (xid=5): widzi val=999 (update własny był po START)
- *                            ale xid=5 >= xmin=1 i xmax=5... xmax=5 <= 5 → niewidoczna!
- *                            właściwie txn B widzi starą bo xmax=5 <= xid=5
- *   txn middle (xid=6): widzi val=1000 (po txn B, przed txn C)
- *   txn D (xid=15): widzi val=9999
+ *   txn A snapshot (xid=1): sees val=999
+ *   txn B snapshot (xid=5): sees val=999 (its own update happened after START)
+ *                            but xid=5 >= xmin=1 and xmax=5... xmax=5 <= 5 → invisible!
+ *                            actually txn B sees the old one because xmax=5 <= xid=5
+ *   txn middle (xid=6): sees val=1000 (after txn B, before txn C)
+ *   txn D (xid=15): sees val=9999
  * ========================================================================= */
 
 static void test_chain_concurrent_transactions_hold_snapshots(void **state) {
@@ -505,14 +505,14 @@ static void test_chain_concurrent_transactions_hold_snapshots(void **state) {
     env_update(&env,  5,  999, 1000);
     env_update(&env, 10, 1000, 9999);
 
-    /* txn przed insertem (niemożliwe normalnie, ale xid < xmin=1 nic nie widzi) */
-    /* Sprawdzamy xid=1: xmin=1 <= 1, xmax=5 > 1 → val=999 widoczna */
+    /* txn before the insert (not possible normally, but xid < xmin=1 sees nothing) */
+    /* Check xid=1: xmin=1 <= 1, xmax=5 > 1 → val=999 visible */
     ResultTuple r1 = env_select(&env, 1);
     assert_int_equal(r1.tuple_count, 1);
     assert_int_equal(r1.tuples[0]->dnb.data[0].val.i32, 999);
     free(r1.tuples[0]);
 
-    /* xid=6: po txn 5 (xmax=5 <= 6 → v1 niewidoczna), v2 xmin=5 <= 6, xmax=10 > 6 → val=1000 */
+    /* xid=6: after txn 5 (xmax=5 <= 6 → v1 invisible), v2 xmin=5 <= 6, xmax=10 > 6 → val=1000 */
     ResultTuple r6 = env_select(&env, 6);
     assert_int_equal(r6.tuple_count, 1);
     assert_int_equal(r6.tuples[0]->dnb.data[0].val.i32, 1000);
@@ -528,9 +528,9 @@ static void test_chain_concurrent_transactions_hold_snapshots(void **state) {
 }
 
 /* =========================================================================
- * Test 7 — chain member nie jest widoczny bezpośrednio w żadnym snapshоcie
- *   INSERT, UPDATE × 3 → łańcuch 4 wersji
- *   Żaden snapshot nie powinien widzieć więcej niż 1 wynik dla tej tuple
+ * Test 7 — a chain member is never visible directly in any snapshot
+ *   INSERT, UPDATE × 3 → chain of 4 versions
+ *   No snapshot should see more than 1 result for this tuple
  * ========================================================================= */
 
 static void test_chain_no_duplicate_versions_in_result(void **state) {
@@ -546,7 +546,7 @@ static void test_chain_no_duplicate_versions_in_result(void **state) {
     env_update(&env, 10, 10, 100);
     env_update(&env, 15,100, 1000);
 
-    /* Każdy snapshot widzi dokładnie 1 tuple — nigdy duplikat */
+    /* Every snapshot sees exactly 1 tuple — never a duplicate */
     int32_t expected[] = {1, 10, 100, 1000, 1000};
 
     for (int i = 0; i < 5; i++) {
@@ -560,14 +560,14 @@ static void test_chain_no_duplicate_versions_in_result(void **state) {
 }
 
 /* =========================================================================
- * Test 8 — Mieszane: część tuple zaktualizowana, część nie
+ * Test 8 — Mixed: some tuples updated, some not
  *   5 tuple: val=1,2,3,4,5
  *   txn 5: UPDATE val=2 → 20, val=4 → 40
- *   txn 10: UPDATE val=20 → 200  (drugi UPDATE na tej samej tuple)
+ *   txn 10: UPDATE val=20 → 200  (second UPDATE on the same tuple)
  *
- *   xid=3:  widzi 1,2,3,4,5  (oryginały)
- *   xid=7:  widzi 1,20,3,40,5
- *   xid=15: widzi 1,200,3,40,5  (val=2 był 2x updatowany, val=4 raz)
+ *   xid=3:  sees 1,2,3,4,5  (originals)
+ *   xid=7:  sees 1,20,3,40,5
+ *   xid=15: sees 1,200,3,40,5  (val=2 was updated 2x, val=4 once)
  * ========================================================================= */
 
 static void test_chain_mixed_updated_and_original(void **state) {
@@ -587,7 +587,7 @@ static void test_chain_mixed_updated_and_original(void **state) {
     env_update(&env,  5, 4, 40);
     env_update(&env, 10, 20, 200);
 
-    /* xid=3: oryginały */
+    /* xid=3: originals */
     ResultTuple r3 = env_select(&env, 3);
     assert_int_equal(r3.tuple_count, 5);
     int sum3 = 0;
@@ -621,7 +621,7 @@ static void test_chain_mixed_updated_and_original(void **state) {
 }
 
 /* =========================================================================
- * Helper: zbuduj minimalny Tuple z podanym xmin/xmax (bez danych)
+ * Helper: build a minimal Tuple with the given xmin/xmax (no data)
  * ========================================================================= */
 
 static Tuple make_tuple(int32_t xmin, int32_t xmax) {
@@ -632,15 +632,15 @@ static Tuple make_tuple(int32_t xmin, int32_t xmax) {
 }
 
 /* =========================================================================
- * canVacuum — testy komponentowe
+ * canVacuum — component tests
  * ========================================================================= */
 
-/* 1. xmax == 0 → żywa tupla, nie można vacuumować */
+/* 1. xmax == 0 → live tuple, cannot be vacuumed */
 static void test_canVacuum_xmax_zero_returns_false(void **state) {
     (void)state;
     MVCC *mvcc;
     create_MVCC(&mvcc);
-    /* brak aktywnych transakcji */
+    /* no active transactions */
     for (int i = 0; i < MAX_TRANSACTIONS; i++)
         mvcc->txn_status[i] = TXN_COMMITED;
 
@@ -649,7 +649,7 @@ static void test_canVacuum_xmax_zero_returns_false(void **state) {
     free(mvcc);
 }
 
-/* 2. xmax < 0 → żywa tupla (xmax sentinel < 0), nie można vacuumować */
+/* 2. xmax < 0 → live tuple (xmax sentinel < 0), cannot be vacuumed */
 static void test_canVacuum_xmax_negative_returns_false(void **state) {
     (void)state;
     MVCC *mvcc;
@@ -662,7 +662,7 @@ static void test_canVacuum_xmax_negative_returns_false(void **state) {
     free(mvcc);
 }
 
-/* 3. xmax ustawiony, brak aktywnych transakcji (oldest==-1) → można vacuumować */
+/* 3. xmax set, no active transactions (oldest==-1) → can be vacuumed */
 static void test_canVacuum_no_active_txns_returns_true(void **state) {
     (void)state;
     MVCC *mvcc;
@@ -675,7 +675,7 @@ static void test_canVacuum_no_active_txns_returns_true(void **state) {
     free(mvcc);
 }
 
-/* 4. xmax < oldest aktywnej transakcji → każda aktywna widzi tuplę jako martwą → można vacuumować */
+/* 4. xmax < oldest active transaction → every active one sees the tuple as dead → can be vacuumed */
 static void test_canVacuum_xmax_less_than_oldest_returns_true(void **state) {
     (void)state;
     MVCC *mvcc;
@@ -691,7 +691,7 @@ static void test_canVacuum_xmax_less_than_oldest_returns_true(void **state) {
     free(mvcc);
 }
 
-/* 5. xmax == oldest → aktywna transakcja mogła jeszcze widzieć tuplę → nie można vacuumować */
+/* 5. xmax == oldest → an active transaction may still see the tuple → cannot be vacuumed */
 static void test_canVacuum_xmax_equal_oldest_returns_false(void **state) {
     (void)state;
     MVCC *mvcc;
@@ -705,7 +705,7 @@ static void test_canVacuum_xmax_equal_oldest_returns_false(void **state) {
     free(mvcc);
 }
 
-/* 6. xmax > oldest → jakaś aktywna transakcja nadal widzi tuplę jako żywą → nie można vacuumować */
+/* 6. xmax > oldest → some active transaction still sees the tuple as live → cannot be vacuumed */
 static void test_canVacuum_xmax_greater_than_oldest_returns_false(void **state) {
     (void)state;
     MVCC *mvcc;

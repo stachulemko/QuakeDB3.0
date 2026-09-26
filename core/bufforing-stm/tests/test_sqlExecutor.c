@@ -192,7 +192,7 @@ static void test_execBlock_select_all(void **state) {
 static void test_execBlock_select_subset_columns(void **state) {
     (void)state;
     SqlExecutor se = make_se(1);
-    int32_t cols[] = {2}; // tylko col2 (int64)
+    int32_t cols[] = {2}; // only col2 (int64)
     sql_setSelect(&se, cols, 1);
 
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
@@ -272,7 +272,7 @@ static void test_execBlock_where_no_match(void **state) {
 static void test_execBlock_update_sets_xmax_and_new_tuple(void **state) {
     (void)state;
 
-    // Setup infrastruktury
+    // Infrastructure setup
     Buffors buffors;
     initializeBuffors(&buffors, 10);
     FSMCache *c = NULL;
@@ -294,17 +294,17 @@ static void test_execBlock_update_sets_xmax_and_new_tuple(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
 
-    Tuple t1 = make_tuple(1, 0, 10, "target", 0); // pasuje WHERE
-    Tuple t2 = make_tuple(1, 0, 20, "other",  0); // nie pasuje
+    Tuple t1 = make_tuple(1, 0, 10, "target", 0); // matches WHERE
+    Tuple t2 = make_tuple(1, 0, 20, "other",  0); // does not match
     block8kb_add(block, &t1);
     block8kb_add(block, &t2);
 
     ResultTuple result = {0};
     sql_execBlock(block, &se, &result, &buffors, c, &fsmMapAll, mvcc);
 
-    // stary tuple t1 dostał xmax = xid transakcji
+    // old tuple t1 got xmax = transaction xid
     assert_int_equal(block->tuples[0].header.t_xmax, 5);
-    // t2 niezmieniona
+    // t2 unchanged
     assert_int_equal(block->tuples[1].header.t_xmax, 0);
     assert_int_equal(block->tuples[1].dnb.data[0].val.i32, 20);
 
@@ -315,7 +315,7 @@ static void test_execBlock_update_sets_xmax_and_new_tuple(void **state) {
 }
 
 /* =========================================================================
- * 5. RR — wersjonowanie: stary tuple (xmax ustawiony) pomijany
+ * 5. RR — versioning: old tuple (xmax set) is skipped
  * ========================================================================= */
 
 static void test_rr_skips_old_version_picks_new(void **state) {
@@ -327,9 +327,9 @@ static void test_rr_skips_old_version_picks_new(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 4000, -1, 1, 0, 0, 0, 0);
 
-    // stara wersja — xmin=1, xmax=5 (zaktualizowana przez txn 5, usunięta dla txn>=5)
+    // old version — xmin=1, xmax=5 (updated by txn 5, deleted for txn>=5)
     Tuple old = make_tuple(1, 5, 42, "old", 0);
-    // nowa wersja — xmin=5, xmax=0 (aktywna)
+    // new version — xmin=5, xmax=0 (active)
     Tuple new = make_tuple(5, 0, 999, "new", 0);
 
     block8kb_add(block, &old);
@@ -338,7 +338,7 @@ static void test_rr_skips_old_version_picks_new(void **state) {
     ResultTuple result = {0};
     sql_execBlock(block, &se, &result, NULL, NULL, NULL, NULL);
 
-    // tylko nowa wersja widoczna (xmin=5 <= 10, xmax=0)
+    // only the new version is visible (xmin=5 <= 10, xmax=0)
     assert_int_equal(result.tuple_count, 1);
     assert_int_equal(result.tuples[0]->dnb.data[0].val.i32, 999);
 
@@ -355,7 +355,7 @@ static void test_rr_invisible_before_xmin(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
 
-    // xmin=5 > xid=3 → niewidoczny (przyszła transakcja)
+    // xmin=5 > xid=3 → invisible (future transaction)
     Tuple t = make_tuple(5, 0, 77, "future", 0);
     block8kb_add(block, &t);
 
@@ -379,10 +379,10 @@ static void test_execBlock_isolation_rr(void **state) {
     Block8kb *block = (Block8kb *)calloc(1, sizeof(Block8kb));
     block8kb_init(block, 2000, -1, 1, 0, 0, 0, 0);
 
-    Tuple t1 = make_tuple(3, 0,  1, "x", 0); // xmin=3 <= 5, xmax=0  -> widoczny
-    Tuple t2 = make_tuple(7, 0,  2, "x", 0); // xmin=7 >  5          -> niewidoczny
-    Tuple t3 = make_tuple(1, 4,  3, "x", 0); // xmin=1, xmax=4 <= 5  -> usunięty
-    Tuple t4 = make_tuple(2, 0,  4, "x", 0); // xmin=2 <= 5, xmax=0  -> widoczny
+    Tuple t1 = make_tuple(3, 0,  1, "x", 0); // xmin=3 <= 5, xmax=0  -> visible
+    Tuple t2 = make_tuple(7, 0,  2, "x", 0); // xmin=7 >  5          -> invisible
+    Tuple t3 = make_tuple(1, 4,  3, "x", 0); // xmin=1, xmax=4 <= 5  -> deleted
+    Tuple t4 = make_tuple(2, 0,  4, "x", 0); // xmin=2 <= 5, xmax=0  -> visible
     block8kb_add(block, &t1);
     block8kb_add(block, &t2);
     block8kb_add(block, &t3);
@@ -430,7 +430,7 @@ int main(void) {
         // Izolacja RR
         cmocka_unit_test(test_execBlock_isolation_rr),
 
-        // RR wersjonowanie
+        // RR versioning
         cmocka_unit_test(test_rr_skips_old_version_picks_new),
         cmocka_unit_test(test_rr_invisible_before_xmin),
     };

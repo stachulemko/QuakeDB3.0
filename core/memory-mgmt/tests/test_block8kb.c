@@ -115,8 +115,117 @@ static void test_block_marshal_unmarshal_roundtrip(void **state) {
     }
 }
 
+/* slot marked INFOMASK_UNUSED the way vacuum does it: header only, no data */
+static void make_unused(Tuple *t) {
+    t->header.t_infomask = INFOMASK_UNUSED;
+    t->header.t_cid = 0;
+    dnb_init(&t->dnb);
+}
+
+static void test_block_add_reuses_unused_slot(void **state) {
+    (void)state;
+    Block8kb b;
+    Tuple    t;
+    int      i;
+    make_block(&b);
+    for (i = 0; i < 3; i++) {
+        make_tuple(&t, i);
+        block8kb_add(&b, &t);
+    }
+    make_unused(&b.tuples[1]);
+
+    make_tuple(&t, 777);
+    assert_int_equal(1, block8kb_add(&b, &t));
+    assert_int_equal(3, b.tuple_count);
+    assert_int_equal(777, b.tuples[1].dnb.data[0].val.i32);
+    assert_int_equal(0,   b.tuples[1].header.t_infomask & INFOMASK_UNUSED);
+    /* the other tuples (their TIDs) are unchanged */
+    assert_int_equal(0, b.tuples[0].dnb.data[0].val.i32);
+    assert_int_equal(2, b.tuples[2].dnb.data[0].val.i32);
+}
+
+static void test_block_add_appends_without_unused_slot(void **state) {
+    (void)state;
+    Block8kb b;
+    Tuple    t;
+    make_block(&b);
+    make_tuple(&t, 1);
+    block8kb_add(&b, &t);
+    block8kb_add(&b, &t);
+
+    make_tuple(&t, 2);
+    assert_int_equal(2, block8kb_add(&b, &t));
+    assert_int_equal(3, b.tuple_count);
+}
+
+static void test_block_add_takes_first_unused_slot(void **state) {
+    (void)state;
+    Block8kb b;
+    Tuple    t;
+    int      i;
+    make_block(&b);
+    for (i = 0; i < 4; i++) {
+        make_tuple(&t, i);
+        block8kb_add(&b, &t);
+    }
+    make_unused(&b.tuples[3]);
+    make_unused(&b.tuples[1]);
+
+    make_tuple(&t, 50);
+    assert_int_equal(1, block8kb_add(&b, &t));
+    make_tuple(&t, 51);
+    assert_int_equal(3, block8kb_add(&b, &t));
+    make_tuple(&t, 52);
+    assert_int_equal(4, block8kb_add(&b, &t));
+}
+
+static void test_block_unused_slot_frees_space(void **state) {
+    (void)state;
+    Block8kb b;
+    Tuple    t;
+    make_block(&b);
+    make_tuple(&t, 1);
+    block8kb_add(&b, &t);
+    int32_t before = block8kb_used(&b);
+
+    make_unused(&b.tuples[0]);
+    assert_true(block8kb_used(&b) < before);
+}
+
+static void test_block_unused_slot_survives_roundtrip(void **state) {
+    (void)state;
+    Block8kb src, dst;
+    uint8_t  buf[BLOCK_SIZE];
+    Tuple    t;
+    int      i;
+    make_block(&src);
+    for (i = 0; i < 3; i++) {
+        make_tuple(&t, i * 10);
+        block8kb_add(&src, &t);
+    }
+    make_unused(&src.tuples[1]);
+
+    block8kb_marshal(buf, &src);
+    block8kb_unmarshal(&dst, buf);
+
+    /* the tombstone keeps its position — tuple 2's index does not shift */
+    assert_int_equal(3, dst.tuple_count);
+    assert_true(dst.tuples[1].header.t_infomask & INFOMASK_UNUSED);
+    assert_int_equal(20, dst.tuples[2].dnb.data[0].val.i32);
+
+    /* usable_size is not serialized — unmarshal leaves 0 */
+    dst.usable_size = src.usable_size;
+    make_tuple(&t, 5);
+    assert_int_equal(1, block8kb_add(&dst, &t));
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_block_add_reuses_unused_slot),
+        cmocka_unit_test(test_block_add_appends_without_unused_slot),
+        cmocka_unit_test(test_block_add_takes_first_unused_slot),
+        cmocka_unit_test(test_block_unused_slot_frees_space),
+        cmocka_unit_test(test_block_unused_slot_survives_roundtrip),
         cmocka_unit_test(test_block_init),
         cmocka_unit_test(test_block_add_tuple),
         cmocka_unit_test(test_block_full_returns_one_when_no_space),
