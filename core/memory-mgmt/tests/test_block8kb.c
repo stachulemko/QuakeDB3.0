@@ -213,14 +213,33 @@ static void test_block_unused_slot_survives_roundtrip(void **state) {
     assert_true(dst.tuples[1].header.t_infomask & INFOMASK_UNUSED);
     assert_int_equal(20, dst.tuples[2].dnb.data[0].val.i32);
 
-    /* usable_size is not serialized — unmarshal leaves 0 */
-    dst.usable_size = src.usable_size;
     make_tuple(&t, 5);
+    assert_int_equal(1, block8kb_add(&dst, &t));
+}
+
+/* a block loaded from disk gets the config capacity and accepts new tuples */
+static void test_block_unmarshal_restores_usable_size(void **state) {
+    (void)state;
+    Block8kb src, dst;
+    uint8_t  buf[BLOCK_SIZE];
+    Tuple    t;
+    block8kb_init(&src, BLOCK_FREE_SPACE, -1, 1, 0, 0, 0, 0);
+    make_tuple(&t, 1);
+    block8kb_add(&src, &t);
+
+    block8kb_marshal(buf, &src);
+    block8kb_unmarshal(&dst, buf);
+
+    assert_int_equal(BLOCK_FREE_SPACE,  dst.free_space);
+    assert_int_equal(BLOCK_USABLE_SIZE, dst.usable_size);
+    make_tuple(&t, 2);
+    assert_int_equal(0, block8kb_full(&dst, &t));
     assert_int_equal(1, block8kb_add(&dst, &t));
 }
 
 int main(void) {
     const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_block_unmarshal_restores_usable_size),
         cmocka_unit_test(test_block_add_reuses_unused_slot),
         cmocka_unit_test(test_block_add_appends_without_unused_slot),
         cmocka_unit_test(test_block_add_takes_first_unused_slot),

@@ -79,6 +79,9 @@ void block8kb_unmarshal(Block8kb *b, const uint8_t buf[BLOCK_SIZE]) {
     int32_t off = 0;
 
     memset(b, 0, sizeof(*b));
+    /* free_space / usable_size are not serialized — every data block uses the config values */
+    b->free_space  = BLOCK_FREE_SPACE;
+    b->usable_size = BLOCK_USABLE_SIZE;
 
     unmarshal_int16(&tag, buf + off); off += 2;
     if (tag != ID_ALL_BLOCK) return;
