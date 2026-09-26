@@ -253,7 +253,8 @@ DataBuffor* addDataToFSMMapAllAndReturnBufforToAdd(Buffors *buffors, FSMCache *c
             UniversalBlock *universalBlock = NULL;
             createUniversalBlockC(&universalBlock);
 
-            block8kb_init(newBlock, usable_size, 0, fsm_cache_get(c, tableId)->maxBlock, 0, 0, 0, 0);
+            /* block8kb_init takes free_space (reserved bytes), not the usable size */
+            block8kb_init(newBlock, BLOCK_SIZE - usable_size, 0, fsm_cache_get(c, tableId)->maxBlock, 0, 0, 0, 0);
             universalBlock->block = newBlock;
 
             DataBuffor *slot = addNewBlock(buffors, dataBuffor);
