@@ -180,4 +180,6 @@ static inline int mvcc_is_txn_active(MVCC       *mvcc,
     return (status == 0) ? 1 : 0;
 }
 
+
+
 #endif /* MVCC_BUFFOR_H */
