@@ -382,6 +382,8 @@ void showBuffors(Buffors *buffors) {
     printf("==========================\n");
 }
 
+
+
 // update space -----------------
 
 
