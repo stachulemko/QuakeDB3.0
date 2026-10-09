@@ -79,7 +79,7 @@ static void db_update_name(Db *db, Transaction *txn, int32_t id, const char *nam
     AllVar  vals[] = {all_var_from_string(name)};
     sql_setUpdate(&se, cols, vals, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &db->buffors, &db->fsmCache, &db->fsmMapAll, &db->mvcc);
+    sql_fullScan(&se, &result, &db->buffors, &db->fsmCache, &db->fsmMapAll, &db->mvcc, NULL);
 }
 
 static void db_select_all(Db *db, Transaction *txn, const char *title) {
@@ -87,7 +87,7 @@ static void db_select_all(Db *db, Transaction *txn, const char *title) {
     int32_t cols[] = {0, 1};
     sql_setSelect(&se, cols, 2);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &db->buffors, &db->fsmCache, &db->fsmMapAll, &db->mvcc);
+    sql_fullScan(&se, &result, &db->buffors, &db->fsmCache, &db->fsmMapAll, &db->mvcc, NULL);
 
     printf("%s (xid %d):\n", title, txn->xid);
     for (int i = 0; i < result.tuple_count; i++) {

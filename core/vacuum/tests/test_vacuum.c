@@ -83,7 +83,7 @@ static void env_update(TestEnv *env, int32_t txn_xid, int32_t where_val, int32_t
     AllVar  upd_vals[] = {all_var_from_int32(new_val)};
     sql_setUpdate(&se, upd_cols, upd_vals, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
 }
 
 /* SELECT col0 WHERE col0 == val — how many rows transaction xid sees */
@@ -98,7 +98,7 @@ static int32_t env_count(TestEnv *env, int32_t txn_xid, int32_t val) {
     sql_setSelect(&se, cols, 1);
     sql_addWhere(&se, 0, all_var_from_int32(val), SQL_EQ, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
     env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     for (int i = 0; i < result.tuple_count; i++) free(result.tuples[i]);
     return result.tuple_count;

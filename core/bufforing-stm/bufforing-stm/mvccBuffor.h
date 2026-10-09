@@ -156,7 +156,7 @@ static inline int8_t mvcc_get_txn_status(MVCC       *mvcc,
     }
 
     const char *path = filepath ? filepath : mvcc->filepath;
-    if (!path) return -1;
+    if (!path || !buffor) return -1;
 
     if (mvcc_buffor_load(buffor, path, xid) != 0) {
         return -1;

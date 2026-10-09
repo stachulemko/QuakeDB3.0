@@ -102,7 +102,7 @@ static void env_update(TestEnv *env, int32_t txn_xid, int32_t where_val, int32_t
     AllVar  upd_vals[] = {all_var_from_int32(new_val)};
     sql_setUpdate(&se, upd_cols, upd_vals, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
 }
 
 /* UPDATE col1 (value) WHERE col0 (id) == id_val, by transaction xid (2-column variant) */
@@ -117,7 +117,7 @@ static void env_update_by_id(TestEnv *env, int32_t txn_xid, int32_t id_val, int3
     AllVar  upd_vals[] = {all_var_from_int32(new_val)};
     sql_setUpdate(&se, upd_cols, upd_vals, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
 }
 
 /* SELECT col0 for all tuples, for given transaction xid */
@@ -132,7 +132,7 @@ static ResultTuple env_select(TestEnv *env, int32_t txn_xid) {
     int32_t cols[]  = {0};
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
     if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;
@@ -151,7 +151,7 @@ static ResultTuple env_select_by_id(TestEnv *env, int32_t txn_xid, int32_t id_va
     int32_t cols[]  = {1};
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
     if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;

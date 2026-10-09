@@ -119,7 +119,7 @@ static ResultTuple tenv_select_eq_indexed(TEnv *env, int32_t txn_xid, int32_t va
     int32_t cols[]  = {0};
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
     if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;
@@ -139,7 +139,7 @@ static ResultTuple tenv_select_eq_seqscan(TEnv *env, int32_t txn_xid, int32_t va
     int32_t cols[]  = {0};
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
     if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;
@@ -159,7 +159,7 @@ static ResultTuple tenv_select_all(TEnv *env, int32_t txn_xid) {
     int32_t cols[]  = {0};
     sql_setSelect(&se, cols, 1);
     ResultTuple result = {0};
-    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc);
+    sql_fullScan(&se, &result, &env->buffors, env->c, &env->fsmMapAll, env->mvcc, NULL);
     if (txn_xid >= 0 && txn_xid < MAX_TRANSACTIONS)
         env->mvcc->txn_status[txn_xid] = TXN_COMMITED;
     return result;
@@ -425,7 +425,7 @@ static void test_index_on_col0_query_col1_seqscan(void **state) {
     sql_setSelect(&se, cols, 2);
     ResultTuple result = {0};
     env.mvcc->txn_status[5] = TXN_ACTIVE;
-    sql_fullScan(&se, &result, &env.buffors, env.c, &env.fsmMapAll, env.mvcc);
+    sql_fullScan(&se, &result, &env.buffors, env.c, &env.fsmMapAll, env.mvcc, NULL);
     env.mvcc->txn_status[5] = TXN_COMMITED;
 
     assert_int_equal(result.tuple_count, 2);
@@ -516,7 +516,7 @@ static void test_index_after_update_finds_new_value(void **state) {
     AllVar upd_vals[]  = {all_var_from_int32(999)};
     sql_setUpdate(&se, upd_cols, upd_vals, 1);
     ResultTuple uresult = {0};
-    sql_fullScan(&se, &uresult, &env.buffors, env.c, &env.fsmMapAll, env.mvcc);
+    sql_fullScan(&se, &uresult, &env.buffors, env.c, &env.fsmMapAll, env.mvcc, NULL);
 
     /* After update, txn 10 should see val=999 and val=200 */
     ResultTuple r999 = tenv_select_eq_indexed(&env, 10, 999);

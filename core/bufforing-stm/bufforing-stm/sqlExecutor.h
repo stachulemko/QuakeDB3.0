@@ -63,13 +63,17 @@ typedef enum {
     // The tuple can be safely updated.
     ACTION_PROCEED,
 
-    // The blocking transaction is still running (or we need to force a re-fetch).
-    // The current operation must yield and save its state.
+    // The blocking transaction is still running.
+    // The current operation must yield, save its position and go to TabOfBlockedTransaction.
     ACTION_WAIT,
 
     // REPEATABLE READ error: another transaction has already modified this tuple!
     // The current transaction must be aborted (rolled back).
-    ACTION_ERROR_CONCURRENT_UPDATE
+    ACTION_ERROR_CONCURRENT_UPDATE,
+
+    // READ COMMITTED: the blocking transaction committed. The scan moves to the newest
+    // version of the row, re-checks WHERE on it and updates that version.
+    ACTION_RE_EVALUATE_NEW_VERSION
 } Action;
 
 
@@ -113,19 +117,22 @@ typedef struct {
     /* blocks where the scan pruned dead versions — sql_fullScan updates their FSM entries */
     FSMTouchedBlocks *fsmTouched;
 
-    /* block where it stoped when for example phanthoms read occurd(lost update)*/
+    /* block where it stoped when for example phanthoms read occurd(lost update)
+     * both are -1 when the scan finished; valid while action == ACTION_WAIT */
     int32_t blockIdOfLastTransaction;
     int32_t posInBlock;
 
-    Action *action; // get Result ;
+    /* result of the last sql_fullScan: ACTION_PROCEED (finished), ACTION_WAIT (blocked,
+     * resume later) or ACTION_ERROR_CONCURRENT_UPDATE (transaction must be aborted) */
+    Action action;
+
+    /* where the scan writes its rows — kept so a blocked scan can be resumed from the main loop */
+    ResultTuple *result;
+
+    /* nowTime() when the operation started waiting — used for the wait timeout */
+    int64_t waitingSince;
 
 } SqlExecutor;
-
-
-/*
- * created in case of lost update
-
-*/
 
 
 /*
@@ -135,13 +142,6 @@ typedef struct {
 typedef struct {
     SqlExecutor* operation[mvccBufforSize];
 }TabOfBlockedTransaction;
-
-
-
-
-
-
-static Action check_update_conflict(int32_t tuple_xmax, int32_t current_txn_id, MVCC *mvcc, MVCCBuffor *mvccBuffor);
 
 
 // returns 0 on success, -1 when the table is full
@@ -156,8 +156,9 @@ int8_t addToTabOfBlockedTransaction(SqlExecutor* se,TabOfBlockedTransaction *tab
 }
 
 /*
- * Returns the first blocked operation whose blocking transaction has finished
- * (commit or rollback) and removes it from the table — it can be resumed.
+ * Returns the first blocked operation whose blocking transaction is no longer running
+ * (commit, rollback or unknown status) and removes it from the table — it can be resumed
+ * with sql_fullScan. Entries that are not waiting anymore are dropped.
  * Returns NULL when every operation is still waiting.
  */
 SqlExecutor* checkIfTransactionBlocked(TabOfBlockedTransaction *tab_of_blocked_transaction,
@@ -165,14 +166,14 @@ SqlExecutor* checkIfTransactionBlocked(TabOfBlockedTransaction *tab_of_blocked_t
     for (int i = 0; i < mvccBufforSize; i++) {
         SqlExecutor *se = tab_of_blocked_transaction->operation[i];
         if (se == NULL) continue;
-        if (se->blockIdOfLastTransaction == -1 && se->posInBlock == -1) {
+        if (se->action != ACTION_WAIT) {
             tab_of_blocked_transaction->operation[i] = NULL;
             continue;
         }
-        if (*se->action == ACTION_ERROR_CONCURRENT_UPDATE) {
-            LOG_ERROR("could not serialize access due to concurrent update\n");
-
-        } 
+        if (mvcc_is_txn_active(mvcc, mvccBuffor, NULL, se->xidOfBlockingTransaction) != 1) {
+            tab_of_blocked_transaction->operation[i] = NULL;
+            return se;
+        }
     }
     return NULL;
 }
@@ -276,6 +277,74 @@ static inline int8_t isVisible(Tuple *tuple, int32_t xid) {
     if (tuple->header.t_xmin > xid) return 0;
     if (!xmax_is_none(tuple->header.t_xmax) && tuple->header.t_xmax <= xid) return 0;
     return 1;
+}
+
+// Evaluates the MVCC update conflict or lock status based on a tuple's xmax.
+//
+// Checks if the tuple is currently locked or modified by another transaction.
+// Based on the status of the blocking transaction and the configured isolation
+// level (VIEW_MODE), it determines what action the query engine should take.
+//
+// Args:
+//   tuple_xmax: The t_xmax value of the tuple being examined.
+//   current_txn_id: The transaction ID of the currently executing query.
+//   mvcc: Pointer to the MVCC state manager.
+//   mvccBuffor: Pointer to the MVCC buffer manager.
+//
+// Returns:
+//   An Action enum indicating how the engine should handle the concurrent update.
+static inline Action check_update_conflict(int32_t tuple_xmax, int32_t current_txn_id, MVCC *mvcc, MVCCBuffor *mvccBuffor) {
+    // 1. The tuple is not locked by anyone (xmax is empty) or it is locked
+    // by our own transaction (e.g., due to a previous update in the same txn).
+    if (xmax_is_none(tuple_xmax) || tuple_xmax == current_txn_id || mvcc == NULL) {
+        return ACTION_PROCEED;
+    }
+
+    // 2. Someone else modified or locked the tuple.
+    // mvcc_is_txn_active returns 1 if active, 0 if finished (commit or abort), -1 if unknown.
+    int is_active = mvcc_is_txn_active(mvcc, mvccBuffor, NULL, tuple_xmax);
+
+    if (is_active == 1) {
+        // ANOTHER TRANSACTION IS STILL RUNNING — in both isolation levels we wait for it.
+        return ACTION_WAIT;
+    }
+
+    // ANOTHER TRANSACTION HAS FINISHED. Check its final status.
+    int8_t status = mvcc_get_txn_status(mvcc, mvccBuffor, NULL, tuple_xmax);
+    if (status == TXN_COMMITED) {
+#if VIEW_MODE == 1 // REPEATABLE_READ
+        // In REPEATABLE READ, this is a critical concurrency error.
+        // We cannot overwrite someone else's changes. Force a rollback.
+        return ACTION_ERROR_CONCURRENT_UPDATE;
+#else              // VIEW_MODE == 2 (READ_COMMITTED)
+        // In READ COMMITTED, the tuple we are looking at is stale. Re-reading it with our
+        // xid is not enough: when the other transaction has a bigger xid, sql_followChainRC
+        // returns the same old version again and the operation would wait forever.
+        return ACTION_RE_EVALUATE_NEW_VERSION;
+#endif
+    }
+    // ROLLBACK (TXN_ABORTED) or unknown status: the lock is invalid, the record can be overwritten.
+    return ACTION_PROCEED;
+}
+
+// Update conflict for a whole tuple version: xmax (someone updated it) has priority, then xmin —
+// a version created by a transaction that is still running is not committed yet, so updating it
+// would build on dirty data. *blockingXid gets the xid we conflict with (unchanged on ACTION_PROCEED).
+static inline Action sql_checkTupleConflict(Tuple *t, int32_t current_txn_id, MVCC *mvcc,
+                                            MVCCBuffor *mvccBuffor, int32_t *blockingXid) {
+    if (mvcc == NULL) return ACTION_PROCEED;
+    int32_t xmax = t->header.t_xmax;
+    if (!xmax_is_none(xmax) && xmax != current_txn_id) {
+        Action a = check_update_conflict(xmax, current_txn_id, mvcc, mvccBuffor);
+        if (a != ACTION_PROCEED) *blockingXid = xmax;
+        return a;
+    }
+    int32_t xmin = t->header.t_xmin;
+    if (xmin != current_txn_id && mvcc_is_txn_active(mvcc, mvccBuffor, NULL, xmin) == 1) {
+        *blockingXid = xmin;
+        return ACTION_WAIT;
+    }
+    return ACTION_PROCEED;
 }
 
 static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
@@ -537,15 +606,59 @@ static void sql_trackRC(Tuple *t, int32_t index, int32_t *xidMax, int32_t *bestI
 }
 
 /* =========================================================================
- * 5. Single pass over one block (Repeatable Read only)
- *    order: isolation → WHERE → UPDATE → SELECT/result
+ * 5. Single pass over one block
+ *    order: isolation → WHERE → update conflict → UPDATE → SELECT/result
  * ========================================================================= */
 
-/* Returns the number of updated tuples — the caller then marks the block isDirty */
-int32_t sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
-                      Buffors *buffors, FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
-    int32_t updated = 0;
-    for (int i = 0; i < block->tuple_count; i++) {
+/* RR: the version visible at xid; RC: the newest version with xmin <= xid */
+static inline Tuple *sql_followChain(Tuple *start, int32_t rootBlockId, int32_t rootIdx, Buffors *buffors,
+                                     int32_t tableId, int32_t xid, MVCC *mvcc,
+                                     int32_t *outBlockId, int32_t *outIdx, FSMTouchedBlocks *touched) {
+#if VIEW_MODE == 2
+    return sql_followChainRC(start, rootBlockId, rootIdx, buffors, tableId, xid, mvcc, outBlockId, outIdx, touched);
+#else
+    return sql_followChainRR(start, rootBlockId, rootIdx, buffors, tableId, xid, mvcc, outBlockId, outIdx, touched);
+#endif
+}
+
+/*
+ * Decides whether `*visible` (a version of the row rooted at rootBlockId/rootIdx) may be updated.
+ * READ COMMITTED: when the version was replaced by a committed transaction, *visible moves to the
+ * newest version and WHERE is checked again on it (like EvalPlanQual in Postgres); *visible == NULL
+ * with ACTION_PROCEED means the new version no longer matches WHERE — skip the row.
+ * On ACTION_WAIT / ACTION_ERROR_CONCURRENT_UPDATE se->xidOfBlockingTransaction is set.
+ */
+static Action sql_resolveUpdateConflict(SqlExecutor *se, Tuple *root, int32_t rootBlockId, int32_t rootIdx,
+                                        Tuple **visible, int32_t *visBlockId, int32_t *visIdx,
+                                        Buffors *buffors, MVCC *mvcc, MVCCBuffor *mvccBuffor) {
+    for (;;) {
+        Action a = sql_checkTupleConflict(*visible, se->transaction->xid, mvcc, mvccBuffor,
+                                          &se->xidOfBlockingTransaction);
+        if (a != ACTION_RE_EVALUATE_NEW_VERSION) return a;
+
+        Tuple *stale = *visible;
+        *visible = sql_followChainRC(root, rootBlockId, rootIdx, buffors, se->tableId, INT32_MAX, mvcc,
+                                     visBlockId, visIdx, se->fsmTouched);
+        if (*visible == NULL) return ACTION_PROCEED;
+        /* no newer version in the chain — we cannot update on top of the committed change */
+        if (*visible == stale) return ACTION_ERROR_CONCURRENT_UPDATE;
+        if (se->where && !sql_matchWhere(se, *visible)) {
+            *visible = NULL;
+            return ACTION_PROCEED;
+        }
+    }
+}
+
+/*
+ * Scans tuples startIdx.. of one block. Returns ACTION_PROCEED when the block was scanned to the end;
+ * on ACTION_WAIT / ACTION_ERROR_CONCURRENT_UPDATE the scan stopped at tuple se->posInBlock of block
+ * se->blockIdOfLastTransaction (not processed yet). *updated counts updated tuples.
+ */
+static Action sql_scanBlock(Block8kb *block, int32_t startIdx, SqlExecutor *se, ResultTuple *result,
+                            Buffors *buffors, FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc,
+                            MVCCBuffor *mvccBuffor, int32_t *updated) {
+    int32_t blockId = (int32_t)block->header.block_id;
+    for (int i = startIdx; i < block->tuple_count; i++) {
         if (result->tuple_count >= RESULT_SPACE) break;
 
         Tuple *t = &block->tuples[i];
@@ -553,15 +666,23 @@ int32_t sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
         /* skip chain members — reachable only by chain traversal from the root; skip free slots */
         if (t->header.t_infomask & (INFOMASK_CHAIN_MEMBER | INFOMASK_UNUSED)) continue;
 
-        /* RR: walk the chain and find the version visible at this transaction's xid */
+        /* walk the chain and find the version this transaction sees */
         int32_t visBlockId = -1, visIdx = -1;
-        Tuple *visible = sql_followChainRR(t, (int32_t)block->header.block_id, i, buffors, se->tableId,
-                                           se->transaction->xid, mvcc, &visBlockId, &visIdx, se->fsmTouched);
+        Tuple *visible = sql_followChain(t, blockId, i, buffors, se->tableId,
+                                         se->transaction->xid, mvcc, &visBlockId, &visIdx, se->fsmTouched);
         if (visible == NULL) continue;
         if (se->where && !sql_matchWhere(se, visible)) continue;
         if (se->update) {
+            Action a = sql_resolveUpdateConflict(se, t, blockId, i, &visible, &visBlockId, &visIdx,
+                                                 buffors, mvcc, mvccBuffor);
+            if (a == ACTION_WAIT || a == ACTION_ERROR_CONCURRENT_UPDATE) {
+                se->blockIdOfLastTransaction = blockId;
+                se->posInBlock = i;
+                return a;
+            }
+            if (visible == NULL) continue;
             sql_doUpdate(se, visible, visBlockId, visIdx, block, i, buffors, c, fsmMapAll);
-            updated++;
+            (*updated)++;
         }
 
         if (se->select) {
@@ -570,6 +691,14 @@ int32_t sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
             result->tuples[result->tuple_count++] = visible;
         }
     }
+    return ACTION_PROCEED;
+}
+
+/* Returns the number of updated tuples — the caller then marks the block isDirty */
+int32_t sql_execBlock(Block8kb *block, SqlExecutor *se, ResultTuple *result,
+                      Buffors *buffors, FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
+    int32_t updated = 0;
+    sql_scanBlock(block, 0, se, result, buffors, c, fsmMapAll, mvcc, NULL, &updated);
     return updated;
 }
 
@@ -604,9 +733,36 @@ static inline BtreeBlocksResult sql_resolveBlocks(SqlExecutor *se) {
     return res;
 }
 
-/*we will only tale elemnt from strcuture sqlExecutro and num of tuple and block num a then we will start from it */
-void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
-                  FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc) {
+/*
+ * Runs the query over all blocks. A fresh SqlExecutor (action == ACTION_PROCEED) starts from the
+ * first block; one that returned ACTION_WAIT resumes at blockIdOfLastTransaction/posInBlock, so rows
+ * processed before the wait are not processed twice. Rows go to `result` (also stored in se->result).
+ *
+ * Returns (and stores in se->action):
+ *   ACTION_PROCEED                 — scan finished, blockIdOfLastTransaction = posInBlock = -1
+ *   ACTION_WAIT                    — UPDATE hit a row of a running transaction (se->xidOfBlockingTransaction);
+ *                                    put se into TabOfBlockedTransaction and call again when it ends
+ *   ACTION_ERROR_CONCURRENT_UPDATE — REPEATABLE READ: the row was changed by a transaction that
+ *                                    committed concurrently; the caller must abort the transaction
+ */
+Action sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
+                    FSMCache *c, FSMMapAll *fsmMapAll, MVCC *mvcc, MVCCBuffor *mvccBuffor) {
+    int8_t  resuming   = (se->action == ACTION_WAIT);
+    int32_t startBlock = resuming ? se->blockIdOfLastTransaction : -1;
+    int32_t startIdx   = resuming ? se->posInBlock : 0;
+    se->result = result;
+
+#if VIEW_MODE == 1
+    /* REPEATABLE READ: we waited for a transaction that changed our row and it committed —
+     * its change happened after our transaction started, so we cannot update on top of it */
+    if (resuming && mvcc != NULL &&
+        mvcc_get_txn_status(mvcc, mvccBuffor, NULL, se->xidOfBlockingTransaction) == TXN_COMMITED) {
+        LOG_ERROR("could not serialize access due to concurrent update\n");
+        se->action = ACTION_ERROR_CONCURRENT_UPDATE;
+        return se->action;
+    }
+#endif
+
     BtreeBlocksResult blocksToScan = sql_resolveBlocks(se);
 
     /* collect blocks where the scan freed slots; their FSM entries are updated once at the end */
@@ -614,138 +770,43 @@ void sql_fullScan(SqlExecutor *se, ResultTuple *result, Buffors *buffors,
     FSMTouchedBlocks *outerTouched = se->fsmTouched;
     se->fsmTouched = &touched;
 
-    if (VIEW_MODE == 2) {
-        // Read Committed — chain traversal
-        for (int idx = 0; idx < blocksToScan.count; idx++) {
-            int32_t i = blocksToScan.blocks[idx];
-            int8_t breakAfterPhantoms = 0;
-            DataBuffor *buf = getBuffor(se->tableId, i, buffors);
-            if (buf == NULL) continue;
-            if (buf->universalBlock == NULL) { buf->pinCount = 0; continue; }
-            Block8kb   *block = buf->universalBlock->block;
-            for (int j = 0; j < block->tuple_count; j++) {
-                if (result->tuple_count >= RESULT_SPACE) break;
-                Tuple *t = &block->tuples[j];
-
-                /* skip chain members and free slots */
-                if (t->header.t_infomask & (INFOMASK_CHAIN_MEMBER | INFOMASK_UNUSED)) continue;
-
-                /* RC: walk the chain to the newest version with xmin <= xid */
-                int32_t visBlockId = -1, visIdx = -1;
-                Tuple *visible = sql_followChainRC(t, i, j, buffors, se->tableId, se->transaction->xid, mvcc,
-                                                   &visBlockId, &visIdx, se->fsmTouched);
-
-                if (visible == NULL) continue;
-
-                se->action = &(check_update_conflict(se->xidOfBlockingTransaction, se->transaction->xid, mvcc, mvccBuffor));
-                switch (*se->action) {
-                    case ACTION_WAIT:
-                        se->blockIdOfLastTransaction = i;
-                        se->posInBlock = j;
-                        breakAfterPhantoms = 1;
-                        break;
-
-                    case ACTION_ERROR_CONCURRENT_UPDATE:
-                        breakAfterPhantoms = 1;
-                        break;
-
-                    case ACTION_PROCEED:
-                        breakAfterPhantoms = 1;
-                        break;
-                }
-                if (se->where && !sql_matchWhere(se, visible)) continue;
-                if (se->update) {
-                    sql_doUpdate(se, visible, visBlockId, visIdx, block, j, buffors, c, fsmMapAll);
-                    buf->isDirty = 1;   /* the root got a new counter / t_xmax, t_cid */
-                }
-                if (se->select) {
-                    result->tuples[result->tuple_count++] = sql_doSelect(se, visible);
-                } else {
-                    result->tuples[result->tuple_count++] = visible;
-                }
-            }
-            buf->isUsed   = 1;
-            buf->pinCount = 0;
-            if (breakAfterPhantoms) break;
-        }
-        free(blocksToScan.blocks);
-        fsm_update_touched(fsmMapAll, se->tableId, buffors, &touched);
-        se->fsmTouched = outerTouched;
-
-        se->blockIdOfLastTransaction = -1; /*to know when it ending*/
-        se->posInBlock = -1; // --
-        return;
+    int idx = 0;
+    if (resuming) {
+        while (idx < blocksToScan.count && blocksToScan.blocks[idx] != startBlock) idx++;
+        if (idx == blocksToScan.count) LOG_ERROR("sql_fullScan: cannot resume, block %d not found\n", startBlock);
     }
 
-    // Repeatable Read — scan the blocks
-    for (int idx = 0; idx < blocksToScan.count; idx++) {
+    Action action = ACTION_PROCEED;
+    for (; idx < blocksToScan.count; idx++) {
         int32_t i = blocksToScan.blocks[idx];
+        int32_t from = startIdx;
+        startIdx = 0;
         DataBuffor *buf = getBuffor(se->tableId, i, buffors);
         if (buf == NULL) continue;
         if (buf->universalBlock == NULL) { buf->pinCount = 0; continue; }
-        if (sql_execBlock(buf->universalBlock->block, se, result, buffors, c, fsmMapAll, mvcc) > 0) {
+        int32_t updated = 0;
+        action = sql_scanBlock(buf->universalBlock->block, from, se, result, buffors, c, fsmMapAll,
+                               mvcc, mvccBuffor, &updated);
+        if (updated > 0) {
             buf->isDirty = 1;   /* the root got a new counter / t_xmax, t_cid */
         }
         buf->isUsed   = 1;
         buf->pinCount = 0;
+        if (action != ACTION_PROCEED) break;
     }
     free(blocksToScan.blocks);
     fsm_update_touched(fsmMapAll, se->tableId, buffors, &touched);
     se->fsmTouched = outerTouched;
-}
 
-
-// Evaluates the MVCC update conflict or lock status based on a tuple's xmax.
-    //
-    // Checks if the tuple is currently locked or modified by another transaction.
-    // Based on the status of the blocking transaction and the configured isolation
-    // level (VIEW_MODE), it determines what action the query engine should take.
-    //
-    // Args:
-    //   tuple_xmax: The t_xmax value of the tuple being examined.
-    //   current_txn_id: The transaction ID of the currently executing query.
-    //   mvcc: Pointer to the MVCC state manager.
-    //   mvccBuffor: Pointer to the MVCC buffer manager.
-    //
-    // Returns:
-    //   An Action enum indicating how the engine should handle the concurrent update.
-    static inline Action check_update_conflict(int32_t tuple_xmax, int32_t current_txn_id, MVCC *mvcc, MVCCBuffor *mvccBuffor) {
-        // 1. The tuple is not locked by anyone (xmax is empty) or it is locked
-        // by our own transaction (e.g., due to a previous update in the same txn).
-        if (xmax_is_none(tuple_xmax) || tuple_xmax == current_txn_id) {
-            return ACTION_PROCEED;
-        }
-
-        // 2. Someone else modified or locked the tuple.
-        // mvcc_is_txn_active returns 1 if active, 0 if finished (commit or abort).
-        int is_active = mvcc_is_txn_active(mvcc, mvccBuffor, NULL, tuple_xmax);
-
-        if (is_active == 1) {
-            // ANOTHER TRANSACTION IS STILL RUNNING.
-            return ACTION_WAIT;
-        } else {
-            // ANOTHER TRANSACTION HAS FINISHED. Check its final status.
-            int8_t status = mvcc_get_txn_status(mvcc, mvccBuffor, NULL, tuple_xmax);
-
-            if (status == TXN_COMMITED) {
-                // COMMIT: the other transaction successfully updated our record.
-    #if VIEW_MODE == 1 // REPEATABLE_READ
-                // In REPEATABLE READ, this is a critical concurrency error.
-                // We cannot overwrite someone else's changes. Force a rollback.
-                return ACTION_ERROR_CONCURRENT_UPDATE;
-    #else              // VIEW_MODE == 2 (READ_COMMITTED)
-                // In READ COMMITTED, the tuple we are looking at is now stale.
-                // Returning ACTION_WAIT forces the scan loop to yield. When it immediately
-                // resumes, sql_followChainRC will automatically fetch the new version.
-                return ACTION_WAIT;
-    #endif
-            } else {
-                // ROLLBACK: the other transaction aborted its changes (TXN_ABORTED).
-                // Its lock or intended update is invalid, so we can safely overwrite the record.
-                return ACTION_PROCEED;
-            }
-        }
+    if (action == ACTION_PROCEED) {
+        se->blockIdOfLastTransaction = -1; /*to know when it ending*/
+        se->posInBlock = -1;
+    } else if (action == ACTION_ERROR_CONCURRENT_UPDATE) {
+        LOG_ERROR("could not serialize access due to concurrent update\n");
     }
+    se->action = action;
+    return action;
+}
 
 
 
