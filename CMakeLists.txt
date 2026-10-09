@@ -61,7 +61,7 @@ if(CMOCKA_LIBRARY)
             ${CORE_SOURCES}
             core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
             core/bufforing-stm/components-tests/sqlExecutorTest.c
-            # components-tests/sqlExecutor.c (lost update, WIP) — separate target once it has main():
+            # components-tests/sqlExecutor.c (lost update) has its own targets: test_lost_update(_rc)
             # a second TU including the project headers causes multiple-definition link errors
     )
     target_link_libraries(test_components ${CMOCKA_LIBRARY})
@@ -133,6 +133,30 @@ if(CMOCKA_LIBRARY)
     )
     target_link_libraries(test_sqlExecutor_chain ${CMOCKA_LIBRARY})
     target_compile_definitions(test_sqlExecutor_chain PRIVATE LOG_LEVEL=0)
+
+    # lost update: unit tests (conflict check, blocked table, main loop) and component tests
+    # (real scans + mainLoop), each for Repeatable Read and Read Committed
+    foreach(LU_MODE 1 2)
+        if(LU_MODE EQUAL 1)
+            set(LU_SUFFIX "")
+        else()
+            set(LU_SUFFIX "_rc")
+        endif()
+
+        add_executable(test_lostUpdate${LU_SUFFIX}
+                ${CORE_SOURCES}
+                core/bufforing-stm/tests/test_lostUpdate.c
+        )
+        target_link_libraries(test_lostUpdate${LU_SUFFIX} ${CMOCKA_LIBRARY})
+        target_compile_definitions(test_lostUpdate${LU_SUFFIX} PRIVATE LOG_LEVEL=0 VIEW_MODE=${LU_MODE})
+
+        add_executable(test_lost_update${LU_SUFFIX}
+                ${CORE_SOURCES}
+                core/bufforing-stm/components-tests/sqlExecutor.c
+        )
+        target_link_libraries(test_lost_update${LU_SUFFIX} ${CMOCKA_LIBRARY})
+        target_compile_definitions(test_lost_update${LU_SUFFIX} PRIVATE LOG_LEVEL=0 VIEW_MODE=${LU_MODE})
+    endforeach()
 
     add_executable(test_vacuum
             ${CORE_SOURCES}
