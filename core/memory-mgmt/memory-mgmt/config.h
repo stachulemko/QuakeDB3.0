@@ -38,5 +38,7 @@
 
 #define mvccBufforSize 10  // number of txn statuses in one MVCC buffer window
 
-#define timeExceedTransaction 100 // in seconds
+#define timeExceedTransaction 100 // when transaction are blocked time to whait to exceed
+
+#define pathToIndexOfRecycledTransactionFile "/home/stas/dev/QuakeDB3.0B/core"
 #endif

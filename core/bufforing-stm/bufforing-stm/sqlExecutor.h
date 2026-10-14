@@ -349,6 +349,8 @@ static inline Action sql_checkTupleConflict(Tuple *t, int32_t current_txn_id, MV
 
 static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
     if (xmax_is_none(tuple->header.t_xmax)) return 0;
+    /* xmax rolled back → its UPDATE/DELETE never happened, this version is still the current one */
+    if (mvcc_get_txn_status(mvcc, NULL, NULL, tuple->header.t_xmax) == TXN_ABORTED) return 0;
     int32_t oldest = getOldestXid(mvcc);
     /* oldest == -1 → no active transactions → everything with xmax can be removed */
     if (oldest == -1) return 1;

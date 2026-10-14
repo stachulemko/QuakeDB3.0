@@ -115,7 +115,9 @@ if(CMOCKA_LIBRARY)
         get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
         add_executable(${TEST_NAME} ${CORE_SOURCES} ${TEST_FILE}
                 core/vacuum/vacuum/vacuum.h
-                core/vacuum/vacuum/vacuum.c)
+                core/vacuum/vacuum/vacuum.c
+                core/xid32Recycler/xid32Recycler.c
+                core/xid32Recycler/xid32Recycler.h)
         target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARY})
         target_compile_definitions(${TEST_NAME} PRIVATE LOG_LEVEL=0)
     endforeach()

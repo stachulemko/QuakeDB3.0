@@ -545,6 +545,58 @@ static void test_scan_prune_updates_fsm(void **state) {
     env_teardown(&env);
 }
 
+/* =========================================================================
+ * 11. A rolled-back UPDATE does not make the old version dead
+ * ========================================================================= */
+
+/* vacuum: the root's xmax rolled back — the root keeps its data */
+static void test_vacuum_keeps_version_of_rolled_back_update(void **state) {
+    (void)state;
+    TestEnv env;
+    env_setup(&env);
+    env.mvcc->txn_counter = 3;               /* transactions 0..2 have a known status */
+
+    env_insert(&env, 1, 10);
+    env_update(&env, 2, 10, 20, 0);          /* root: xmax = 2 */
+    env.mvcc->txn_status[2] = TXN_ABORTED;
+
+    Vacuum vac = make_vacuum();
+    autoVacuumScan(&vac, VAC_TABLE, env.c, &env.buffors, NULL, env.mvcc, &env.fsmMapAll);
+
+    Tuple *root = env_tuple(&env, 1, 0);
+    assert_false(root->header.t_infomask & (INFOMASK_DEAD | INFOMASK_UNUSED));
+    assert_int_equal(1, root->dnb.data_count);
+    assert_int_equal(10, root->dnb.data[0].val.i32);
+
+    env_teardown(&env);
+}
+
+/* scan pruning: v1's xmax rolled back — the scan does not remove v1 and the chain stays root → v1 → v2 */
+static void test_scan_keeps_version_of_rolled_back_update(void **state) {
+    (void)state;
+    TestEnv env;
+    env_setup(&env);
+    env.mvcc->txn_counter = 4;               /* transactions 0..3 have a known status */
+
+    env_insert(&env, 1, 10);                 /* slot 0 */
+    env_update(&env, 2, 10, 20, 0);          /* slot 1 */
+    env_update(&env, 3, 20, 30, 0);          /* slot 2, v1: xmax = 3 */
+    env.mvcc->txn_status[3] = TXN_ABORTED;
+
+    env_count(&env, 10, 20);                 /* the scan walks root → v1 → v2 */
+
+    Block8kb *blk = env_block(&env, 1);
+    Tuple *v1 = &blk->tuples[1];
+    assert_false(v1->header.t_infomask & (INFOMASK_DEAD | INFOMASK_UNUSED));
+    assert_int_equal(20, v1->dnb.data[0].val.i32);
+    int32_t b, i;
+    env_follow(&env, &blk->tuples[0], &b, &i);
+    assert_int_equal(1, b);
+    assert_int_equal(1, i);                  /* root still points to v1 */
+
+    env_teardown(&env);
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_vacuum_relinks_chain_same_block),
@@ -558,6 +610,8 @@ int main(void) {
         cmocka_unit_test(test_vacuum_updates_fsm),
         cmocka_unit_test(test_without_fsm_update_insert_needs_new_block),
         cmocka_unit_test(test_scan_prune_updates_fsm),
+        cmocka_unit_test(test_vacuum_keeps_version_of_rolled_back_update),
+        cmocka_unit_test(test_scan_keeps_version_of_rolled_back_update),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

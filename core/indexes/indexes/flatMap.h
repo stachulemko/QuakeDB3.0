@@ -115,19 +115,79 @@ static inline void remove_at_index(struct Entry* table, int32_t index) {
 // ======================== Buffered FlatMap ========================
 // Hash table split into pages. Only N pages live in RAM (buffer pool).
 // Rest is on disk. Pattern: getExisting → loadIfSpace → evict.
+// Pages hold Entry64 (64-bit values); the in-memory table above stays int16 for the btree gap table.
 //
-// ENTRIES_PER_PAGE = BLOCK_SIZE / sizeof(struct Entry) = 819
+// ENTRIES_PER_PAGE = BLOCK_SIZE / sizeof(struct Entry64) = 512
 // totalPages = desired capacity / ENTRIES_PER_PAGE
-// hash(key) % totalPages → pageId → slot within page
+// high bits of hash(key) % totalPages → pageId, low bits → slot within page
 
 #include <string.h>
 #include "../../memory-mgmt/memory-mgmt/file_manager_c.h"
 
-#define ENTRIES_PER_PAGE (BLOCK_SIZE / (int)sizeof(struct Entry))
+// Same as Entry, but with a 64-bit value
+struct __attribute__((__packed__)) Entry64 {
+    int64_t key;
+    int64_t value;
+};
+
+static inline void initialize_table64(struct Entry64* table, size_t size) {
+    for (size_t i = 0; i < size; i++) {
+        table[i].key = EMPTY_KEY;
+        table[i].value = 0;
+    }
+}
+
+// Same as insert (Linear Probing), for Entry64
+static inline int insert64(struct Entry64* table, size_t size, int64_t key, int64_t value) {
+    if (key == EMPTY_KEY) return -1; // Error: attempt to use the sentinel key
+
+    uint64_t hash = splitmix64((uint64_t)key);
+    size_t index = hash % size;
+    size_t start_index = index;
+
+    while (table[index].key != EMPTY_KEY && table[index].key != key) {
+        index = (index + 1) % size;
+
+        if (index == start_index) {
+            return -1; // Error: Table is 100% full
+        }
+    }
+
+    table[index].key = key;
+    table[index].value = value;
+    return 0; // Success
+}
+
+// Same as search, for Entry64
+static inline int64_t search64(struct Entry64* table, size_t size, int64_t key, int* found) {
+    uint64_t hash = splitmix64((uint64_t)key);
+    size_t index = hash % size;
+    size_t start_index = index;
+
+    while (table[index].key != EMPTY_KEY) {
+        if (table[index].key == key) {
+            *found = 1;
+            return table[index].value;
+        }
+        index = (index + 1) % size;
+
+        if (index == start_index) {
+            break;
+        }
+    }
+
+    *found = 0;
+    return 0;
+}
+
+#define ENTRIES_PER_PAGE (BLOCK_SIZE / (int)sizeof(struct Entry64))
+
+// pages are read and written as BLOCK_SIZE bytes straight from/to the table
+_Static_assert(ENTRIES_PER_PAGE * sizeof(struct Entry64) == BLOCK_SIZE, "a FlatMap page must be exactly one block");
 
 // Single buffer page in the pool
 typedef struct {
-    struct Entry table[ENTRIES_PER_PAGE];
+    struct Entry64 table[ENTRIES_PER_PAGE];
     int32_t pageId;
     int32_t entryCount;
     int32_t pinCount;
@@ -146,7 +206,7 @@ typedef struct {
 // ----- internal helpers -----
 
 static inline void flatmap_page_init(FlatMapBuffor *buf) {
-    initialize_table(buf->table, ENTRIES_PER_PAGE);
+    initialize_table64(buf->table, ENTRIES_PER_PAGE);
     buf->pageId = -1;
     buf->entryCount = 0;
     buf->pinCount = 0;
@@ -154,12 +214,18 @@ static inline void flatmap_page_init(FlatMapBuffor *buf) {
     buf->isDirty = 0;
 }
 
-static inline int32_t flatmap_count_entries(struct Entry *table) {
+static inline int32_t flatmap_count_entries(struct Entry64 *table) {
     int32_t count = 0;
     for (int i = 0; i < ENTRIES_PER_PAGE; i++) {
         if (table[i].key != EMPTY_KEY) count++;
     }
     return count;
+}
+
+// Page of a key: high bits of the hash. The slot within the page (insert64/search64) uses the low bits —
+// with the same bits the keys of one page would start on a few slots only (128 pages → 4 slots).
+static inline int32_t flatmap_page_of(FlatMapBuffered *fm, int64_t key) {
+    return (int32_t)((splitmix64((uint64_t)key) >> 32) % (uint64_t)fm->totalPages);
 }
 
 // Save page to disk
@@ -186,18 +252,39 @@ static inline void flatmap_load_from_disk(FlatMapBuffered *fm, FlatMapBuffor *bu
             buf->entryCount = flatmap_count_entries(buf->table);
         } else {
             // Page doesn't exist on disk yet — empty
-            initialize_table(buf->table, ENTRIES_PER_PAGE);
+            initialize_table64(buf->table, ENTRIES_PER_PAGE);
             buf->entryCount = 0;
         }
     } else {
         // File doesn't exist yet — empty page
-        initialize_table(buf->table, ENTRIES_PER_PAGE);
+        initialize_table64(buf->table, ENTRIES_PER_PAGE);
         buf->entryCount = 0;
     }
     buf->pageId = pageId;
     buf->isUsed = 1;
     buf->isDirty = 0;
     buf->pinCount = 1;
+}
+
+// Give the file all totalPages pages. A page saved past the end of the file leaves a hole of zeros,
+// and a page loaded from the hole looks full of key 0 — so missing pages are written as empty ones.
+static inline int flatmap_extend_file(FlatMapBuffered *fm) {
+    FILE *f = fopen(fm->filePath, "r+b");
+    if (f == NULL) {
+        // file doesn't exist yet — create
+        f = fopen(fm->filePath, "w+b");
+        if (f == NULL) return -1;
+    }
+    fseek(f, 0, SEEK_END);
+    long pagesOnDisk = ftell(f) / BLOCK_SIZE;
+    struct Entry64 empty[ENTRIES_PER_PAGE];
+    initialize_table64(empty, ENTRIES_PER_PAGE);
+    fseek(f, pagesOnDisk * BLOCK_SIZE, SEEK_SET);
+    for (long p = pagesOnDisk; p < fm->totalPages; p++) {
+        fwrite(empty, 1, BLOCK_SIZE, f);
+    }
+    fclose(f);
+    return 0;
 }
 
 // ----- buffer pool management (same pattern as BtreeBuffors) -----
@@ -256,7 +343,8 @@ static inline FlatMapBuffor* flatmap_get_page(FlatMapBuffered *fm, int32_t pageI
 
 // Initialize buffered flatMap
 //   poolSize   — how many pages to keep in RAM (e.g. 4)
-//   totalPages — total logical pages (e.g. 123 for ~100k entries)
+//   totalPages — total logical pages (e.g. 196 for ~100k entries); changing it for an existing file
+//                loses its entries — keys are looked up on other pages
 //   filePath   — path to the disk file (e.g. "/path/to/flatmap_1.bin")
 static inline int flatmap_init(FlatMapBuffered *fm, int32_t poolSize,
                                int32_t totalPages, const char *filePath) {
@@ -269,27 +357,27 @@ static inline int flatmap_init(FlatMapBuffered *fm, int32_t poolSize,
     for (int i = 0; i < poolSize; i++) {
         flatmap_page_init(&fm->buffors[i]);
     }
-    // Create the file if it doesn't exist
-    FILE *f = fopen(fm->filePath, "ab");
-    if (f != NULL) fclose(f);
+    // Create the file if it doesn't exist and give it all totalPages pages
+    if (flatmap_extend_file(fm) != 0) {
+        free(fm->buffors);
+        fm->buffors = NULL;
+        return -1;
+    }
     return 0;
 }
 
 // Insert key-value into the buffered flatMap
-static inline int flatmap_insert(FlatMapBuffered *fm, int64_t key, int16_t value) {
+static inline int flatmap_insert(FlatMapBuffered *fm, int64_t key, int64_t value) {
     if (fm == NULL || key == EMPTY_KEY) return -1;
 
-    uint64_t hash = splitmix64((uint64_t)key);
-    int32_t pageId = (int32_t)(hash % (uint64_t)fm->totalPages);
-
-    FlatMapBuffor *page = flatmap_get_page(fm, pageId);
+    FlatMapBuffor *page = flatmap_get_page(fm, flatmap_page_of(fm, key));
     if (page == NULL) return -1;
 
     // Check if key already exists (update vs new insert)
     int found = 0;
-    search(page->table, ENTRIES_PER_PAGE, key, &found);
+    search64(page->table, ENTRIES_PER_PAGE, key, &found);
 
-    int result = insert(page->table, ENTRIES_PER_PAGE, key, value);
+    int result = insert64(page->table, ENTRIES_PER_PAGE, key, value);
     if (result == 0) {
         if (!found) {
             page->entryCount++;
@@ -301,22 +389,19 @@ static inline int flatmap_insert(FlatMapBuffered *fm, int64_t key, int16_t value
 }
 
 // Search for a key in the buffered flatMap
-static inline int16_t flatmap_search(FlatMapBuffered *fm, int64_t key, int *found) {
+static inline int64_t flatmap_search(FlatMapBuffered *fm, int64_t key, int *found) {
     if (fm == NULL || key == EMPTY_KEY) {
         *found = 0;
         return 0;
     }
 
-    uint64_t hash = splitmix64((uint64_t)key);
-    int32_t pageId = (int32_t)(hash % (uint64_t)fm->totalPages);
-
-    FlatMapBuffor *page = flatmap_get_page(fm, pageId);
+    FlatMapBuffor *page = flatmap_get_page(fm, flatmap_page_of(fm, key));
     if (page == NULL) {
         *found = 0;
         return 0;
     }
 
-    int16_t value = search(page->table, ENTRIES_PER_PAGE, key, found);
+    int64_t value = search64(page->table, ENTRIES_PER_PAGE, key, found);
     page->pinCount = 0;
     return value;
 }

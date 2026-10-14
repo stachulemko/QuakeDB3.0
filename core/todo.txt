@@ -2,19 +2,7 @@
 1 .refactoring allFiles Llist !
 
 // curret problems
-#1. add
-# 1.we need pointer to the elemnt which update end up why we are safe ? (beacuse this updated row is blocked and we dont parse the gaps in free space we use for this FsmMap which holds it to avoid this situation)
-# 2. than we are checking xid which is the temporary xmax of this tuple which can be commited or rollback(if is commited or rollback we can let blocked transaction go trough )
-
-1. we need to add Buffor for transactions
-1. first we need a loop True to simulate a dataBase action in our term we will only use it at first in test cases
-1 . make vacum update fsm to get freeSpace
-1. add check if null any of the structures  in tupleAdds?
-1. add null val adding ! - 1 - not tested
-1. make adding null values avaliable
-1.delete hotUpdate not used anywhere and test to it !
-2.delete addTuple fuction with every adding diffrent xid and replace it with normal add Tuple with xid from Transaction -added not tested not used anywhere
-
+1 . make orderedMap for int32_t ! and with mmap map blocks ! 
 
 
 // future plans

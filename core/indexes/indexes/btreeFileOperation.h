@@ -2068,7 +2068,8 @@ static inline void btree_delete_tuple_indexes(
  *  Columns without an index are skipped.
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-static inline void btree_insert_tuple_indexes(
+static inline void btree_insert_tuple_indexes
+(
         FSMMapBtree *fsmMapBtree,
         BtreeBuffors *btreeBuffors,
         int32_t tableId,
