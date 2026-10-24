@@ -3,6 +3,7 @@
 
 CMakeFiles/test_mvccBuffor.dir/core/bufforing-stm/tests/test_mvccBuffor.c.o
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/test_mvccBuffor.c
+ /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/config.h
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h
  /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvccBuffor.h
  /usr/include/alloca.h

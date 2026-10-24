@@ -35,6 +35,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o"
   "CMakeFiles/QuakeDB3_0.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "CMakeFiles/QuakeDB3_0.dir/core/vacuum/vacuum/bq.c.o"
+  "CMakeFiles/QuakeDB3_0.dir/core/vacuum/vacuum/bq.c.o.d"
   "QuakeDB3_0"
   "QuakeDB3_0.pdb"
 )

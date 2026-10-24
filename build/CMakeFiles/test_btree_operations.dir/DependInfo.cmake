@@ -21,6 +21,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple_header.c" "CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" "gcc" "CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.c" "CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" "gcc" "CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c" "CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" "gcc" "CMakeFiles/test_btree_operations.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "/home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c" "CMakeFiles/test_btree_operations.dir/core/vacuum/vacuum/bq.c.o" "gcc" "CMakeFiles/test_btree_operations.dir/core/vacuum/vacuum/bq.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

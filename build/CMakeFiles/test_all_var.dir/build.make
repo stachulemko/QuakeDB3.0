@@ -237,10 +237,24 @@ CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s: cm
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c -o CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 
+CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o: CMakeFiles/test_all_var.dir/flags.make
+CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o: /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c
+CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o: CMakeFiles/test_all_var.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o -MF CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o.d -o CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o -c /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c
+
+CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c > CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.i
+
+CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c -o CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.s
+
 CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o: CMakeFiles/test_all_var.dir/flags.make
 CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o: /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/tests/test_all_var.c
 CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o: CMakeFiles/test_all_var.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o -MF CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o.d -o CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o -c /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/tests/test_all_var.c
 
 CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.i: cmake_force
@@ -254,7 +268,7 @@ CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.s: cmake_force
 CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o: CMakeFiles/test_all_var.dir/flags.make
 CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o: /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c
 CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o: CMakeFiles/test_all_var.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o -MF CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o.d -o CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o -c /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c
 
 CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.i: cmake_force
@@ -264,6 +278,20 @@ CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.i: cmake_force
 CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/vacuum.c -o CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.s
+
+CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o: CMakeFiles/test_all_var.dir/flags.make
+CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o: /home/stas/dev/QuakeDB3.0B/core/xid32Recycler/xid32Recycler.c
+CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o: CMakeFiles/test_all_var.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o -MF CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o.d -o CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o -c /home/stas/dev/QuakeDB3.0B/core/xid32Recycler/xid32Recycler.c
+
+CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/xid32Recycler/xid32Recycler.c > CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.i
+
+CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/xid32Recycler/xid32Recycler.c -o CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.s
 
 # Object files for target test_all_var
 test_all_var_OBJECTS = \
@@ -279,8 +307,10 @@ test_all_var_OBJECTS = \
 "CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" \
 "CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" \
 "CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" \
+"CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o" \
 "CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o" \
-"CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o"
+"CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o" \
+"CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o"
 
 # External object files for target test_all_var
 test_all_var_EXTERNAL_OBJECTS =
@@ -297,12 +327,14 @@ test_all_var: CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 test_all_var: CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 test_all_var: CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 test_all_var: CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+test_all_var: CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o
 test_all_var: CMakeFiles/test_all_var.dir/core/memory-mgmt/tests/test_all_var.c.o
 test_all_var: CMakeFiles/test_all_var.dir/core/vacuum/vacuum/vacuum.c.o
+test_all_var: CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o
 test_all_var: CMakeFiles/test_all_var.dir/build.make
 test_all_var: /usr/lib/x86_64-linux-gnu/libcmocka.so
 test_all_var: CMakeFiles/test_all_var.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking C executable test_all_var"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking C executable test_all_var"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_all_var.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

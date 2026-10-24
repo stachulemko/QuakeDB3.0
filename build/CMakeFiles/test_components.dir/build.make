@@ -237,10 +237,24 @@ CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c -o CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 
+CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o: CMakeFiles/test_components.dir/flags.make
+CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o: /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c
+CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o: CMakeFiles/test_components.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o -MF CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o.d -o CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o -c /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c
+
+CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c > CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.i
+
+CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c -o CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.s
+
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o: CMakeFiles/test_components.dir/flags.make
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o: CMakeFiles/test_components.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o -MF CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o.d -o CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o -c /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c
 
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.i: cmake_force
@@ -254,7 +268,7 @@ CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_e
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o: CMakeFiles/test_components.dir/flags.make
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutorTest.c
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o: CMakeFiles/test_components.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o -MF CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o.d -o CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o -c /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutorTest.c
 
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.i: cmake_force
@@ -264,20 +278,6 @@ CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTe
 CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutorTest.c -o CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.s
-
-CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o: CMakeFiles/test_components.dir/flags.make
-CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutor.c
-CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o: CMakeFiles/test_components.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o -MF CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o.d -o CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o -c /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutor.c
-
-CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutor.c > CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i
-
-CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutor.c -o CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s
 
 # Object files for target test_components
 test_components_OBJECTS = \
@@ -293,9 +293,9 @@ test_components_OBJECTS = \
 "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" \
 "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" \
 "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" \
+"CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o" \
 "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o" \
-"CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o" \
-"CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o"
+"CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o"
 
 # External object files for target test_components
 test_components_EXTERNAL_OBJECTS =
@@ -312,9 +312,9 @@ test_components: CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tup
 test_components: CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 test_components: CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 test_components: CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+test_components: CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o
 test_components: CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o
 test_components: CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o
-test_components: CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o
 test_components: CMakeFiles/test_components.dir/build.make
 test_components: /usr/lib/x86_64-linux-gnu/libcmocka.so
 test_components: CMakeFiles/test_components.dir/link.txt

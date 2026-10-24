@@ -3,6 +3,7 @@
 
 CMakeFiles/test_mvcc_txn_overflow.dir/core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/mvccTransactionOverflowTest.c \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/config.h \
+  /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/config.h \
   /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/timeFunction.h \
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvcc.h \
   /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/mvccBuffor.h \

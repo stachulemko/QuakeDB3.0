@@ -25,6 +25,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o"
   "CMakeFiles/test_tuple_add.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "CMakeFiles/test_tuple_add.dir/core/vacuum/vacuum/bq.c.o"
+  "CMakeFiles/test_tuple_add.dir/core/vacuum/vacuum/bq.c.o.d"
   "test_tuple_add"
   "test_tuple_add.pdb"
 )

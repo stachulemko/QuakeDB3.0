@@ -25,6 +25,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o"
   "CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o"
+  "CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o.d"
   "test_sqlExecutor"
   "test_sqlExecutor.pdb"
 )

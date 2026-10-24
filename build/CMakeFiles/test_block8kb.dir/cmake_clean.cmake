@@ -25,8 +25,12 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
   "CMakeFiles/test_block8kb.dir/core/memory-mgmt/tests/test_block8kb.c.o"
   "CMakeFiles/test_block8kb.dir/core/memory-mgmt/tests/test_block8kb.c.o.d"
+  "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bq.c.o"
+  "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bq.c.o.d"
   "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/vacuum.c.o"
   "CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/vacuum.c.o.d"
+  "CMakeFiles/test_block8kb.dir/core/xid32Recycler/xid32Recycler.c.o"
+  "CMakeFiles/test_block8kb.dir/core/xid32Recycler/xid32Recycler.c.o.d"
   "test_block8kb"
   "test_block8kb.pdb"
 )

@@ -25,6 +25,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o"
   "CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "CMakeFiles/test_btree_update_indexes.dir/core/vacuum/vacuum/bq.c.o"
+  "CMakeFiles/test_btree_update_indexes.dir/core/vacuum/vacuum/bq.c.o.d"
   "test_btree_update_indexes"
   "test_btree_update_indexes.pdb"
 )

@@ -105,6 +105,18 @@ if(CMOCKA_LIBRARY)
     )
     target_compile_definitions(test_btree_get_blocks PRIVATE LOG_LEVEL=0)
 
+    add_executable(test_flat_map
+            ${CORE_SOURCES}
+            core/indexes/tests/test_flat_map.c
+    )
+    target_compile_definitions(test_flat_map PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_fsm_map_btree
+            ${CORE_SOURCES}
+            core/indexes/tests/test_fsm_map_btree.c
+    )
+    target_compile_definitions(test_fsm_map_btree PRIVATE LOG_LEVEL=0)
+
     add_executable(test_bq
             core/vacuum/vacuum/bq.c
             core/vacuum/tests/test_bq.c

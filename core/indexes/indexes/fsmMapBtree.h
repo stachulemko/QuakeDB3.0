@@ -6,11 +6,15 @@
 #define QUAKEDB3_0_FSMMAPBTREE_H
 
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "../../bufforing-stm/bufforing-stm/uthash.h"
+#include "../../memory-mgmt/memory-mgmt/config.h"
 #include "flatMap.h"
 
-#define GAP_TABLE_SIZE 2048
+// Gap table of one column: a buffered flatMap64 in INDEX_TABLE_PATH/<tableId>.<columnIndex>.gap.bin
+#define GAP_TABLE_PAGES     4   // 4 * ENTRIES_PER_PAGE64 = 2048 slots
+#define GAP_TABLE_POOL_SIZE 2   // pages kept in RAM
 
 typedef struct {
     int32_t blockId;
@@ -23,7 +27,7 @@ typedef struct {
     BtreeBlockEntry *blocks;
     int32_t blockCount;
     int32_t currentBlockId;
-    struct Entry *gapTable;          // flatMap for tracking free gaps (key=offset, value=gapSize)
+    FlatMapBuffered64 gapTable;      // free gaps (key=create_key(blockType, offset), value=gapSize)
     int32_t gapCount;
     UT_hash_handle hh;
 } BtreeColumnIndex;
@@ -70,6 +74,20 @@ static inline BtreeColumnIndex *fsm_btree_get_column(BtreeTableEntry *table, int
     return col;
 }
 
+static inline void fsm_btree_gap_file_path(char *out, size_t outSize, int32_t tableId, int32_t columnIndex) {
+    snprintf(out, outSize, "%s/%d.%d.gap.bin", INDEX_TABLE_PATH, tableId, columnIndex);
+}
+
+// The FSM lives only in memory, so a new column starts with an empty gap file —
+// gaps left in the file by an earlier run point to space that is no longer free
+static inline void fsm_btree_init_gap_table(BtreeColumnIndex *col, int32_t tableId, int32_t columnIndex) {
+    char path[512];
+    fsm_btree_gap_file_path(path, sizeof(path), tableId, columnIndex);
+    remove(path);
+    flatmap64_init(&col->gapTable, GAP_TABLE_POOL_SIZE, GAP_TABLE_PAGES, path);
+    col->gapCount = 0;
+}
+
 static inline BtreeColumnIndex *fsm_btree_get_or_create_column(BtreeTableEntry *table, int32_t columnIndex) {
     BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
     if (col == NULL) {
@@ -77,11 +95,7 @@ static inline BtreeColumnIndex *fsm_btree_get_or_create_column(BtreeTableEntry *
         if (col == NULL) return NULL;
         col->columnIndex = columnIndex;
         col->currentBlockId = -1;
-        col->gapTable = (struct Entry *)malloc(GAP_TABLE_SIZE * sizeof(struct Entry));
-        if (col->gapTable != NULL) {
-            initialize_table(col->gapTable, GAP_TABLE_SIZE);
-        }
-        col->gapCount = 0;
+        fsm_btree_init_gap_table(col, table->tableId, columnIndex);
         HASH_ADD_INT(table->columns, columnIndex, col);
         table->columnCount++;
     }
@@ -187,11 +201,7 @@ static inline int8_t fsm_btree_create_index(FSMMapBtree *fsm, int32_t tableId, i
     if (col == NULL) return 0;
     col->columnIndex = columnIndex;
     col->currentBlockId = -1;
-    col->gapTable = (struct Entry *)malloc(GAP_TABLE_SIZE * sizeof(struct Entry));
-    if (col->gapTable != NULL) {
-        initialize_table(col->gapTable, GAP_TABLE_SIZE);
-    }
-    col->gapCount = 0;
+    fsm_btree_init_gap_table(col, tableId, columnIndex);
     HASH_ADD_INT(table->columns, columnIndex, col);
     table->columnCount++;
     return 1;
@@ -228,7 +238,9 @@ static inline void fsm_btree_free(FSMMapBtree *fsm) {
                 free(block);
             }
             HASH_DEL(table->columns, col);
-            free(col->gapTable);
+            // the gaps are not needed after the FSM is gone
+            flatmap64_free(&col->gapTable);
+            remove(col->gapTable.filePath);
             free(col);
         }
         HASH_DEL(fsm->tables, table);
@@ -248,11 +260,14 @@ static inline void deleteElementUpdateSpace(FSMMapBtree *fsm, int32_t tableId, i
     if (table == NULL) return;
 
     BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
-    if (col == NULL || col->gapTable == NULL) return;
+    if (col == NULL || col->gapTable.buffors == NULL) return;
 
     int16_t blockType = (int16_t)(block % 4);
     int64_t key = create_key(blockType, (int32_t)startPosition);
-    if (insert(col->gapTable, GAP_TABLE_SIZE, key, (int16_t)dataSize) == 0) {
+    // a gap at the same offset only gets its new size
+    int found = 0;
+    flatmap64_search(&col->gapTable, key, &found);
+    if (flatmap64_insert(&col->gapTable, key, dataSize) == 0 && !found) {
         col->gapCount++;
     }
 }
@@ -265,32 +280,38 @@ static inline int32_t getFreeGap(int32_t tableId, int32_t columnIndex, int32_t s
     if (table == NULL) return -1;
 
     BtreeColumnIndex *col = fsm_btree_get_column(table, columnIndex);
-    if (col == NULL || col->gapTable == NULL || col->gapCount <= 0) return -1;
+    if (col == NULL || col->gapTable.buffors == NULL || col->gapCount <= 0) return -1;
 
-    int32_t bestIndex = -1;
+    int64_t bestKey = EMPTY_KEY;
     int32_t bestOffset = -1;
-    int16_t bestSize = INT16_MAX;
+    int64_t bestSize = INT64_MAX;
     int16_t targetType = (int16_t)(blockEntry % 4);
 
-    for (size_t i = 0; i < GAP_TABLE_SIZE; i++) {
-        if (col->gapTable[i].key != EMPTY_KEY) {
-            int16_t bType = 0;
-            int32_t offset = 0;
-            read_key(col->gapTable[i].key, &bType, &offset);
+    // best fit over every page of the gap table
+    for (int32_t p = 0; p < col->gapTable.totalPages; p++) {
+        FlatMapBuffor64 *page = flatmap64_get_page(&col->gapTable, p);
+        if (page->entryCount > 0) {
+            for (int i = 0; i < ENTRIES_PER_PAGE64; i++) {
+                if (page->table[i].key == EMPTY_KEY) continue;
+                int16_t bType = 0;
+                int32_t offset = 0;
+                read_key(page->table[i].key, &bType, &offset);
 
-            if (bType == targetType) {
-                int16_t gapSize = col->gapTable[i].value;
-                if (gapSize >= sizeNeeded && gapSize < bestSize) {
-                    bestSize = gapSize;
-                    bestOffset = offset;
-                    bestIndex = (int32_t)i;
+                if (bType == targetType) {
+                    int64_t gapSize = page->table[i].value;
+                    if (gapSize >= sizeNeeded && gapSize < bestSize) {
+                        bestSize = gapSize;
+                        bestOffset = offset;
+                        bestKey = page->table[i].key;
+                    }
                 }
             }
         }
+        page->pinCount = 0;
     }
 
-    if (bestIndex != -1) {
-        remove_at_index(col->gapTable, bestIndex);
+    if (bestKey != EMPTY_KEY) {
+        flatmap64_remove(&col->gapTable, bestKey);
         col->gapCount--;
         return bestOffset;
     }

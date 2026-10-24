@@ -6,6 +6,8 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_update_indexes.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_block_count.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_btree_get_blocks.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_flat_map.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fsm_map_btree.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_bq.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_all_var.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_block8kb.dir
@@ -18,6 +20,12 @@
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_fsmMap.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_sqlExecutor.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_sqlExecutor_chain.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_lostUpdate.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_lost_update.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_lostUpdate_rc.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_lost_update_rc.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_vacuum.dir
+/home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_vacuum_rc.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_mvccBuffor.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_mvccBuffor_component.dir
 /home/stas/dev/QuakeDB3.0B/build/CMakeFiles/test_mvcc_txn_overflow.dir

@@ -221,6 +221,32 @@ test_btree_get_blocks/fast:
 .PHONY : test_btree_get_blocks/fast
 
 #=============================================================================
+# Target rules for targets named test_flat_map
+
+# Build rule for target.
+test_flat_map: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_flat_map
+.PHONY : test_flat_map
+
+# fast build rule for target.
+test_flat_map/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/build
+.PHONY : test_flat_map/fast
+
+#=============================================================================
+# Target rules for targets named test_fsm_map_btree
+
+# Build rule for target.
+test_fsm_map_btree: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_fsm_map_btree
+.PHONY : test_fsm_map_btree
+
+# fast build rule for target.
+test_fsm_map_btree/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/build
+.PHONY : test_fsm_map_btree/fast
+
+#=============================================================================
 # Target rules for targets named test_bq
 
 # Build rule for target.
@@ -377,6 +403,84 @@ test_sqlExecutor_chain/fast:
 .PHONY : test_sqlExecutor_chain/fast
 
 #=============================================================================
+# Target rules for targets named test_lostUpdate
+
+# Build rule for target.
+test_lostUpdate: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_lostUpdate
+.PHONY : test_lostUpdate
+
+# fast build rule for target.
+test_lostUpdate/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/build
+.PHONY : test_lostUpdate/fast
+
+#=============================================================================
+# Target rules for targets named test_lost_update
+
+# Build rule for target.
+test_lost_update: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_lost_update
+.PHONY : test_lost_update
+
+# fast build rule for target.
+test_lost_update/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/build
+.PHONY : test_lost_update/fast
+
+#=============================================================================
+# Target rules for targets named test_lostUpdate_rc
+
+# Build rule for target.
+test_lostUpdate_rc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_lostUpdate_rc
+.PHONY : test_lostUpdate_rc
+
+# fast build rule for target.
+test_lostUpdate_rc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/build
+.PHONY : test_lostUpdate_rc/fast
+
+#=============================================================================
+# Target rules for targets named test_lost_update_rc
+
+# Build rule for target.
+test_lost_update_rc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_lost_update_rc
+.PHONY : test_lost_update_rc
+
+# fast build rule for target.
+test_lost_update_rc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/build
+.PHONY : test_lost_update_rc/fast
+
+#=============================================================================
+# Target rules for targets named test_vacuum
+
+# Build rule for target.
+test_vacuum: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_vacuum
+.PHONY : test_vacuum
+
+# fast build rule for target.
+test_vacuum/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/build
+.PHONY : test_vacuum/fast
+
+#=============================================================================
+# Target rules for targets named test_vacuum_rc
+
+# Build rule for target.
+test_vacuum_rc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_vacuum_rc
+.PHONY : test_vacuum_rc
+
+# fast build rule for target.
+test_vacuum_rc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/build
+.PHONY : test_vacuum_rc/fast
+
+#=============================================================================
 # Target rules for targets named test_mvccBuffor
 
 # Build rule for target.
@@ -428,6 +532,8 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
@@ -439,6 +545,12 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.o
 
 core/bufforing-stm/bufforing-stm/dataBuffor.i: core/bufforing-stm/bufforing-stm/dataBuffor.c.i
@@ -454,6 +566,8 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
@@ -465,6 +579,12 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.i
 
 core/bufforing-stm/bufforing-stm/dataBuffor.s: core/bufforing-stm/bufforing-stm/dataBuffor.c.s
@@ -480,6 +600,8 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
@@ -491,6 +613,12 @@ core/bufforing-stm/bufforing-stm/dataBuffor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/dataBuffor.c.s
 
 core/bufforing-stm/bufforing-stm/fsmMap.o: core/bufforing-stm/bufforing-stm/fsmMap.c.o
@@ -506,6 +634,8 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
@@ -517,6 +647,12 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.o
 
 core/bufforing-stm/bufforing-stm/fsmMap.i: core/bufforing-stm/bufforing-stm/fsmMap.c.i
@@ -532,6 +668,8 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
@@ -543,6 +681,12 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.i
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.i
 
 core/bufforing-stm/bufforing-stm/fsmMap.s: core/bufforing-stm/bufforing-stm/fsmMap.c.s
@@ -558,6 +702,8 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
@@ -569,6 +715,12 @@ core/bufforing-stm/bufforing-stm/fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.s
 .PHONY : core/bufforing-stm/bufforing-stm/fsmMap.c.s
 
 core/bufforing-stm/bufforing-stm/mainLoop.o: core/bufforing-stm/bufforing-stm/mainLoop.c.o
@@ -744,7 +896,8 @@ core/bufforing-stm/components-tests/sqlExecutor.o: core/bufforing-stm/components
 
 # target to build an object file
 core/bufforing-stm/components-tests/sqlExecutor.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o
 .PHONY : core/bufforing-stm/components-tests/sqlExecutor.c.o
 
 core/bufforing-stm/components-tests/sqlExecutor.i: core/bufforing-stm/components-tests/sqlExecutor.c.i
@@ -752,7 +905,8 @@ core/bufforing-stm/components-tests/sqlExecutor.i: core/bufforing-stm/components
 
 # target to preprocess a source file
 core/bufforing-stm/components-tests/sqlExecutor.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/components-tests/sqlExecutor.c.i
 .PHONY : core/bufforing-stm/components-tests/sqlExecutor.c.i
 
 core/bufforing-stm/components-tests/sqlExecutor.s: core/bufforing-stm/components-tests/sqlExecutor.c.s
@@ -760,7 +914,8 @@ core/bufforing-stm/components-tests/sqlExecutor.s: core/bufforing-stm/components
 
 # target to generate assembly for a file
 core/bufforing-stm/components-tests/sqlExecutor.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/bufforing-stm/components-tests/sqlExecutor.c.s
 .PHONY : core/bufforing-stm/components-tests/sqlExecutor.c.s
 
 core/bufforing-stm/components-tests/sqlExecutorTest.o: core/bufforing-stm/components-tests/sqlExecutorTest.c.o
@@ -882,6 +1037,33 @@ core/bufforing-stm/tests/test_fsmMap.s: core/bufforing-stm/tests/test_fsmMap.c.s
 core/bufforing-stm/tests/test_fsmMap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/bufforing-stm/tests/test_fsmMap.c.s
 .PHONY : core/bufforing-stm/tests/test_fsmMap.c.s
+
+core/bufforing-stm/tests/test_lostUpdate.o: core/bufforing-stm/tests/test_lostUpdate.c.o
+.PHONY : core/bufforing-stm/tests/test_lostUpdate.o
+
+# target to build an object file
+core/bufforing-stm/tests/test_lostUpdate.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/tests/test_lostUpdate.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/tests/test_lostUpdate.c.o
+.PHONY : core/bufforing-stm/tests/test_lostUpdate.c.o
+
+core/bufforing-stm/tests/test_lostUpdate.i: core/bufforing-stm/tests/test_lostUpdate.c.i
+.PHONY : core/bufforing-stm/tests/test_lostUpdate.i
+
+# target to preprocess a source file
+core/bufforing-stm/tests/test_lostUpdate.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/tests/test_lostUpdate.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/tests/test_lostUpdate.c.i
+.PHONY : core/bufforing-stm/tests/test_lostUpdate.c.i
+
+core/bufforing-stm/tests/test_lostUpdate.s: core/bufforing-stm/tests/test_lostUpdate.c.s
+.PHONY : core/bufforing-stm/tests/test_lostUpdate.s
+
+# target to generate assembly for a file
+core/bufforing-stm/tests/test_lostUpdate.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/bufforing-stm/tests/test_lostUpdate.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/bufforing-stm/tests/test_lostUpdate.c.s
+.PHONY : core/bufforing-stm/tests/test_lostUpdate.c.s
 
 core/bufforing-stm/tests/test_mvccBuffor.o: core/bufforing-stm/tests/test_mvccBuffor.c.o
 .PHONY : core/bufforing-stm/tests/test_mvccBuffor.o
@@ -1051,6 +1233,54 @@ core/indexes/tests/test_btree_update_indexes.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/indexes/tests/test_btree_update_indexes.c.s
 .PHONY : core/indexes/tests/test_btree_update_indexes.c.s
 
+core/indexes/tests/test_flat_map.o: core/indexes/tests/test_flat_map.c.o
+.PHONY : core/indexes/tests/test_flat_map.o
+
+# target to build an object file
+core/indexes/tests/test_flat_map.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/indexes/tests/test_flat_map.c.o
+.PHONY : core/indexes/tests/test_flat_map.c.o
+
+core/indexes/tests/test_flat_map.i: core/indexes/tests/test_flat_map.c.i
+.PHONY : core/indexes/tests/test_flat_map.i
+
+# target to preprocess a source file
+core/indexes/tests/test_flat_map.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/indexes/tests/test_flat_map.c.i
+.PHONY : core/indexes/tests/test_flat_map.c.i
+
+core/indexes/tests/test_flat_map.s: core/indexes/tests/test_flat_map.c.s
+.PHONY : core/indexes/tests/test_flat_map.s
+
+# target to generate assembly for a file
+core/indexes/tests/test_flat_map.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/indexes/tests/test_flat_map.c.s
+.PHONY : core/indexes/tests/test_flat_map.c.s
+
+core/indexes/tests/test_fsm_map_btree.o: core/indexes/tests/test_fsm_map_btree.c.o
+.PHONY : core/indexes/tests/test_fsm_map_btree.o
+
+# target to build an object file
+core/indexes/tests/test_fsm_map_btree.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/indexes/tests/test_fsm_map_btree.c.o
+.PHONY : core/indexes/tests/test_fsm_map_btree.c.o
+
+core/indexes/tests/test_fsm_map_btree.i: core/indexes/tests/test_fsm_map_btree.c.i
+.PHONY : core/indexes/tests/test_fsm_map_btree.i
+
+# target to preprocess a source file
+core/indexes/tests/test_fsm_map_btree.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/indexes/tests/test_fsm_map_btree.c.i
+.PHONY : core/indexes/tests/test_fsm_map_btree.c.i
+
+core/indexes/tests/test_fsm_map_btree.s: core/indexes/tests/test_fsm_map_btree.c.s
+.PHONY : core/indexes/tests/test_fsm_map_btree.s
+
+# target to generate assembly for a file
+core/indexes/tests/test_fsm_map_btree.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/indexes/tests/test_fsm_map_btree.c.s
+.PHONY : core/indexes/tests/test_fsm_map_btree.c.s
+
 core/main.o: core/main.c.o
 .PHONY : core/main.o
 
@@ -1088,6 +1318,8 @@ core/memory-mgmt/memory-mgmt/all_var.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
@@ -1099,6 +1331,12 @@ core/memory-mgmt/memory-mgmt/all_var.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.o
 
 core/memory-mgmt/memory-mgmt/all_var.i: core/memory-mgmt/memory-mgmt/all_var.c.i
@@ -1114,6 +1352,8 @@ core/memory-mgmt/memory-mgmt/all_var.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
@@ -1125,6 +1365,12 @@ core/memory-mgmt/memory-mgmt/all_var.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.i
 
 core/memory-mgmt/memory-mgmt/all_var.s: core/memory-mgmt/memory-mgmt/all_var.c.s
@@ -1140,6 +1386,8 @@ core/memory-mgmt/memory-mgmt/all_var.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
@@ -1151,6 +1399,12 @@ core/memory-mgmt/memory-mgmt/all_var.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/all_var.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/all_var.c.s
 
 core/memory-mgmt/memory-mgmt/block8kb.o: core/memory-mgmt/memory-mgmt/block8kb.c.o
@@ -1166,6 +1420,8 @@ core/memory-mgmt/memory-mgmt/block8kb.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
@@ -1177,6 +1433,12 @@ core/memory-mgmt/memory-mgmt/block8kb.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.o
 
 core/memory-mgmt/memory-mgmt/block8kb.i: core/memory-mgmt/memory-mgmt/block8kb.c.i
@@ -1192,6 +1454,8 @@ core/memory-mgmt/memory-mgmt/block8kb.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
@@ -1203,6 +1467,12 @@ core/memory-mgmt/memory-mgmt/block8kb.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.i
 
 core/memory-mgmt/memory-mgmt/block8kb.s: core/memory-mgmt/memory-mgmt/block8kb.c.s
@@ -1218,6 +1488,8 @@ core/memory-mgmt/memory-mgmt/block8kb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
@@ -1229,6 +1501,12 @@ core/memory-mgmt/memory-mgmt/block8kb.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/block8kb.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/block8kb.c.s
 
 core/memory-mgmt/memory-mgmt/block_header.o: core/memory-mgmt/memory-mgmt/block_header.c.o
@@ -1244,6 +1522,8 @@ core/memory-mgmt/memory-mgmt/block_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
@@ -1255,6 +1535,12 @@ core/memory-mgmt/memory-mgmt/block_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.o
 
 core/memory-mgmt/memory-mgmt/block_header.i: core/memory-mgmt/memory-mgmt/block_header.c.i
@@ -1270,6 +1556,8 @@ core/memory-mgmt/memory-mgmt/block_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
@@ -1281,6 +1569,12 @@ core/memory-mgmt/memory-mgmt/block_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.i
 
 core/memory-mgmt/memory-mgmt/block_header.s: core/memory-mgmt/memory-mgmt/block_header.c.s
@@ -1296,6 +1590,8 @@ core/memory-mgmt/memory-mgmt/block_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
@@ -1307,6 +1603,12 @@ core/memory-mgmt/memory-mgmt/block_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/block_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/block_header.c.s
 
 core/memory-mgmt/memory-mgmt/data_null_bitmap.o: core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
@@ -1322,6 +1624,8 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
@@ -1333,6 +1637,12 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.o
 
 core/memory-mgmt/memory-mgmt/data_null_bitmap.i: core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
@@ -1348,6 +1658,8 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
@@ -1359,6 +1671,12 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.i
 
 core/memory-mgmt/memory-mgmt/data_null_bitmap.s: core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
@@ -1374,6 +1692,8 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
@@ -1385,6 +1705,12 @@ core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/data_null_bitmap.c.s
 
 core/memory-mgmt/memory-mgmt/file_manager_c.o: core/memory-mgmt/memory-mgmt/file_manager_c.c.o
@@ -1400,6 +1726,8 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
@@ -1411,6 +1739,12 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.o
 
 core/memory-mgmt/memory-mgmt/file_manager_c.i: core/memory-mgmt/memory-mgmt/file_manager_c.c.i
@@ -1426,6 +1760,8 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
@@ -1437,6 +1773,12 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.i
 
 core/memory-mgmt/memory-mgmt/file_manager_c.s: core/memory-mgmt/memory-mgmt/file_manager_c.c.s
@@ -1452,6 +1794,8 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
@@ -1463,6 +1807,12 @@ core/memory-mgmt/memory-mgmt/file_manager_c.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/file_manager_c.c.s
 
 core/memory-mgmt/memory-mgmt/table_header.o: core/memory-mgmt/memory-mgmt/table_header.c.o
@@ -1478,6 +1828,8 @@ core/memory-mgmt/memory-mgmt/table_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
@@ -1489,6 +1841,12 @@ core/memory-mgmt/memory-mgmt/table_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.o
 
 core/memory-mgmt/memory-mgmt/table_header.i: core/memory-mgmt/memory-mgmt/table_header.c.i
@@ -1504,6 +1862,8 @@ core/memory-mgmt/memory-mgmt/table_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
@@ -1515,6 +1875,12 @@ core/memory-mgmt/memory-mgmt/table_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.i
 
 core/memory-mgmt/memory-mgmt/table_header.s: core/memory-mgmt/memory-mgmt/table_header.c.s
@@ -1530,6 +1896,8 @@ core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
@@ -1541,6 +1909,12 @@ core/memory-mgmt/memory-mgmt/table_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/table_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/table_header.c.s
 
 core/memory-mgmt/memory-mgmt/timeFunction.o: core/memory-mgmt/memory-mgmt/timeFunction.c.o
@@ -1580,6 +1954,8 @@ core/memory-mgmt/memory-mgmt/tuple.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
@@ -1591,6 +1967,12 @@ core/memory-mgmt/memory-mgmt/tuple.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.o
 
 core/memory-mgmt/memory-mgmt/tuple.i: core/memory-mgmt/memory-mgmt/tuple.c.i
@@ -1606,6 +1988,8 @@ core/memory-mgmt/memory-mgmt/tuple.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
@@ -1617,6 +2001,12 @@ core/memory-mgmt/memory-mgmt/tuple.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.i
 
 core/memory-mgmt/memory-mgmt/tuple.s: core/memory-mgmt/memory-mgmt/tuple.c.s
@@ -1632,6 +2022,8 @@ core/memory-mgmt/memory-mgmt/tuple.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
@@ -1643,6 +2035,12 @@ core/memory-mgmt/memory-mgmt/tuple.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/tuple.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/tuple.c.s
 
 core/memory-mgmt/memory-mgmt/tuple_header.o: core/memory-mgmt/memory-mgmt/tuple_header.c.o
@@ -1658,6 +2056,8 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
@@ -1669,6 +2069,12 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.o
 
 core/memory-mgmt/memory-mgmt/tuple_header.i: core/memory-mgmt/memory-mgmt/tuple_header.c.i
@@ -1684,6 +2090,8 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
@@ -1695,6 +2103,12 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.i
 
 core/memory-mgmt/memory-mgmt/tuple_header.s: core/memory-mgmt/memory-mgmt/tuple_header.c.s
@@ -1710,6 +2124,8 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
@@ -1721,6 +2137,12 @@ core/memory-mgmt/memory-mgmt/tuple_header.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/tuple_header.c.s
 
 core/memory-mgmt/memory-mgmt/types_converter.o: core/memory-mgmt/memory-mgmt/types_converter.c.o
@@ -1736,6 +2158,8 @@ core/memory-mgmt/memory-mgmt/types_converter.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
@@ -1747,6 +2171,12 @@ core/memory-mgmt/memory-mgmt/types_converter.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.o
 
 core/memory-mgmt/memory-mgmt/types_converter.i: core/memory-mgmt/memory-mgmt/types_converter.c.i
@@ -1762,6 +2192,8 @@ core/memory-mgmt/memory-mgmt/types_converter.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
@@ -1773,6 +2205,12 @@ core/memory-mgmt/memory-mgmt/types_converter.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.i
 
 core/memory-mgmt/memory-mgmt/types_converter.s: core/memory-mgmt/memory-mgmt/types_converter.c.s
@@ -1788,6 +2226,8 @@ core/memory-mgmt/memory-mgmt/types_converter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
@@ -1799,6 +2239,12 @@ core/memory-mgmt/memory-mgmt/types_converter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/types_converter.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/types_converter.c.s
 
 core/memory-mgmt/memory-mgmt/universal_block.o: core/memory-mgmt/memory-mgmt/universal_block.c.o
@@ -1814,6 +2260,8 @@ core/memory-mgmt/memory-mgmt/universal_block.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
@@ -1825,6 +2273,12 @@ core/memory-mgmt/memory-mgmt/universal_block.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.o
 
 core/memory-mgmt/memory-mgmt/universal_block.i: core/memory-mgmt/memory-mgmt/universal_block.c.i
@@ -1840,6 +2294,8 @@ core/memory-mgmt/memory-mgmt/universal_block.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
@@ -1851,6 +2307,12 @@ core/memory-mgmt/memory-mgmt/universal_block.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.i
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.i
 
 core/memory-mgmt/memory-mgmt/universal_block.s: core/memory-mgmt/memory-mgmt/universal_block.c.s
@@ -1866,6 +2328,8 @@ core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
@@ -1877,6 +2341,12 @@ core/memory-mgmt/memory-mgmt/universal_block.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 .PHONY : core/memory-mgmt/memory-mgmt/universal_block.c.s
 
 core/memory-mgmt/tests/test_all_var.o: core/memory-mgmt/tests/test_all_var.c.o
@@ -2071,12 +2541,66 @@ core/vacuum/tests/test_bq.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_bq.dir/build.make CMakeFiles/test_bq.dir/core/vacuum/tests/test_bq.c.s
 .PHONY : core/vacuum/tests/test_bq.c.s
 
+core/vacuum/tests/test_vacuum.o: core/vacuum/tests/test_vacuum.c.o
+.PHONY : core/vacuum/tests/test_vacuum.o
+
+# target to build an object file
+core/vacuum/tests/test_vacuum.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/vacuum/tests/test_vacuum.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/vacuum/tests/test_vacuum.c.o
+.PHONY : core/vacuum/tests/test_vacuum.c.o
+
+core/vacuum/tests/test_vacuum.i: core/vacuum/tests/test_vacuum.c.i
+.PHONY : core/vacuum/tests/test_vacuum.i
+
+# target to preprocess a source file
+core/vacuum/tests/test_vacuum.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/vacuum/tests/test_vacuum.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/vacuum/tests/test_vacuum.c.i
+.PHONY : core/vacuum/tests/test_vacuum.c.i
+
+core/vacuum/tests/test_vacuum.s: core/vacuum/tests/test_vacuum.c.s
+.PHONY : core/vacuum/tests/test_vacuum.s
+
+# target to generate assembly for a file
+core/vacuum/tests/test_vacuum.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/vacuum/tests/test_vacuum.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/vacuum/tests/test_vacuum.c.s
+.PHONY : core/vacuum/tests/test_vacuum.c.s
+
 core/vacuum/vacuum/bq.o: core/vacuum/vacuum/bq.c.o
 .PHONY : core/vacuum/vacuum/bq.o
 
 # target to build an object file
 core/vacuum/vacuum/bq.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/vacuum/vacuum/bq.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_bq.dir/build.make CMakeFiles/test_bq.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/vacuum/vacuum/bq.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/vacuum/vacuum/bq.c.o
 .PHONY : core/vacuum/vacuum/bq.c.o
 
 core/vacuum/vacuum/bq.i: core/vacuum/vacuum/bq.c.i
@@ -2084,7 +2608,34 @@ core/vacuum/vacuum/bq.i: core/vacuum/vacuum/bq.c.i
 
 # target to preprocess a source file
 core/vacuum/vacuum/bq.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/vacuum/vacuum/bq.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_bq.dir/build.make CMakeFiles/test_bq.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/vacuum/vacuum/bq.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/vacuum/vacuum/bq.c.i
 .PHONY : core/vacuum/vacuum/bq.c.i
 
 core/vacuum/vacuum/bq.s: core/vacuum/vacuum/bq.c.s
@@ -2092,7 +2643,34 @@ core/vacuum/vacuum/bq.s: core/vacuum/vacuum/bq.c.s
 
 # target to generate assembly for a file
 core/vacuum/vacuum/bq.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/QuakeDB3_0.dir/build.make CMakeFiles/QuakeDB3_0.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_components.dir/build.make CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple_add.dir/build.make CMakeFiles/test_tuple_add.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stress.dir/build.make CMakeFiles/test_stress.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_operations.dir/build.make CMakeFiles/test_btree_operations.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_update_indexes.dir/build.make CMakeFiles/test_btree_update_indexes.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_block_count.dir/build.make CMakeFiles/test_btree_block_count.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_btree_get_blocks.dir/build.make CMakeFiles/test_btree_get_blocks.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_flat_map.dir/build.make CMakeFiles/test_flat_map.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsm_map_btree.dir/build.make CMakeFiles/test_fsm_map_btree.dir/core/vacuum/vacuum/bq.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_bq.dir/build.make CMakeFiles/test_bq.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor.dir/build.make CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sqlExecutor_chain.dir/build.make CMakeFiles/test_sqlExecutor_chain.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate.dir/build.make CMakeFiles/test_lostUpdate.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update.dir/build.make CMakeFiles/test_lost_update.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lostUpdate_rc.dir/build.make CMakeFiles/test_lostUpdate_rc.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lost_update_rc.dir/build.make CMakeFiles/test_lost_update_rc.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum.dir/build.make CMakeFiles/test_vacuum.dir/core/vacuum/vacuum/bq.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_vacuum_rc.dir/build.make CMakeFiles/test_vacuum_rc.dir/core/vacuum/vacuum/bq.c.s
 .PHONY : core/vacuum/vacuum/bq.c.s
 
 core/vacuum/vacuum/vacuum.o: core/vacuum/vacuum/vacuum.c.o
@@ -2143,6 +2721,54 @@ core/vacuum/vacuum/vacuum.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/vacuum/vacuum/vacuum.c.s
 .PHONY : core/vacuum/vacuum/vacuum.c.s
 
+core/xid32Recycler/xid32Recycler.o: core/xid32Recycler/xid32Recycler.c.o
+.PHONY : core/xid32Recycler/xid32Recycler.o
+
+# target to build an object file
+core/xid32Recycler/xid32Recycler.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/xid32Recycler/xid32Recycler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/xid32Recycler/xid32Recycler.c.o
+.PHONY : core/xid32Recycler/xid32Recycler.c.o
+
+core/xid32Recycler/xid32Recycler.i: core/xid32Recycler/xid32Recycler.c.i
+.PHONY : core/xid32Recycler/xid32Recycler.i
+
+# target to preprocess a source file
+core/xid32Recycler/xid32Recycler.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/xid32Recycler/xid32Recycler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/xid32Recycler/xid32Recycler.c.i
+.PHONY : core/xid32Recycler/xid32Recycler.c.i
+
+core/xid32Recycler/xid32Recycler.s: core/xid32Recycler/xid32Recycler.c.s
+.PHONY : core/xid32Recycler/xid32Recycler.s
+
+# target to generate assembly for a file
+core/xid32Recycler/xid32Recycler.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all_var.dir/build.make CMakeFiles/test_all_var.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block8kb.dir/build.make CMakeFiles/test_block8kb.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_block_header.dir/build.make CMakeFiles/test_block_header.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_header.dir/build.make CMakeFiles/test_table_header.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_tuple.dir/build.make CMakeFiles/test_tuple.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_types_converter.dir/build.make CMakeFiles/test_types_converter.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_universal_block.dir/build.make CMakeFiles/test_universal_block.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dataBuffor.dir/build.make CMakeFiles/test_dataBuffor.dir/core/xid32Recycler/xid32Recycler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_fsmMap.dir/build.make CMakeFiles/test_fsmMap.dir/core/xid32Recycler/xid32Recycler.c.s
+.PHONY : core/xid32Recycler/xid32Recycler.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -2162,7 +2788,13 @@ help:
 	@echo "... test_btree_update_indexes"
 	@echo "... test_components"
 	@echo "... test_dataBuffor"
+	@echo "... test_flat_map"
 	@echo "... test_fsmMap"
+	@echo "... test_fsm_map_btree"
+	@echo "... test_lostUpdate"
+	@echo "... test_lostUpdate_rc"
+	@echo "... test_lost_update"
+	@echo "... test_lost_update_rc"
 	@echo "... test_mvccBuffor"
 	@echo "... test_mvccBuffor_component"
 	@echo "... test_mvcc_txn_overflow"
@@ -2174,6 +2806,8 @@ help:
 	@echo "... test_tuple_add"
 	@echo "... test_types_converter"
 	@echo "... test_universal_block"
+	@echo "... test_vacuum"
+	@echo "... test_vacuum_rc"
 	@echo "... core/bufforing-stm/bufforing-stm/dataBuffor.o"
 	@echo "... core/bufforing-stm/bufforing-stm/dataBuffor.i"
 	@echo "... core/bufforing-stm/bufforing-stm/dataBuffor.s"
@@ -2219,6 +2853,9 @@ help:
 	@echo "... core/bufforing-stm/tests/test_fsmMap.o"
 	@echo "... core/bufforing-stm/tests/test_fsmMap.i"
 	@echo "... core/bufforing-stm/tests/test_fsmMap.s"
+	@echo "... core/bufforing-stm/tests/test_lostUpdate.o"
+	@echo "... core/bufforing-stm/tests/test_lostUpdate.i"
+	@echo "... core/bufforing-stm/tests/test_lostUpdate.s"
 	@echo "... core/bufforing-stm/tests/test_mvccBuffor.o"
 	@echo "... core/bufforing-stm/tests/test_mvccBuffor.i"
 	@echo "... core/bufforing-stm/tests/test_mvccBuffor.s"
@@ -2240,6 +2877,12 @@ help:
 	@echo "... core/indexes/tests/test_btree_update_indexes.o"
 	@echo "... core/indexes/tests/test_btree_update_indexes.i"
 	@echo "... core/indexes/tests/test_btree_update_indexes.s"
+	@echo "... core/indexes/tests/test_flat_map.o"
+	@echo "... core/indexes/tests/test_flat_map.i"
+	@echo "... core/indexes/tests/test_flat_map.s"
+	@echo "... core/indexes/tests/test_fsm_map_btree.o"
+	@echo "... core/indexes/tests/test_fsm_map_btree.i"
+	@echo "... core/indexes/tests/test_fsm_map_btree.s"
 	@echo "... core/main.o"
 	@echo "... core/main.i"
 	@echo "... core/main.s"
@@ -2300,12 +2943,18 @@ help:
 	@echo "... core/vacuum/tests/test_bq.o"
 	@echo "... core/vacuum/tests/test_bq.i"
 	@echo "... core/vacuum/tests/test_bq.s"
+	@echo "... core/vacuum/tests/test_vacuum.o"
+	@echo "... core/vacuum/tests/test_vacuum.i"
+	@echo "... core/vacuum/tests/test_vacuum.s"
 	@echo "... core/vacuum/vacuum/bq.o"
 	@echo "... core/vacuum/vacuum/bq.i"
 	@echo "... core/vacuum/vacuum/bq.s"
 	@echo "... core/vacuum/vacuum/vacuum.o"
 	@echo "... core/vacuum/vacuum/vacuum.i"
 	@echo "... core/vacuum/vacuum/vacuum.s"
+	@echo "... core/xid32Recycler/xid32Recycler.o"
+	@echo "... core/xid32Recycler/xid32Recycler.i"
+	@echo "... core/xid32Recycler/xid32Recycler.s"
 .PHONY : help
 
 

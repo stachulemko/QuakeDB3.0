@@ -11,7 +11,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/dataBuffor.c" "CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o" "gcc" "CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/dataBuffor.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/bufforing-stm/fsmMap.c" "CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o" "gcc" "CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c" "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o" "gcc" "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o.d"
-  "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutor.c" "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o" "gcc" "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/bufforing-stm/components-tests/sqlExecutorTest.c" "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o" "gcc" "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/all_var.c" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/all_var.c.o" "gcc" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/all_var.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/block8kb.c" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o" "gcc" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/block8kb.c.o.d"
@@ -23,6 +22,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/tuple_header.c" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" "gcc" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/types_converter.c" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" "gcc" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "/home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" "gcc" "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "/home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c" "CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o" "gcc" "CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

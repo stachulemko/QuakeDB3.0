@@ -237,10 +237,24 @@ CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/memory-mgmt/memory-mgmt/universal_block.c -o CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.s
 
+CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o: CMakeFiles/test_sqlExecutor.dir/flags.make
+CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o: /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c
+CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o: CMakeFiles/test_sqlExecutor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o -MF CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o.d -o CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o -c /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c
+
+CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c > CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.i
+
+CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/stas/dev/QuakeDB3.0B/core/vacuum/vacuum/bq.c -o CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.s
+
 CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o: CMakeFiles/test_sqlExecutor.dir/flags.make
 CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o: /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/test_sqlExecutor.c
 CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o: CMakeFiles/test_sqlExecutor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o -MF CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o.d -o CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o -c /home/stas/dev/QuakeDB3.0B/core/bufforing-stm/tests/test_sqlExecutor.c
 
 CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.i: cmake_force
@@ -265,6 +279,7 @@ test_sqlExecutor_OBJECTS = \
 "CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o" \
 "CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o" \
 "CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o" \
+"CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o" \
 "CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o"
 
 # External object files for target test_sqlExecutor
@@ -282,11 +297,12 @@ test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/t
 test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/tuple_header.c.o
 test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o
 test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o
+test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/core/vacuum/vacuum/bq.c.o
 test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/core/bufforing-stm/tests/test_sqlExecutor.c.o
 test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/build.make
 test_sqlExecutor: /usr/lib/x86_64-linux-gnu/libcmocka.so
 test_sqlExecutor: CMakeFiles/test_sqlExecutor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking C executable test_sqlExecutor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/stas/dev/QuakeDB3.0B/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking C executable test_sqlExecutor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_sqlExecutor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

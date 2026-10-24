@@ -5,8 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_components.dir/core/bufforing-stm/bufforing-stm/fsmMap.c.o.d"
   "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o"
   "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/data_buffor_eviction_and_data_check_on_disk.c.o.d"
-  "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o"
-  "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutor.c.o.d"
   "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o"
   "CMakeFiles/test_components.dir/core/bufforing-stm/components-tests/sqlExecutorTest.c.o.d"
   "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/all_var.c.o"
@@ -29,6 +27,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/types_converter.c.o.d"
   "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o"
   "CMakeFiles/test_components.dir/core/memory-mgmt/memory-mgmt/universal_block.c.o.d"
+  "CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o"
+  "CMakeFiles/test_components.dir/core/vacuum/vacuum/bq.c.o.d"
   "test_components"
   "test_components.pdb"
 )
