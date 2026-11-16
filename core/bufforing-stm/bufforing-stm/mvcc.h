@@ -3,8 +3,10 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../../memory-mgmt/memory-mgmt/config.h"
+#include "../../xid32Recycler/xid32Recycler.h"
 
 #define MAX_TRANSACTIONS 256
 
@@ -42,12 +44,22 @@ static inline int32_t getTxnId(MVCC *mvcc) {
     return mvcc->txn_counter;
 }
 
+/* the counter wraps around after 2^32 xids and skips the reserved values (xid32Recycler.h) */
 static inline int32_t getAndIcrement(MVCC *mvcc) {
-    return mvcc->txn_counter++;
+    int32_t xid = mvcc->txn_counter;
+    mvcc->txn_counter = xidNext(xid);
+    return xid;
 }
 
 static inline void incrementTxnCounter(MVCC *mvcc) {
-    mvcc->txn_counter++;
+    mvcc->txn_counter = xidNext(mvcc->txn_counter);
+}
+
+/* tests: jump the counter to `xid` (like pg_resetwal -x) with an empty status window */
+static inline void mvcc_set_next_xid(MVCC *mvcc, int32_t xid) {
+    mvcc->txn_counter = xid;
+    mvcc->base_txn = (int32_t)((uint32_t)xid & ~(uint32_t)(MAX_TRANSACTIONS - 1));
+    memset(mvcc->txn_status, 0, sizeof(mvcc->txn_status));
 }
 
 

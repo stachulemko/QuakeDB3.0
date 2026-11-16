@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include "../xid32Recycler.h"
+#include "../../bufforing-stm/bufforing-stm/mvcc.h"
 
 /* =========================================================================
  * 1. xidBefore — comparison modulo 2^32
@@ -75,8 +76,35 @@ static void test_distance(void **state) {
     assert_int_equal(21, xidDistance((int32_t)0xFFFFFFF0u, 5));
 }
 
+/* =========================================================================
+ * 3. MVCC counter wraps around
+ * ========================================================================= */
+
+static void test_mvcc_counter_wraps(void **state) {
+    (void)state;
+    MVCC mvcc;
+    mvcc_init(&mvcc);
+    mvcc_set_next_xid(&mvcc, (int32_t)0xFFFFFFFDu);
+    assert_int_equal((int32_t)0xFFFFFFFDu, getAndIcrement(&mvcc));
+    assert_int_equal((int32_t)0xFFFFFFFEu, getAndIcrement(&mvcc));
+    assert_int_equal(0, getAndIcrement(&mvcc));           /* -1 skipped */
+    incrementTxnCounter(&mvcc);
+    assert_int_equal(2, mvcc.txn_counter);
+}
+
+static void test_mvcc_counter_skips_frozen(void **state) {
+    (void)state;
+    MVCC mvcc;
+    mvcc_init(&mvcc);
+    mvcc_set_next_xid(&mvcc, INT32_MAX);
+    assert_int_equal(INT32_MAX, getAndIcrement(&mvcc));
+    assert_int_equal((int32_t)0x80000001u, mvcc.txn_counter);   /* XID_FROZEN skipped */
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_mvcc_counter_wraps),
+        cmocka_unit_test(test_mvcc_counter_skips_frozen),
         cmocka_unit_test(test_before_normal_order),
         cmocka_unit_test(test_before_across_wraparound),
         cmocka_unit_test(test_before_half_of_the_circle),
