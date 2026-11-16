@@ -268,14 +268,14 @@ void unpack(uint32_t p, int16_t *a, int16_t *b) {
     *b = (int16_t)(p & 0xFFFF);
 }
 
-/* xmax == 0 or xmax < 0 means "not deleted" */
+/* xmax == 0 or xmax == -1 means "not deleted" (other negative values are xids after the wraparound) */
 static inline int8_t xmax_is_none(int32_t xmax) {
-    return xmax == 0 || xmax < 0;
+    return xmax == XID_NONE || xmax == XID_NONE_NEG;
 }
 
 static inline int8_t isVisible(Tuple *tuple, int32_t xid) {
-    if (tuple->header.t_xmin > xid) return 0;
-    if (!xmax_is_none(tuple->header.t_xmax) && tuple->header.t_xmax <= xid) return 0;
+    if (xidBefore(xid, tuple->header.t_xmin)) return 0;
+    if (!xmax_is_none(tuple->header.t_xmax) && !xidBefore(xid, tuple->header.t_xmax)) return 0;
     return 1;
 }
 
@@ -355,7 +355,7 @@ static inline int8_t canVacuum(Tuple *tuple, MVCC *mvcc) {
     /* oldest == -1 → no active transactions → everything with xmax can be removed */
     if (oldest == -1) return 1;
     /* xmax < oldest → every active transaction (xid >= oldest) sees the tuple as dead */
-    return tuple->header.t_xmax < oldest;
+    return xidBefore(tuple->header.t_xmax, oldest);
 }
 
 /*
@@ -449,8 +449,8 @@ static Tuple *sql_followChainRR(Tuple *start, int32_t rootBlockId, int32_t rootI
     int32_t     currIdx     = rootIdx;
     int32_t     prevIdx     = -1;
     while (curr != NULL) {
-        if (curr->header.t_xmin <= xid &&
-            (xmax_is_none(curr->header.t_xmax) || curr->header.t_xmax > xid)) {
+        if (!xidBefore(xid, curr->header.t_xmin) &&
+            (xmax_is_none(curr->header.t_xmax) || xidBefore(xid, curr->header.t_xmax))) {
             if (outBlockId != NULL) *outBlockId = currBlockId;
             if (outIdx != NULL)     *outIdx     = currIdx;
             sql_chainRelease(currBuf, currBlockId, rootBlockId);
@@ -477,7 +477,7 @@ static Tuple *sql_followChainRC(Tuple *start, int32_t rootBlockId, int32_t rootI
     int32_t     lastBlockId = -1, lastIdx = -1;
     while (cur != NULL) {
         /* a tombstone (e.g. a root redirect after vacuum) has no data — it cannot be a result */
-        if (cur->header.t_xmin <= xid && !(cur->header.t_infomask & INFOMASK_DEAD)) {
+        if (!xidBefore(xid, cur->header.t_xmin) && !(cur->header.t_infomask & INFOMASK_DEAD)) {
             lastVisible = cur;
             lastBlockId = currBlockId;
             lastIdx     = currIdx;
@@ -591,17 +591,17 @@ static void sql_doUpdate(SqlExecutor *se, Tuple *t, int32_t visBlockId, int32_t 
 
 // Repeatable Read: returns 1 if the tuple is visible
 static int8_t sql_isVisibleRR(SqlExecutor *se, Tuple *t) {
-    if (t->header.t_xmin > se->transaction->xid) return 0;
-    if (t->header.t_xmax != 0 && t->header.t_xmax <= se->transaction->xid) return 0;
+    if (xidBefore(se->transaction->xid, t->header.t_xmin)) return 0;
+    if (!xmax_is_none(t->header.t_xmax) && !xidBefore(se->transaction->xid, t->header.t_xmax)) return 0;
     return 1;
 }
 
 // Read Committed: updates the tracked newest xid
 static void sql_trackRC(Tuple *t, int32_t index, int32_t *xidMax, int32_t *bestIndex) {
-    int32_t xid = (t->header.t_xmin > t->header.t_xmax)
+    int32_t xid = (xmax_is_none(t->header.t_xmax) || xidBefore(t->header.t_xmax, t->header.t_xmin))
                   ? t->header.t_xmin
                   : t->header.t_xmax;
-    if (xid > *xidMax) {
+    if (xidBefore(*xidMax, xid)) {
         *xidMax    = xid;
         *bestIndex = index;
     }
@@ -639,7 +639,8 @@ static Action sql_resolveUpdateConflict(SqlExecutor *se, Tuple *root, int32_t ro
         if (a != ACTION_RE_EVALUATE_NEW_VERSION) return a;
 
         Tuple *stale = *visible;
-        *visible = sql_followChainRC(root, rootBlockId, rootIdx, buffors, se->tableId, INT32_MAX, mvcc,
+        /* the newest version: every existing xmin is <= the counter (there is no "INT32_MAX" on a circle) */
+        *visible = sql_followChainRC(root, rootBlockId, rootIdx, buffors, se->tableId, mvcc->txn_counter, mvcc,
                                      visBlockId, visIdx, se->fsmTouched);
         if (*visible == NULL) return ACTION_PROCEED;
         /* no newer version in the chain — we cannot update on top of the committed change */
