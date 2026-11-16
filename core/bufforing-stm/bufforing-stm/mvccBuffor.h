@@ -51,7 +51,8 @@ static inline int mvcc_buffor_save(const int8_t *txn_status,
         f = fopen(filepath, "wb");
         if (!f) return -1;
     }
-    if (fseek(f, (long)base_txn, SEEK_SET) != 0) {
+    /* offset == xid as unsigned — after the wraparound the next lap overwrites the old statuses */
+    if (fseek(f, (long)(uint32_t)base_txn, SEEK_SET) != 0) {
         fclose(f);
         return -1;
     }
@@ -69,8 +70,8 @@ static inline int mvcc_buffor_flush(MVCC        *mvcc,
                                     const char  *filepath,
                                     int32_t      base_txn)
 {
-    int32_t count = mvcc->txn_counter - base_txn;
-    if (count <= 0) return 0;
+    if (!xidBefore(base_txn, mvcc->txn_counter)) return 0;
+    uint32_t count = xidDistance(base_txn, mvcc->txn_counter);
     if (count > MAX_TRANSACTIONS) count = MAX_TRANSACTIONS;
     return mvcc_buffor_save(mvcc->txn_status, filepath, base_txn, count);
 }
@@ -89,9 +90,10 @@ static inline int mvcc_buffor_load(MVCCBuffor *buffor,
                                    const char *filepath,
                                    int32_t     target_xid)
 {
-    int32_t start = target_xid - MAX_TRANSACTIONS + 1;
-    if (start < 0) start = 0;
-    buffor->start_txn = start;
+    /* file offsets are the xid as unsigned (0 .. 2^32-1) — the window never crosses the end of the file */
+    uint32_t target = (uint32_t)target_xid;
+    uint32_t start  = target >= MAX_TRANSACTIONS - 1 ? target - (MAX_TRANSACTIONS - 1) : 0;
+    buffor->start_txn = (int32_t)start;
     memset(buffor->txn_status, 0, sizeof(buffor->txn_status));
 
     FILE *f = fopen(filepath, "rb");
@@ -110,13 +112,13 @@ static inline int mvcc_buffor_load(MVCCBuffor *buffor,
         return -1;
     }
 
-    int32_t to_read = target_xid - start + 1;
-    if (to_read > MAX_TRANSACTIONS)       to_read = MAX_TRANSACTIONS;
-    if (start + to_read > (int32_t)file_size) to_read = (int32_t)(file_size - start);
+    long to_read = (long)(target - start) + 1;
+    if (to_read > MAX_TRANSACTIONS)            to_read = MAX_TRANSACTIONS;
+    if ((long)start + to_read > file_size)     to_read = file_size - (long)start;
 
     size_t n = fread(buffor->txn_status, sizeof(int8_t), (size_t)to_read, f);
     fclose(f);
-    return ((int32_t)n == to_read) ? 0 : -1;
+    return ((long)n == to_read) ? 0 : -1;
 }
 
 /* ── query ───────────────────────────────────────────────────────────── */
@@ -128,11 +130,10 @@ static inline int mvcc_buffor_load(MVCCBuffor *buffor,
 static inline int8_t mvcc_buffor_get_status(const MVCCBuffor *buffor,
                                             int32_t           xid)
 {
-    if (xid < buffor->start_txn ||
-        xid >= buffor->start_txn + MAX_TRANSACTIONS) {
+    if (xidDistance(buffor->start_txn, xid) >= MAX_TRANSACTIONS) {
         return -1;
     }
-    return buffor->txn_status[xid - buffor->start_txn];
+    return buffor->txn_status[xidDistance(buffor->start_txn, xid)];
 }
 
 /*
@@ -147,12 +148,13 @@ static inline int8_t mvcc_get_txn_status(MVCC       *mvcc,
                                          const char *filepath,
                                          int32_t     xid)
 {
-    if (xid < 0) return -1;
+    /* a frozen xmin belongs to a long-committed transaction */
+    if (xid == XID_FROZEN) return 1;   /* TXN_COMMITED (transaction.h) */
+    if (!xidIsNormal(xid)) return -1;
 
-    if (xid >= mvcc->base_txn &&
-        xid <  mvcc->base_txn + MAX_TRANSACTIONS &&
-        xid <  mvcc->txn_counter) {
-        return mvcc->txn_status[xid - mvcc->base_txn];
+    if (xidDistance(mvcc->base_txn, xid) < MAX_TRANSACTIONS &&
+        xidBefore(xid, mvcc->txn_counter)) {
+        return mvcc->txn_status[xidDistance(mvcc->base_txn, xid)];
     }
 
     const char *path = filepath ? filepath : mvcc->filepath;

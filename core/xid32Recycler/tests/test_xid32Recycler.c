@@ -6,6 +6,10 @@
 
 #include "../xid32Recycler.h"
 #include "../../bufforing-stm/bufforing-stm/mvcc.h"
+#include "../../bufforing-stm/bufforing-stm/transaction.h"
+
+/* sparse file — offsets up to 4 GB, only the touched pages take disk space */
+#define WRAP_FILE "/tmp/test_xid32Recycler_status.bin"
 
 /* =========================================================================
  * 1. xidBefore — comparison modulo 2^32
@@ -63,8 +67,8 @@ static void test_next_skips_frozen(void **state) {
 
 static void test_next_skips_none_and_wraps(void **state) {
     (void)state;
-    /* 0xFFFFFFFE + 1 == -1 (no xmax) — skipped, the counter wraps to 0 */
-    assert_int_equal(0, xidNext((int32_t)0xFFFFFFFEu));
+    /* 0xFFFFFFFE + 1 == -1 (no xmax), then 0 (also "no xmax") — both skipped, the counter wraps to 1 */
+    assert_int_equal(1, xidNext((int32_t)0xFFFFFFFEu));
     assert_false(xidIsNormal(XID_NONE_NEG));
     assert_false(xidIsNormal(XID_FROZEN));
     assert_true(xidIsNormal(0));
@@ -87,9 +91,9 @@ static void test_mvcc_counter_wraps(void **state) {
     mvcc_set_next_xid(&mvcc, (int32_t)0xFFFFFFFDu);
     assert_int_equal((int32_t)0xFFFFFFFDu, getAndIcrement(&mvcc));
     assert_int_equal((int32_t)0xFFFFFFFEu, getAndIcrement(&mvcc));
-    assert_int_equal(0, getAndIcrement(&mvcc));           /* -1 skipped */
+    assert_int_equal(1, getAndIcrement(&mvcc));           /* -1 and 0 skipped */
     incrementTxnCounter(&mvcc);
-    assert_int_equal(2, mvcc.txn_counter);
+    assert_int_equal(3, mvcc.txn_counter);
 }
 
 static void test_mvcc_counter_skips_frozen(void **state) {
@@ -101,8 +105,116 @@ static void test_mvcc_counter_skips_frozen(void **state) {
     assert_int_equal((int32_t)0x80000001u, mvcc.txn_counter);   /* XID_FROZEN skipped */
 }
 
+/* =========================================================================
+ * 4. MVCC status window and status file across the wraparound
+ * ========================================================================= */
+
+static void test_mvcc_statuses_across_wraparound(void **state) {
+    (void)state;
+    remove(WRAP_FILE);
+    MVCC mvcc;
+    mvcc_init_with_file(&mvcc, WRAP_FILE);
+    mvcc_set_next_xid(&mvcc, (int32_t)0xFFFFFE00u);
+    MVCCBuffor buf;
+    mvcc_buffor_init(&buf);
+
+    int32_t xids[600];
+    for (int i = 0; i < 600; i++) {
+        Transaction t;
+        beginTransaction(&mvcc, &t);
+        incrementTxnCounter(&mvcc);
+        xids[i] = t.xid;
+        if (i % 3 == 0) abortTransaction(&mvcc, &t);
+        else            commitTransaction(&mvcc, &t);
+    }
+    /* 511 xids before the wraparound, -1 and 0 skipped, then from 1 */
+    assert_int_equal((int32_t)0xFFFFFE00u, xids[0]);
+    assert_int_equal((int32_t)0xFFFFFFFEu, xids[510]);
+    assert_int_equal(1, xids[511]);
+    assert_int_equal(89, xids[599]);
+    assert_int_equal(0, mvcc.base_txn);       /* the window after 0xFFFFFF00 starts at 0 */
+
+    /* old windows come from the file (offsets near 4 GB), the current one from memory */
+    for (int i = 0; i < 600; i++) {
+        int8_t expected = (i % 3 == 0) ? TXN_ABORTED : TXN_COMMITED;
+        assert_int_equal(expected, mvcc_get_txn_status(&mvcc, &buf, NULL, xids[i]));
+    }
+    remove(WRAP_FILE);
+}
+
+/* a transaction started before the wraparound commits after its window went to the file */
+static void test_mvcc_late_commit_across_wraparound(void **state) {
+    (void)state;
+    remove(WRAP_FILE);
+    MVCC mvcc;
+    mvcc_init_with_file(&mvcc, WRAP_FILE);
+    mvcc_set_next_xid(&mvcc, (int32_t)0xFFFFFF80u);
+    MVCCBuffor buf;
+    mvcc_buffor_init(&buf);
+
+    Transaction longTxn;
+    beginTransaction(&mvcc, &longTxn);
+    incrementTxnCounter(&mvcc);
+    for (int i = 0; i < 300; i++) {
+        Transaction t;
+        beginTransaction(&mvcc, &t);
+        incrementTxnCounter(&mvcc);
+        commitTransaction(&mvcc, &t);
+    }
+    assert_true(xidBefore(longTxn.xid, mvcc.base_txn));     /* its window is on disk */
+    assert_int_equal(1, mvcc_is_txn_active(&mvcc, &buf, NULL, longTxn.xid));
+
+    commitTransaction(&mvcc, &longTxn);
+    assert_int_equal(TXN_COMMITED, mvcc_get_txn_status(&mvcc, &buf, NULL, longTxn.xid));
+    remove(WRAP_FILE);
+}
+
+static void test_mvcc_frozen_is_committed(void **state) {
+    (void)state;
+    MVCC mvcc;
+    mvcc_init(&mvcc);
+    assert_int_equal(TXN_COMMITED, mvcc_get_txn_status(&mvcc, NULL, NULL, XID_FROZEN));
+    assert_int_equal(-1, mvcc_get_txn_status(&mvcc, NULL, NULL, XID_NONE_NEG));
+}
+
+/* getOldestXid skips the reserved -1 slot of the last window before the wraparound */
+static void test_oldest_skips_reserved_slot(void **state) {
+    (void)state;
+    MVCC mvcc;
+    mvcc_init(&mvcc);
+    mvcc_set_next_xid(&mvcc, (int32_t)0xFFFFFF00u);
+    for (int i = 0; i < MAX_TRANSACTIONS; i++) mvcc.txn_status[i] = TXN_COMMITED;
+    mvcc.txn_status[MAX_TRANSACTIONS - 1] = TXN_ACTIVE;      /* slot of xid -1 */
+    assert_int_equal(-1, getOldestXid(&mvcc));
+    mvcc.txn_status[10] = TXN_ACTIVE;
+    assert_int_equal((int32_t)0xFFFFFF0Au, getOldestXid(&mvcc));
+}
+
+/* after the wraparound the skipped xid 0 must not look like the oldest running transaction */
+static void test_oldest_not_stuck_on_skipped_zero(void **state) {
+    (void)state;
+    MVCC mvcc;
+    mvcc_init(&mvcc);
+    mvcc_set_next_xid(&mvcc, (int32_t)0xFFFFFFF0u);
+    for (int i = 0; i < 20; i++) {
+        Transaction t;
+        beginTransaction(&mvcc, &t);
+        incrementTxnCounter(&mvcc);
+        commitTransaction(&mvcc, &t);
+    }
+    assert_int_equal(0, mvcc.base_txn);
+    assert_int_equal(TXN_COMMITED, mvcc_get_txn_status(&mvcc, NULL, NULL, 0));
+    /* nothing runs — the first free slot (the next xid) is the horizon */
+    assert_int_equal(mvcc.txn_counter, getOldestXid(&mvcc));
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_oldest_not_stuck_on_skipped_zero),
+        cmocka_unit_test(test_mvcc_statuses_across_wraparound),
+        cmocka_unit_test(test_mvcc_late_commit_across_wraparound),
+        cmocka_unit_test(test_mvcc_frozen_is_committed),
+        cmocka_unit_test(test_oldest_skips_reserved_slot),
         cmocka_unit_test(test_mvcc_counter_wraps),
         cmocka_unit_test(test_mvcc_counter_skips_frozen),
         cmocka_unit_test(test_before_normal_order),

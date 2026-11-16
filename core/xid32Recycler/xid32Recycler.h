@@ -43,10 +43,12 @@ static inline int8_t xidBefore(int32_t a, int32_t b) {
     return (int32_t)((uint32_t)a - (uint32_t)b) < 0;
 }
 
-/* the xid after `xid`, skipping the reserved values (unsigned — no signed overflow at INT32_MAX) */
+/* the xid after `xid`, skipping the reserved values (unsigned — no signed overflow at INT32_MAX).
+ * 0 is skipped too: it means "no xmax" — only the very first transaction after mvcc_init gets it,
+ * after the wraparound the counter goes from 0xFFFFFFFE straight to 1. */
 static inline int32_t xidNext(int32_t xid) {
     uint32_t next = (uint32_t)xid + 1;
-    while (!xidIsNormal((int32_t)next)) next++;
+    while (!xidIsNormal((int32_t)next) || next == XID_NONE) next++;
     return (int32_t)next;
 }
 
