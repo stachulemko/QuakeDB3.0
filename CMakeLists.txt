@@ -192,6 +192,21 @@ if(CMOCKA_LIBRARY)
     target_link_libraries(test_xid32Recycler ${CMOCKA_LIBRARY})
     target_compile_definitions(test_xid32Recycler PRIVATE LOG_LEVEL=0)
 
+    # xid wraparound with real scans / updates / vacuum — Repeatable Read and Read Committed
+    add_executable(test_xid_wraparound
+            ${CORE_SOURCES}
+            core/xid32Recycler/components-tests/xidWraparoundTest.c
+    )
+    target_link_libraries(test_xid_wraparound ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_xid_wraparound PRIVATE LOG_LEVEL=0)
+
+    add_executable(test_xid_wraparound_rc
+            ${CORE_SOURCES}
+            core/xid32Recycler/components-tests/xidWraparoundTest.c
+    )
+    target_link_libraries(test_xid_wraparound_rc ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_xid_wraparound_rc PRIVATE LOG_LEVEL=0 VIEW_MODE=2)
+
     add_executable(test_mvccBuffor
             core/bufforing-stm/tests/test_mvccBuffor.c
     )
