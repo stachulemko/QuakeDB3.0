@@ -186,6 +186,12 @@ if(CMOCKA_LIBRARY)
     target_link_libraries(test_vacuum_rc ${CMOCKA_LIBRARY})
     target_compile_definitions(test_vacuum_rc PRIVATE LOG_LEVEL=0 VIEW_MODE=2)
 
+    add_executable(test_xid32Recycler
+            core/xid32Recycler/tests/test_xid32Recycler.c
+    )
+    target_link_libraries(test_xid32Recycler ${CMOCKA_LIBRARY})
+    target_compile_definitions(test_xid32Recycler PRIVATE LOG_LEVEL=0)
+
     add_executable(test_mvccBuffor
             core/bufforing-stm/tests/test_mvccBuffor.c
     )
